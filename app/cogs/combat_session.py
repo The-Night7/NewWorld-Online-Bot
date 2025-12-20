@@ -97,19 +97,29 @@ class CombatSessionCog(commands.Cog):
             await interaction.response.send_message("Commande serveur uniquement.", ephemeral=True)
             return
 
-        if not await combat_is_active(self.bot.db, interaction.channel_id):
-            await interaction.response.send_message("Aucun combat actif dans ce salon.", ephemeral=True)
-            return
+        logger = logging.getLogger('bofuri.combat')
+        try:
+            if not await combat_is_active(self.bot.db, interaction.channel_id):
+                await interaction.response.send_message("Aucun combat actif dans ce salon.", ephemeral=True)
+                return
 
-        thread = await self._get_active_thread(interaction.channel)  # type: ignore
-        await combat_close(self.bot.db, interaction.channel_id)
-        await log_add(self.bot.db, interaction.channel_id, "system", f"Combat terminé par {interaction.user}.")
+            thread = await self._get_active_thread(interaction.channel)  # type: ignore
 
-        if thread:
-            try:
-                await thread.send("Combat terminé. Thread va être archivé.")
-                await thread.edit(archived=True, locked=True)
-            except Exception:
-                pass
+            logger.info(f"Fermeture du combat dans le salon {interaction.channel_id} par {interaction.user.id}")
+            await combat_close(self.bot.db, interaction.channel_id)
+            await log_add(self.bot.db, interaction.channel_id, "system", f"Combat terminé par {interaction.user}.")
 
-        await interaction.response.send_message("Combat terminé.")
+            if thread:
+                try:
+                    await thread.send("Combat terminé. Thread va être archivé.")
+                    await thread.edit(archived=True, locked=True)
+                except Exception as e:
+                    logger.error(f"Erreur lors de l'archivage du thread: {str(e)}", exc_info=True)
+
+            await interaction.response.send_message("Combat terminé.")
+        except Exception as e:
+            logger.error(f"Erreur dans /combat_end: {str(e)}", exc_info=True)
+            if not interaction.response.is_done():
+                await interaction.response.send_message("Une erreur est survenue lors de la fermeture du combat. Veuillez réessayer.", ephemeral=True)
+            else:
+                await interaction.followup.send("Une erreur est survenue lors de la fermeture du combat. Veuillez réessayer.", ephemeral=True)

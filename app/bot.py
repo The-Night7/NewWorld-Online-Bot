@@ -61,6 +61,8 @@ class BofuriBot(commands.Bot):
         await self.add_cog(CombatCog(self))
         await self.add_cog(MobsCog(self))
         await self.add_cog(CombatSessionCog(self))
+        from app.cogs.debug import DebugCog
+        await self.add_cog(DebugCog(self))
 
         # Sync global ou guild (guild = plus rapide en dev)
         if self.config.GUILD_ID:

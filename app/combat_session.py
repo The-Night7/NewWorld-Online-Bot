@@ -58,22 +58,36 @@ async def combat_set_thread(db, channel_id: int, thread_id: int) -> None:
 
 
 async def combat_close(db, channel_id: int) -> None:
+    logger = logging.getLogger('bofuri.combat')
+    logger.info(f"Tentative de fermeture du combat dans le salon {channel_id}")
+
+    try:
     # Vérifier d'abord si un combat actif existe
     row = await db.execute_fetchone(
         "SELECT id FROM combats WHERE channel_id = ? AND status = 'active'",
         (int(channel_id),),
     )
 
+        logger.info(f"Résultat de la requête pour trouver le combat actif: {row}")
+
     if not row:
         # Aucun combat actif à fermer
+        logger.warning(f"Aucun combat actif trouvé dans le salon {channel_id}")
         return
+
+        combat_id = row['id']
+        logger.info(f"Fermeture du combat ID {combat_id} dans le salon {channel_id}")
 
     # Mettre à jour le statut du combat existant
     await db.conn.execute(
         "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
-        (row['id'],),
+            (combat_id,),
     )
     await db.conn.commit()
+        logger.info(f"Combat ID {combat_id} fermé avec succès")
+    except Exception as e:
+        logger.error(f"Erreur lors de la fermeture du combat: {str(e)}", exc_info=True)
+        raise
 
 
 async def participants_add(db, channel_id: int, user_id: int, added_by: int) -> None:

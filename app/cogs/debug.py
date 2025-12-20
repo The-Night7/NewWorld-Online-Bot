@@ -1,45 +1,67 @@
 from discord import app_commands
 from discord.ext import commands
+import discord
+import logging
 
 class DebugCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="debug_combat", description="Affiche les informations de débogage sur les combats")
-    async def debug_combat(self, interaction: discord.Interaction):
-        await interaction.response.defer(ephemeral=True)
-        
-        # Vérifier la structure de la table
-        structure = await self.bot.db.execute_fetchall(
-            "PRAGMA table_info(combats)"
-        )
-        structure_info = "\n".join([f"- {col['name']} ({col['type']})" for col in structure])
-        
-        # Vérifier les données dans la table
+    @app_commands.command(name="debug_combats", description="Affiche les informations de débogage sur les combats")
+    async def debug_combats(self, interaction: discord.Interaction):
+        logger = logging.getLogger('bofuri.debug')
+
+        try:
+            await interaction.response.defer(ephemeral=True)
+
+            # Récupérer tous les combats pour ce canal
         combats = await self.bot.db.execute_fetchall(
             "SELECT * FROM combats WHERE channel_id = ?",
             (interaction.channel_id,)
         )
         
-        combats_info = "Aucun combat trouvé pour ce salon."
-        if combats:
-            combats_info = "\n".join([
-                f"ID: {c['id']}, Channel: {c['channel_id']}, Status: {c['status']}, "
-                f"Created by: {c['created_by']}, Thread: {c['thread_id'] or 'None'}"
-                for c in combats
-            ])
-        
-        # Vérifier spécifiquement si un combat actif existe
+            if not combats:
+                await interaction.followup.send("Aucun combat trouvé pour ce salon.")
+                return
+
+            # Formater les résultats
+            lines = []
+            for c in combats:
+                lines.append(f"ID: {c['id']}, Status: {c['status']}, Thread: {c['thread_id'] or 'None'}, "
+                            f"Created by: {c['created_by']}, Created at: {c['created_at']}, "
+                            f"Closed at: {c['closed_at'] or 'None'}")
+
+            await interaction.followup.send("## Combats dans ce salon\n" + "\n".join(lines))
+
+            # Vérifier s'il y a des combats actifs
         active = await self.bot.db.execute_fetchone(
-            "SELECT * FROM combats WHERE channel_id = ? AND status = 'active'",
+                "SELECT COUNT(*) as count FROM combats WHERE channel_id = ? AND status = 'active'",
             (interaction.channel_id,)
         )
-        active_info = "Aucun combat actif trouvé selon la requête directe."
-        if active:
-            active_info = f"Combat actif trouvé: ID {active['id']}, Status {active['status']}"
-        
-        await interaction.followup.send(
-            f"## Structure de la table combats\n{structure_info}\n\n"
-            f"## Combats dans ce salon\n{combats_info}\n\n"
-            f"## Vérification directe\n{active_info}"
+
+            await interaction.followup.send(f"Nombre de combats actifs: {active['count']}")
+
+        except Exception as e:
+            logger.error(f"Erreur dans /debug_combats: {str(e)}", exc_info=True)
+            await interaction.followup.send(f"Une erreur est survenue: {str(e)}")
+
+    @app_commands.command(name="fix_combats", description="Corrige les problèmes de combats dans ce salon")
+    async def fix_combats(self, interaction: discord.Interaction):
+        logger = logging.getLogger('bofuri.debug')
+
+        try:
+            await interaction.response.defer(ephemeral=True)
+
+            # Fermer tous les combats actifs dans ce salon
+            await self.bot.db.conn.execute(
+                "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP "
+                "WHERE channel_id = ? AND status = 'active'",
+                (interaction.channel_id,)
         )
+            await self.bot.db.conn.commit()
+
+            await interaction.followup.send("Tous les combats actifs ont été fermés dans ce salon.")
+
+        except Exception as e:
+            logger.error(f"Erreur dans /fix_combats: {str(e)}", exc_info=True)
+            await interaction.followup.send(f"Une erreur est survenue: {str(e)}")

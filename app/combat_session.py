@@ -58,9 +58,20 @@ async def combat_set_thread(db, channel_id: int, thread_id: int) -> None:
 
 
 async def combat_close(db, channel_id: int) -> None:
-    await db.conn.execute(
-        "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE channel_id = ? AND status = 'active'",
+    # Vérifier d'abord si un combat actif existe
+    row = await db.execute_fetchone(
+        "SELECT id FROM combats WHERE channel_id = ? AND status = 'active'",
         (int(channel_id),),
+    )
+
+    if not row:
+        # Aucun combat actif à fermer
+        return
+
+    # Mettre à jour le statut du combat existant
+    await db.conn.execute(
+        "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
+        (row['id'],),
     )
     await db.conn.commit()
 

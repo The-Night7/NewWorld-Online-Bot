@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS combat_logs (
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS mobs (
+CREATE TABLE IF NOT EXISTS combat_mobs (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   channel_id  INTEGER NOT NULL,
   mob_name    TEXT NOT NULL,
@@ -57,6 +57,13 @@ CREATE TABLE IF NOT EXISTS mobs (
   level       INTEGER NOT NULL,
   hp          REAL NOT NULL,
   hp_max      REAL NOT NULL,
+  mp          REAL NOT NULL,
+  mp_max      REAL NOT NULL,
+  str         REAL NOT NULL,
+  agi         REAL NOT NULL,
+  int_        REAL NOT NULL,
+  dex         REAL NOT NULL,
+  vit         REAL NOT NULL,
   created_by  INTEGER NOT NULL,
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(channel_id, mob_name)
@@ -79,7 +86,7 @@ class Database:
             logger.info("Base de données initialisée avec succès")
 
             # Vérifier que les tables ont été créées
-            tables = ["players", "combats", "combat_participants", "combat_logs", "mobs"]
+            tables = ["players", "combats", "combat_participants", "combat_logs", "combat_mobs"]
             for table in tables:
                 async with self._conn.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table}'") as cursor:
                     if not await cursor.fetchone():
@@ -117,7 +124,7 @@ class Database:
 
     async def check_tables(self) -> bool:
         """Vérifie que toutes les tables nécessaires existent dans la base de données."""
-        tables = ["players", "combats", "combat_participants", "combat_logs", "mobs"]
+        tables = ["players", "combats", "combat_participants", "combat_logs", "combat_mobs"]
         missing_tables = []
 
         for table in tables:

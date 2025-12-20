@@ -5,7 +5,8 @@ import logging
 from discord import app_commands
 from discord.ext import commands
 
-from app.mobs import registry
+# Modifier cette ligne pour importer REGISTRY au lieu de registry
+from app.mobs.registry import REGISTRY
 from app.mobs.factory import spawn_entity
 from app.combat_mobs import (
     next_unique_mob_name,
@@ -31,7 +32,8 @@ class MobsCog(commands.Cog):
     @app_commands.command(name="mobs", description="Liste les mobs du bestiaire (keys)")
     async def mobs(self, interaction: discord.Interaction):
         logger.info(f"Commande /mobs appelée par {interaction.user}")
-        mobs = registry.all()
+        # Utiliser REGISTRY.all() au lieu de registry.all()
+        mobs = REGISTRY.all()
         if not mobs:
             await interaction.response.send_message("Aucun mob enregistré.", ephemeral=True)
             return
@@ -53,7 +55,8 @@ class MobsCog(commands.Cog):
                 await interaction.followup.send("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
                 return
 
-            defn = registry.get(key)
+            # Utiliser REGISTRY.get() au lieu de registry.get()
+            defn = REGISTRY.get(key)
             if not defn:
                 await interaction.followup.send("Key inconnue. Utilise /mobs.", ephemeral=True)
                 return

@@ -9,13 +9,13 @@ from .models import RuntimeEntity
 _SUFFIX_RE = re.compile(r"^(?P<base>.+?)#(?P<num>\d+)$")
 
 
-async def next_unique_mob_name(conn, channel_id: int, base_display_name: str) -> str:
+async def next_unique_mob_name(db, channel_id: int, base_display_name: str) -> str:
     """
     Retourne base_display_name#N avec N = 1 + max(N existant) dans ce salon.
     """
     # On récupère tous les noms commençant par "Base#"
     like = f"{base_display_name}#%"
-    rows = await conn.execute_fetchall(
+    rows = await db.execute_fetchall(
         "SELECT mob_name FROM combat_mobs WHERE channel_id = ? AND mob_name LIKE ?",
         (int(channel_id), like),
     )
@@ -30,8 +30,8 @@ async def next_unique_mob_name(conn, channel_id: int, base_display_name: str) ->
     return f"{base_display_name}#{max_n + 1}"
 
 
-async def insert_mob(conn, channel_id: int, mob_name: str, mob_key: str, level: int, ent: RuntimeEntity, created_by: int):
-    await conn.execute(
+async def insert_mob(db, channel_id: int, mob_name: str, mob_key: str, level: int, ent: RuntimeEntity, created_by: int):
+    await db.conn.execute(
         """
         INSERT INTO combat_mobs(
           channel_id, mob_name, mob_key, level,
@@ -47,11 +47,11 @@ async def insert_mob(conn, channel_id: int, mob_name: str, mob_key: str, level: 
             int(created_by),
         ),
     )
-    await conn.commit()
+    await db.conn.commit()
 
 
-async def fetch_mob_entity(conn, channel_id: int, mob_name: str) -> RuntimeEntity:
-    row = await conn.execute_fetchone(
+async def fetch_mob_entity(db, channel_id: int, mob_name: str) -> RuntimeEntity:
+    row = await db.execute_fetchone(
         "SELECT * FROM combat_mobs WHERE channel_id = ? AND mob_name = ?",
         (int(channel_id), str(mob_name)),
     )
@@ -72,25 +72,25 @@ async def fetch_mob_entity(conn, channel_id: int, mob_name: str) -> RuntimeEntit
     )
 
 
-async def save_mob_hp(conn, channel_id: int, mob_name: str, hp: float) -> None:
-    await conn.execute(
+async def save_mob_hp(db, channel_id: int, mob_name: str, hp: float) -> None:
+    await db.conn.execute(
         "UPDATE combat_mobs SET hp = ? WHERE channel_id = ? AND mob_name = ?",
         (float(hp), int(channel_id), str(mob_name)),
     )
-    await conn.commit()
+    await db.conn.commit()
 
 
-async def list_mobs(conn, channel_id: int):
-    return await conn.execute_fetchall(
+async def list_mobs(db, channel_id: int):
+    return await db.execute_fetchall(
         "SELECT mob_name, mob_key, level, hp, hp_max FROM combat_mobs WHERE channel_id = ? ORDER BY mob_name",
         (int(channel_id),),
     )
 
 
-async def cleanup_dead_mobs(conn, channel_id: int) -> int:
-    cur = await conn.execute(
+async def cleanup_dead_mobs(db, channel_id: int) -> int:
+    cur = await db.conn.execute(
         "DELETE FROM combat_mobs WHERE channel_id = ? AND hp <= 0",
         (int(channel_id),),
     )
-    await conn.commit()
+    await db.conn.commit()
     return cur.rowcount or 0

@@ -22,7 +22,7 @@ class CombatSessionCog(commands.Cog):
         self.bot = bot
 
     async def _get_active_thread(self, channel: discord.abc.GuildChannel) -> discord.Thread | None:
-        tid = await combat_get_thread_id(self.bot.db.conn, channel.id)
+        tid = await combat_get_thread_id(self.bot.db, channel.id)
         if not tid:
             return None
         thr = channel.guild.get_thread(tid)
@@ -56,17 +56,17 @@ class CombatSessionCog(commands.Cog):
                     ids.append(int(tok))
 
         try:
-            await combat_create(self.bot.db.conn, channel.id, created_by=interaction.user.id)
+            await combat_create(self.bot.db, channel.id, created_by=interaction.user.id)
         except CombatError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
 
         # participants = auteur + mentions
-        await participants_add(self.bot.db.conn, channel.id, interaction.user.id, added_by=interaction.user.id)
+        await participants_add(self.bot.db, channel.id, interaction.user.id, added_by=interaction.user.id)
         for uid in ids:
-            await participants_add(self.bot.db.conn, channel.id, uid, added_by=interaction.user.id)
+            await participants_add(self.bot.db, channel.id, uid, added_by=interaction.user.id)
 
-        await log_add(self.bot.db.conn, channel.id, "system", f"Combat démarré par {interaction.user} (participants: {len(ids)+1}).")
+        await log_add(self.bot.db, channel.id, "system", f"Combat démarré par {interaction.user} (participants: {len(ids)+1}).")
 
         # Crée un fil privé
         try:
@@ -77,17 +77,17 @@ class CombatSessionCog(commands.Cog):
                 reason="Combat RP",
             )
         except Exception as e:
-            # On garde le combat actif en DB, mais on signale l’échec thread
+            # On garde le combat actif en DB, mais on signale l'échec thread
             await interaction.response.send_message(
                 f"Combat créé, mais impossible de créer le fil privé (permissions/config). Erreur: {e}",
                 ephemeral=True,
             )
             return
 
-        await combat_set_thread(self.bot.db.conn, channel.id, thread.id)
+        await combat_set_thread(self.bot.db, channel.id, thread.id)
 
         # Invite les participants
-        uids = await participants_list(self.bot.db.conn, channel.id)
+        uids = await participants_list(self.bot.db, channel.id)
         invited = 0
         for uid in uids:
             member = interaction.guild.get_member(uid)
@@ -108,12 +108,12 @@ class CombatSessionCog(commands.Cog):
             await interaction.response.send_message("Commande serveur uniquement.", ephemeral=True)
             return
 
-        if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+        if not await combat_is_active(self.bot.db, interaction.channel_id):
             await interaction.response.send_message("Aucun combat actif dans ce salon.", ephemeral=True)
             return
 
-        await participants_add(self.bot.db.conn, interaction.channel_id, member.id, added_by=interaction.user.id)
-        await log_add(self.bot.db.conn, interaction.channel_id, "system", f"{member} ajouté au combat par {interaction.user}.")
+        await participants_add(self.bot.db, interaction.channel_id, member.id, added_by=interaction.user.id)
+        await log_add(self.bot.db, interaction.channel_id, "system", f"{member} ajouté au combat par {interaction.user}.")
 
         thread = await self._get_active_thread(interaction.channel)  # type: ignore
         if thread:
@@ -131,13 +131,13 @@ class CombatSessionCog(commands.Cog):
             await interaction.response.send_message("Commande serveur uniquement.", ephemeral=True)
             return
 
-        if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+        if not await combat_is_active(self.bot.db, interaction.channel_id):
             await interaction.response.send_message("Aucun combat actif dans ce salon.", ephemeral=True)
             return
 
         thread = await self._get_active_thread(interaction.channel)  # type: ignore
-        await combat_close(self.bot.db.conn, interaction.channel_id)
-        await log_add(self.bot.db.conn, interaction.channel_id, "system", f"Combat terminé par {interaction.user}.")
+        await combat_close(self.bot.db, interaction.channel_id)
+        await log_add(self.bot.db, interaction.channel_id, "system", f"Combat terminé par {interaction.user}.")
 
         if thread:
             try:

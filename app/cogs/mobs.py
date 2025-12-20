@@ -59,10 +59,10 @@ class MobsCog(commands.Cog):
                 return
 
             channel_id = interaction.channel_id
-            mob_name = await next_unique_mob_name(self.bot.db.conn, channel_id, defn.display_name)
+            mob_name = await next_unique_mob_name(self.bot.db, channel_id, defn.display_name)
 
             ent = spawn_entity(defn, level=level, instance_name=mob_name)
-            await insert_mob(self.bot.db.conn, channel_id, mob_name, defn.key, level, ent, created_by=interaction.user.id)
+            await insert_mob(self.bot.db, channel_id, mob_name, defn.key, level, ent, created_by=interaction.user.id)
 
             await interaction.followup.send(
                 f"Mob spawné: **{mob_name}** (`{defn.key}` lvl {level}) — PV {ent.hp:.0f}/{ent.hp_max:.0f}"
@@ -84,7 +84,7 @@ class MobsCog(commands.Cog):
                 await interaction.followup.send("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
                 return
 
-            rows = await list_mobs(self.bot.db.conn, interaction.channel_id)
+            rows = await list_mobs(self.bot.db, interaction.channel_id)
             if not rows:
                 await interaction.followup.send("Aucun mob dans ce salon.", ephemeral=True)
                 return
@@ -121,7 +121,7 @@ class MobsCog(commands.Cog):
 
         try:
             attacker = await fetch_player_entity(self.bot, interaction.user)
-            defender = await fetch_mob_entity(self.bot.db.conn, interaction.channel_id, mob_name)
+            defender = await fetch_mob_entity(self.bot.db, interaction.channel_id, mob_name)
         except ValueError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
@@ -132,8 +132,8 @@ class MobsCog(commands.Cog):
 
         # persist
         await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-        await save_mob_hp(self.bot.db.conn, interaction.channel_id, mob_name, defender.hp)
-        deleted = await cleanup_dead_mobs(self.bot.db.conn, interaction.channel_id)
+        await save_mob_hp(self.bot.db, interaction.channel_id, mob_name, defender.hp)
+        deleted = await cleanup_dead_mobs(self.bot.db, interaction.channel_id)
 
         color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
         embed = discord.Embed(title="⚔️ Attaque sur mob", color=color)

@@ -43,11 +43,11 @@ class CombatCog(commands.Cog):
         name="Nom RP affiché",
         hp_max="PV max",
         mp_max="PM max",
-        STR="Force",
-        AGI="Agilité",
-        INT="Intelligence",
-        DEX="Dextérité",
-        VIT="Vitalité",
+        str_val="Force",  # Changed from STR to str_val
+        agi_val="Agilité",  # Changed from AGI to agi_val
+        int_val="Intelligence",  # Changed from INT to int_val
+        dex_val="Dextérité",  # Changed from DEX to dex_val
+        vit_val="Vitalité",  # Changed from VIT to vit_val
     )
     async def pc_create(
         self,
@@ -55,11 +55,11 @@ class CombatCog(commands.Cog):
         name: str,
         hp_max: float,
         mp_max: float,
-        STR: float,
-        AGI: float,
-        INT: float,
-        DEX: float,
-        VIT: float,
+        str_val: float,  # Changed from STR to str_val
+        agi_val: float,  # Changed from AGI to agi_val
+        int_val: float,  # Changed from INT to int_val
+        dex_val: float,  # Changed from DEX to dex_val
+        vit_val: float,  # Changed from VIT to vit_val
     ):
         await self.bot.db.conn.execute(
             """
@@ -84,11 +84,11 @@ class CombatCog(commands.Cog):
                 float(hp_max),
                 float(mp_max),
                 float(mp_max),
-                float(STR),
-                float(AGI),
-                float(INT),
-                float(DEX),
-                float(VIT),
+                float(str_val),  # Changed from STR to str_val
+                float(agi_val),  # Changed from AGI to agi_val
+                float(int_val),  # Changed from INT to int_val
+                float(dex_val),  # Changed from DEX to dex_val
+                float(vit_val),  # Changed from VIT to vit_val
             ),
         )
         await self.bot.db.conn.commit()

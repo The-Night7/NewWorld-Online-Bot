@@ -79,8 +79,8 @@ class Database:
             logger.info("Base de données initialisée avec succès")
 
             # Vérifier que les tables ont été créées
-        tables = ["players", "combats", "combat_participants", "combat_logs", "mobs"]
-        for table in tables:
+            tables = ["players", "combats", "combat_participants", "combat_logs", "mobs"]
+            for table in tables:
                 async with self._conn.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table}'") as cursor:
                     if not await cursor.fetchone():
                         logger.error(f"La table {table} n'a pas été créée correctement")

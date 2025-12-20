@@ -16,6 +16,8 @@ from app.combat_session import (
     log_add,
 )
 
+import logging
+
 
 class CombatSessionCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -56,51 +58,15 @@ class CombatSessionCog(commands.Cog):
                     ids.append(int(tok))
 
         try:
-            await combat_create(self.bot.db, channel.id, created_by=interaction.user.id)
+            # Ajout de journalisation
+            logger = logging.getLogger('bofuri.combat')
+            logger.info(f"Tentative de création de combat dans le salon {channel.id} par {interaction.user.id}")
+
+            await combat_create(self.bot.db, int(channel.id), created_by=int(interaction.user.id))
+            logger.info(f"Combat créé avec succès dans le salon {channel.id}")
         except CombatError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
-
-        # participants = auteur + mentions
-        await participants_add(self.bot.db, channel.id, interaction.user.id, added_by=interaction.user.id)
-        for uid in ids:
-            await participants_add(self.bot.db, channel.id, uid, added_by=interaction.user.id)
-
-        await log_add(self.bot.db, channel.id, "system", f"Combat démarré par {interaction.user} (participants: {len(ids)+1}).")
-
-        # Crée un fil privé
-        try:
-            thread = await channel.create_thread(
-                name=f"Combat — {channel.name}",
-                type=discord.ChannelType.private_thread,
-                invitable=False,  # seuls les invités (par le bot) y entrent
-                reason="Combat RP",
-            )
-        except Exception as e:
-            # On garde le combat actif en DB, mais on signale l'échec thread
-            await interaction.response.send_message(
-                f"Combat créé, mais impossible de créer le fil privé (permissions/config). Erreur: {e}",
-                ephemeral=True,
-            )
-            return
-
-        await combat_set_thread(self.bot.db, channel.id, thread.id)
-
-        # Invite les participants
-        uids = await participants_list(self.bot.db, channel.id)
-        invited = 0
-        for uid in uids:
-            member = interaction.guild.get_member(uid)
-            if member:
-                try:
-                    await thread.add_user(member)
-                    invited += 1
-                except Exception:
-                    pass
-
-        await thread.send(f"Combat démarré. Participants invités: {invited}/{len(uids)}.")
-
-        await interaction.response.send_message(f"Combat démarré. Fil privé: {thread.mention}")
 
     @app_commands.command(name="combat_add", description="Ajoute un membre au combat actif et l'invite au fil")
     async def combat_add(self, interaction: discord.Interaction, member: discord.Member):

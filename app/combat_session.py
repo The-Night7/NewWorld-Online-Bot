@@ -2,17 +2,29 @@ from __future__ import annotations
 
 from typing import Iterable, Optional
 
+import logging
 
 class CombatError(RuntimeError):
     pass
 
 
 async def combat_is_active(db, channel_id: int) -> bool:
-    row = await db.execute_fetchone(
-        "SELECT status FROM combats WHERE channel_id = ?",
-        (int(channel_id),),
-    )
-    return bool(row and row["status"] == "active")
+    logger = logging.getLogger('bofuri.combat')
+    logger.info(f"Vérification du combat actif dans le salon {channel_id}")
+
+    try:
+        row = await db.execute_fetchone(
+            "SELECT status FROM combats WHERE channel_id = ?",
+            (int(channel_id),),
+        )
+
+        logger.info(f"Résultat de la requête: {row}")
+        result = bool(row and row["status"] == "active")
+        logger.info(f"Combat actif: {result}")
+        return result
+    except Exception as e:
+        logger.error(f"Erreur lors de la vérification du combat actif: {str(e)}", exc_info=True)
+        return False
 
 
 async def combat_get_thread_id(db, channel_id: int) -> Optional[int]:
@@ -24,12 +36,15 @@ async def combat_get_thread_id(db, channel_id: int) -> Optional[int]:
 
 
 async def combat_create(db, channel_id: int, created_by: int) -> None:
+    channel_id = int(channel_id)  # Conversion explicite en entier
+    created_by = int(created_by)  # Conversion explicite en entier
+
     if await combat_is_active(db, channel_id):
         raise CombatError("Un combat est déjà actif dans ce salon.")
 
     await db.conn.execute(
         "INSERT INTO combats(channel_id, status, created_by) VALUES(?, 'active', ?)",
-        (int(channel_id), int(created_by)),
+        (channel_id, created_by),
     )
     await db.conn.commit()
 

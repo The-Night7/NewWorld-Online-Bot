@@ -77,8 +77,17 @@ class Database:
             await self._conn.executescript(SCHEMA_SQL)
             await self._conn.commit()
             logger.info("Base de données initialisée avec succès")
+
+            # Vérifier que les tables ont été créées
+        tables = ["players", "combats", "combat_participants", "combat_logs", "mobs"]
+        for table in tables:
+                async with self._conn.execute(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{table}'") as cursor:
+                    if not await cursor.fetchone():
+                        logger.error(f"La table {table} n'a pas été créée correctement")
+                    else:
+                        logger.info(f"Table {table} créée avec succès")
         except Exception as e:
-            logger.error(f"Erreur lors de l'initialisation de la base de données: {str(e)}")
+            logger.error(f"Erreur lors de l'initialisation de la base de données: {str(e)}", exc_info=True)
             raise
 
     async def close(self) -> None:

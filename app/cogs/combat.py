@@ -10,7 +10,7 @@ from ..rules import resolve_attack, AttackType
 
 
 async def fetch_player_entity(bot: commands.Bot, user: discord.abc.User) -> RuntimeEntity:
-    row = await bot.db.conn.execute_fetchone(
+    row = await bot.db.execute_fetchone(  # Changé de bot.db.conn.execute_fetchone à bot.db.execute_fetchone
         "SELECT * FROM players WHERE user_id = ?",
         (user.id,),
     )
@@ -98,15 +98,15 @@ class CombatCog(commands.Cog):
 
             await interaction.response.send_message(f"Fiche enregistrée pour **{name}**.", ephemeral=True)
         except Exception as e:
-            # Log the error
-            print(f"Error in pc_create: {e}", file=sys.stderr)
+            # Log l'erreur
+            print(f"Erreur dans pc_create: {e}", file=sys.stderr)
             traceback.print_exc()
 
-            # If we haven't responded yet, send an error message
+            # Si nous n'avons pas encore répondu, envoyez un message d'erreur
             if not interaction.response.is_done():
                 await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
             else:
-                # If we've already started responding, use followup
+                # Si nous avons déjà commencé à répondre, utilisez followup
                 await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
 
     @app_commands.command(name="atk", description="Attaque un joueur (d20 opposé + AGI/10, dégâts via STR/INT/DEX)")
@@ -162,29 +162,29 @@ class CombatCog(commands.Cog):
 
             await interaction.response.send_message(embed=embed)
         except Exception as e:
-            # Log the error
-            print(f"Error in atk: {e}", file=sys.stderr)
+            # Log l'erreur
+            print(f"Erreur dans atk: {e}", file=sys.stderr)
             traceback.print_exc()
 
-            # If we haven't responded yet, send an error message
+            # Si nous n'avons pas encore répondu, envoyez un message d'erreur
             if not interaction.response.is_done():
                 await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
             else:
-                # If we've already started responding, use followup
+                # Si nous avons déjà commencé à répondre, utilisez followup
                 await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
 
-    # Add a general error handler for app commands
+    # Ajout d'un gestionnaire d'erreurs général pour les commandes d'application
     @commands.Cog.listener()
     async def on_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandInvokeError):
-            error = error.original  # Get the original error
+            error = error.original  # Obtenez l'erreur d'origine
 
-        print(f"Command error: {error}", file=sys.stderr)
+        print(f"Erreur de commande: {error}", file=sys.stderr)
         traceback.print_exc()
 
-        # If we haven't responded yet, send an error message
+        # Si nous n'avons pas encore répondu, envoyez un message d'erreur
         if not interaction.response.is_done():
             await interaction.response.send_message(f"Une erreur est survenue: {str(error)}", ephemeral=True)
         else:
-            # If we've already started responding, use followup
+            # Si nous avons déjà commencé à répondre, utilisez followup
             await interaction.followup.send(f"Une erreur est survenue: {str(error)}", ephemeral=True)

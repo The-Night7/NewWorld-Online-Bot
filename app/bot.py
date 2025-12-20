@@ -44,10 +44,11 @@ class BofuriBot(commands.Bot):
         try:
             if interaction.response.is_done():
                 await interaction.followup.send(f"Une erreur est survenue lors de l'exécution de la commande. L'erreur a été enregistrée.", ephemeral=True)
-        else:
+            else:
                 await interaction.response.send_message(f"Une erreur est survenue lors de l'exécution de la commande. L'erreur a été enregistrée.", ephemeral=True)
         except:
             logger.error("Impossible d'envoyer un message d'erreur à l'utilisateur")
+
     async def setup_hook(self) -> None:
         logger.info("Configuration du bot en cours...")
         await self.db.connect()

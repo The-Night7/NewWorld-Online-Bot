@@ -71,7 +71,7 @@ class MobsCog(commands.Cog):
             logger = logging.getLogger('bofuri')
             logger.error(f"Erreur dans /mob_spawn: {str(e)}", exc_info=True)
             if not interaction.response.is_done():
-            await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+                await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
             else:
                 await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
 
@@ -98,7 +98,7 @@ class MobsCog(commands.Cog):
             logger = logging.getLogger('bofuri')
             logger.error(f"Erreur dans /mob_list: {str(e)}", exc_info=True)
             if not interaction.response.is_done():
-            await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+                await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
             else:
                 await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
 

@@ -1,5 +1,5 @@
 import aiosqlite
-from typing import Optional
+from typing import Optional, Any, Dict, List, Tuple
 
 
 SCHEMA_SQL = """
@@ -42,3 +42,11 @@ class Database:
         if not self._conn:
             raise RuntimeError("DB non connectée")
         return self._conn
+
+    # Ajout de la méthode execute_fetchone
+    async def execute_fetchone(self, query: str, params: Tuple = ()) -> Optional[Dict[str, Any]]:
+        """Exécute une requête SQL et retourne la première ligne du résultat."""
+        if not self._conn:
+            raise RuntimeError("DB non connectée")
+        async with self._conn.execute(query, params) as cursor:
+            return await cursor.fetchone()

@@ -1,6 +1,8 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+import traceback
+import sys
 
 from ..models import RuntimeEntity
 from ..dice import d20
@@ -43,11 +45,11 @@ class CombatCog(commands.Cog):
         name="Nom RP affiché",
         hp_max="PV max",
         mp_max="PM max",
-        str_val="Force",  # Changed from STR to str_val
-        agi_val="Agilité",  # Changed from AGI to agi_val
-        int_val="Intelligence",  # Changed from INT to int_val
-        dex_val="Dextérité",  # Changed from DEX to dex_val
-        vit_val="Vitalité",  # Changed from VIT to vit_val
+        str_val="Force",
+        agi_val="Agilité",
+        int_val="Intelligence",
+        dex_val="Dextérité",
+        vit_val="Vitalité",
     )
     async def pc_create(
         self,
@@ -55,45 +57,57 @@ class CombatCog(commands.Cog):
         name: str,
         hp_max: float,
         mp_max: float,
-        str_val: float,  # Changed from STR to str_val
-        agi_val: float,  # Changed from AGI to agi_val
-        int_val: float,  # Changed from INT to int_val
-        dex_val: float,  # Changed from DEX to dex_val
-        vit_val: float,  # Changed from VIT to vit_val
+        str_val: float,
+        agi_val: float,
+        int_val: float,
+        dex_val: float,
+        vit_val: float,
     ):
-        await self.bot.db.conn.execute(
-            """
-            INSERT INTO players(user_id, name, hp, hp_max, mp, mp_max, str, agi, int_, dex, vit)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(user_id) DO UPDATE SET
-              name=excluded.name,
-              hp=excluded.hp,
-              hp_max=excluded.hp_max,
-              mp=excluded.mp,
-              mp_max=excluded.mp_max,
-              str=excluded.str,
-              agi=excluded.agi,
-              int_=excluded.int_,
-              dex=excluded.dex,
-              vit=excluded.vit
-            """,
-            (
-                interaction.user.id,
-                name,
-                float(hp_max),
-                float(hp_max),
-                float(mp_max),
-                float(mp_max),
-                float(str_val),  # Changed from STR to str_val
-                float(agi_val),  # Changed from AGI to agi_val
-                float(int_val),  # Changed from INT to int_val
-                float(dex_val),  # Changed from DEX to dex_val
-                float(vit_val),  # Changed from VIT to vit_val
-            ),
-        )
-        await self.bot.db.conn.commit()
+        try:
+            await self.bot.db.conn.execute(
+                """
+                INSERT INTO players(user_id, name, hp, hp_max, mp, mp_max, str, agi, int_, dex, vit)
+                VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(user_id) DO UPDATE SET
+                  name=excluded.name,
+                  hp=excluded.hp,
+                  hp_max=excluded.hp_max,
+                  mp=excluded.mp,
+                  mp_max=excluded.mp_max,
+                  str=excluded.str,
+                  agi=excluded.agi,
+                  int_=excluded.int_,
+                  dex=excluded.dex,
+                  vit=excluded.vit
+                """,
+                (
+                    interaction.user.id,
+                    name,
+                    float(hp_max),
+                    float(hp_max),
+                    float(mp_max),
+                    float(mp_max),
+                    float(str_val),
+                    float(agi_val),
+                    float(int_val),
+                    float(dex_val),
+                    float(vit_val),
+                ),
+            )
+            await self.bot.db.conn.commit()
 
-        await interaction.response.send_message(f"Fiche enregistrée pour **{name}**.", ephemeral=True)
+            await interaction.response.send_message(f"Fiche enregistrée pour **{name}**.", ephemeral=True)
+        except Exception as e:
+            # Log the error
+            print(f"Error in pc_create: {e}", file=sys.stderr)
+            traceback.print_exc()
+
+            # If we haven't responded yet, send an error message
+            if not interaction.response.is_done():
+                await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+            else:
+                # If we've already started responding, use followup
+                await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
 
     @app_commands.command(name="atk", description="Attaque un joueur (d20 opposé + AGI/10, dégâts via STR/INT/DEX)")
     @app_commands.describe(
@@ -109,40 +123,68 @@ class CombatCog(commands.Cog):
         perce_armure: bool = False,
     ):
         try:
-            attacker = await fetch_player_entity(self.bot, interaction.user)
-            defender = await fetch_player_entity(self.bot, target)
-        except ValueError as e:
-            await interaction.response.send_message(str(e), ephemeral=True)
-            return
+            try:
+                attacker = await fetch_player_entity(self.bot, interaction.user)
+                defender = await fetch_player_entity(self.bot, target)
+            except ValueError as e:
+                await interaction.response.send_message(str(e), ephemeral=True)
+                return
 
-        ra = d20()
-        rb = d20()
-        result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
+            ra = d20()
+            rb = d20()
+            result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-        # Persist HP
-        await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-        await save_player_hp(self.bot, target.id, defender.hp)
+            # Persist HP
+            await save_player_hp(self.bot, interaction.user.id, attacker.hp)
+            await save_player_hp(self.bot, target.id, defender.hp)
 
-        color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
-        embed = discord.Embed(title="⚔️ Résolution d'attaque", color=color)
-        embed.add_field(name="Type", value=str(attack_type), inline=True)
-        embed.add_field(name="Perce-armure", value="Oui" if perce_armure else "Non", inline=True)
-        embed.add_field(name="Réduction VIT", value=f'{result["vit_term"]:.2f}', inline=True)
+            color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
+            embed = discord.Embed(title="⚔️ Résolution d'attaque", color=color)
+            embed.add_field(name="Type", value=str(attack_type), inline=True)
+            embed.add_field(name="Perce-armure", value="Oui" if perce_armure else "Non", inline=True)
+            embed.add_field(name="Réduction VIT", value=f'{result["vit_term"]:.2f}', inline=True)
 
-        embed.add_field(name="Jet attaquant (d20)", value=str(ra), inline=True)
-        embed.add_field(name="Jet défenseur (d20)", value=str(rb), inline=True)
-        embed.add_field(name="Toucher A vs D", value=f'{result["hit_a"]:.2f} vs {result["hit_b"]:.2f}', inline=True)
+            embed.add_field(name="Jet attaquant (d20)", value=str(ra), inline=True)
+            embed.add_field(name="Jet défenseur (d20)", value=str(rb), inline=True)
+            embed.add_field(name="Toucher A vs D", value=f'{result["hit_a"]:.2f} vs {result["hit_b"]:.2f}', inline=True)
 
-        embed.add_field(name="Puissance (stat dégâts)", value=f'{result["atk_stat"]:.2f}', inline=True)
-        if result["hit"]:
-            embed.add_field(name="Dégâts", value=f'{result["raw"]["damage"]:.2f}', inline=True)
+            embed.add_field(name="Puissance (stat dégâts)", value=f'{result["atk_stat"]:.2f}', inline=True)
+            if result["hit"]:
+                embed.add_field(name="Dégâts", value=f'{result["raw"]["damage"]:.2f}', inline=True)
+            else:
+                embed.add_field(name="Défense (valeur)", value=f'{result["raw"].get("defense_value", 0.0):.2f}', inline=True)
+
+            embed.add_field(
+                name="Log",
+                value="\n".join(result["effects"]) if result["effects"] else "—",
+                inline=False,
+            )
+
+            await interaction.response.send_message(embed=embed)
+        except Exception as e:
+            # Log the error
+            print(f"Error in atk: {e}", file=sys.stderr)
+            traceback.print_exc()
+
+            # If we haven't responded yet, send an error message
+            if not interaction.response.is_done():
+                await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+            else:
+                # If we've already started responding, use followup
+                await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+
+    # Add a general error handler for app commands
+    @commands.Cog.listener()
+    async def on_app_command_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandInvokeError):
+            error = error.original  # Get the original error
+
+        print(f"Command error: {error}", file=sys.stderr)
+        traceback.print_exc()
+
+        # If we haven't responded yet, send an error message
+        if not interaction.response.is_done():
+            await interaction.response.send_message(f"Une erreur est survenue: {str(error)}", ephemeral=True)
         else:
-            embed.add_field(name="Défense (valeur)", value=f'{result["raw"].get("defense_value", 0.0):.2f}', inline=True)
-
-        embed.add_field(
-            name="Log",
-            value="\n".join(result["effects"]) if result["effects"] else "—",
-            inline=False,
-        )
-
-        await interaction.response.send_message(embed=embed)
+            # If we've already started responding, use followup
+            await interaction.followup.send(f"Une erreur est survenue: {str(error)}", ephemeral=True)

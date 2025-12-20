@@ -21,7 +21,10 @@ CREATE TABLE IF NOT EXISTS players (
   vit         REAL NOT NULL
 );
 
--- Ajout des tables manquantes
+-- Suppression de l'ancienne table combats pour recréer avec la nouvelle contrainte
+DROP TABLE IF EXISTS combats;
+
+-- Création de la table combats avec la nouvelle contrainte
 CREATE TABLE IF NOT EXISTS combats (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   channel_id  INTEGER NOT NULL,

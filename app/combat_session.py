@@ -92,20 +92,6 @@ async def combat_close(db, thread_id: int) -> None:
         channel_id = row['channel_id']
         logger.info(f"Fermeture du combat ID {combat_id} dans le fil {thread_id} (salon {channel_id})")
 
-        # Vérifier s'il existe déjà un combat fermé pour ce thread
-        existing_closed = await db.execute_fetchone(
-            "SELECT id FROM combats WHERE thread_id = ? AND status = 'closed'",
-            (int(thread_id),),
-    )
-
-        if existing_closed:
-            logger.warning(f"Un combat fermé existe déjà pour le fil {thread_id}. Suppression de cet enregistrement.")
-            # Supprimer l'ancien combat fermé pour éviter le conflit
-            await db.conn.execute(
-                "DELETE FROM combats WHERE thread_id = ? AND status = 'closed'",
-                (int(thread_id),),
-            )
-
         # Mettre à jour le statut du combat existant
         await db.conn.execute(
             "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",

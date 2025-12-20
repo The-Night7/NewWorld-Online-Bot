@@ -49,7 +49,7 @@ class MobsCog(commands.Cog):
         try:
             # Répondre immédiatement pour éviter le timeout
             await interaction.response.defer(ephemeral=False)
-            if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+            if not await combat_is_active(self.bot.db, interaction.channel_id):
                 await interaction.followup.send("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
                 return
 
@@ -80,7 +80,7 @@ class MobsCog(commands.Cog):
         try:
             # Répondre immédiatement pour éviter le timeout
             await interaction.response.defer(ephemeral=False)
-            if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+            if not await combat_is_active(self.bot.db, interaction.channel_id):
                 await interaction.followup.send("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
                 return
 
@@ -115,7 +115,7 @@ class MobsCog(commands.Cog):
         attack_type: AttackType = "phys",
         perce_armure: bool = False,
     ):
-        if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+        if not await combat_is_active(self.bot.db, interaction.channel_id):
             await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
             return
 
@@ -157,7 +157,7 @@ class MobsCog(commands.Cog):
         attack_type: AttackType = "phys",
         perce_armure: bool = False,
     ):
-        if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+        if not await combat_is_active(self.bot.db, interaction.channel_id):
             await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
             return
 

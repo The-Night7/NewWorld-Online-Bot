@@ -63,23 +63,13 @@ CREATE TABLE IF NOT EXISTS mobs (
 );
 """
 
-
-# Étendre la classe Connection pour ajouter execute_fetchone
-class ExtendedConnection(aiosqlite.Connection):
-    async def execute_fetchone(self, query: str, params: Tuple = ()) -> Optional[Dict[str, Any]]:
-        """Exécute une requête SQL et retourne la première ligne du résultat."""
-        async with self.execute(query, params) as cursor:
-            return await cursor.fetchone()
-
-
 class Database:
     def __init__(self, path: str):
         self.path = path
-        self._conn: Optional[ExtendedConnection] = None
+        self._conn: Optional[aiosqlite.Connection] = None
 
     async def connect(self) -> None:
-        # Utiliser factory=ExtendedConnection pour créer une instance de notre classe étendue
-        self._conn = await aiosqlite.connect(self.path, factory=ExtendedConnection)
+        self._conn = await aiosqlite.connect(self.path)
         self._conn.row_factory = aiosqlite.Row
 
         # Exécuter le script de schéma
@@ -97,10 +87,24 @@ class Database:
             self._conn = None
 
     @property
-    def conn(self) -> ExtendedConnection:
+    def conn(self) -> aiosqlite.Connection:
         if not self._conn:
             raise RuntimeError("DB non connectée")
         return self._conn
+
+    async def execute_fetchone(self, query: str, params: Tuple = ()) -> Optional[Dict[str, Any]]:
+        """Exécute une requête SQL et retourne la première ligne du résultat."""
+        if not self._conn:
+            raise RuntimeError("DB non connectée")
+        async with self._conn.execute(query, params) as cursor:
+            return await cursor.fetchone()
+
+    async def execute_fetchall(self, query: str, params: Tuple = ()) -> List[Dict[str, Any]]:
+        """Exécute une requête SQL et retourne toutes les lignes du résultat."""
+        if not self._conn:
+            raise RuntimeError("DB non connectée")
+        async with self._conn.execute(query, params) as cursor:
+            return await cursor.fetchall()
 
     async def check_tables(self) -> bool:
         """Vérifie que toutes les tables nécessaires existent dans la base de données."""

@@ -1,0 +1,2783 @@
+{
+  "monsters": {
+    "lapin_végétal": {
+      "name": "Lapin végétal",
+      "palier": "Palier 1",
+      "level_range": "1-5",
+      "rarity": null,
+      "zone": "Forêt",
+      "drops": [
+        "Plante médicinale",
+        "Bois renforcé"
+      ],
+      "abilities": null,
+      "variants": {
+        "1": {
+          "level": 1,
+          "hp_max": 10.0,
+          "mp_max": 5.0,
+          "STR": 3.0,
+          "AGI": 8.0,
+          "INT": 2.0,
+          "DEX": 5.0,
+          "VIT": 2.0,
+          "base_attack": 5.0,
+          "extra": null
+        },
+        "5": {
+          "level": 5,
+          "hp_max": 30.0,
+          "mp_max": 15.0,
+          "STR": 8.0,
+          "AGI": 15.0,
+          "INT": 5.0,
+          "DEX": 10.0,
+          "VIT": 6.0,
+          "base_attack": 15.0,
+          "extra": null
+        }
+      }
+    },
+    "bee_me_me_bee": {
+      "name": "BEE ME ME BEE",
+      "palier": "Palier 1",
+      "level_range": "1-10",
+      "rarity": null,
+      "zone": "Forêt",
+      "drops": [
+        "Ailes de Bee",
+        "Pollen amélioré"
+      ],
+      "abilities": [
+        "Crachat de poison:  5/tour",
+        "Crachat de poison:  15/tour"
+      ],
+      "variants": {
+        "1": {
+          "level": 1,
+          "hp_max": 15.0,
+          "mp_max": 10.0,
+          "STR": 4.0,
+          "AGI": 10.0,
+          "INT": 3.0,
+          "DEX": 8.0,
+          "VIT": 3.0,
+          "base_attack": 5.0,
+          "extra": null
+        },
+        "10": {
+          "level": 10,
+          "hp_max": 50.0,
+          "mp_max": 30.0,
+          "STR": 15.0,
+          "AGI": 25.0,
+          "INT": 8.0,
+          "DEX": 20.0,
+          "VIT": 10.0,
+          "base_attack": 30.0,
+          "extra": null
+        }
+      }
+    },
+    "reine_des_abeilles": {
+      "name": "Reine des abeilles",
+      "palier": "Palier 1",
+      "level_range": "10",
+      "rarity": "Boss",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Cri de la reine: Quand PV dans le rouge, invoque 1-5 abeilles selon roll (max 15)",
+        "- Dard empoisonné: 30/tour",
+        "- Drop: Miel royal, Ailes d'abeille magique",
+        "- Zone: Forêt"
+      ],
+      "variants": {}
+    },
+    "spider_eyes": {
+      "name": "Spider-eyes",
+      "palier": "Palier 1",
+      "level_range": "1-10",
+      "rarity": null,
+      "zone": "Forêt",
+      "drops": [
+        "Œuf d'araignée",
+        "Poussière toxique"
+      ],
+      "abilities": [
+        "Toile gluante:  Immobilise 2 tours",
+        "Toile gluante:  Immobilise 2 tours"
+      ],
+      "variants": {
+        "1": {
+          "level": 1,
+          "hp_max": 15.0,
+          "mp_max": 8.0,
+          "STR": 5.0,
+          "AGI": 6.0,
+          "INT": 4.0,
+          "DEX": 9.0,
+          "VIT": 3.0,
+          "base_attack": 5.0,
+          "extra": null
+        },
+        "10": {
+          "level": 10,
+          "hp_max": 50.0,
+          "mp_max": 25.0,
+          "STR": 18.0,
+          "AGI": 15.0,
+          "INT": 12.0,
+          "DEX": 22.0,
+          "VIT": 10.0,
+          "base_attack": 30.0,
+          "extra": null
+        }
+      }
+    },
+    "chenille_ortifleur": {
+      "name": "Chenille ortifleur",
+      "palier": "Palier 1",
+      "level_range": "1-10",
+      "rarity": "Élite",
+      "zone": "Donjon de l'Hydre",
+      "drops": [
+        "Pétale d'ortifleur",
+        "Poudre apaisante"
+      ],
+      "abilities": null,
+      "variants": {
+        "1": {
+          "level": 1,
+          "hp_max": 12.0,
+          "mp_max": 5.0,
+          "STR": 4.0,
+          "AGI": 3.0,
+          "INT": 2.0,
+          "DEX": 4.0,
+          "VIT": 4.0,
+          "base_attack": 5.0,
+          "extra": null
+        },
+        "10": {
+          "level": 10,
+          "hp_max": 80.0,
+          "mp_max": 30.0,
+          "STR": 22.0,
+          "AGI": 10.0,
+          "INT": 8.0,
+          "DEX": 14.0,
+          "VIT": 18.0,
+          "base_attack": 40.0,
+          "extra": null
+        }
+      }
+    },
+    "louveteau_des_forêts": {
+      "name": "Louveteau des forêts",
+      "palier": "Palier 1",
+      "level_range": "3-10",
+      "rarity": null,
+      "zone": "Forêt & Plaine",
+      "drops": [
+        "Peau de loup",
+        "Dent de loup"
+      ],
+      "abilities": [
+        "Hurlement de la meute:  Roll 20, obtenir 15+ invoque 1-5 louveteaux",
+        "Hurlement de la meute:  Roll 20, obtenir 15+ invoque 1-5 louveteaux"
+      ],
+      "variants": {
+        "3": {
+          "level": 3,
+          "hp_max": 25.0,
+          "mp_max": 15.0,
+          "STR": 8.0,
+          "AGI": 12.0,
+          "INT": 5.0,
+          "DEX": 10.0,
+          "VIT": 5.0,
+          "base_attack": 10.0,
+          "extra": null
+        },
+        "10": {
+          "level": 10,
+          "hp_max": 60.0,
+          "mp_max": 40.0,
+          "STR": 18.0,
+          "AGI": 22.0,
+          "INT": 10.0,
+          "DEX": 20.0,
+          "VIT": 12.0,
+          "base_attack": 30.0,
+          "extra": null
+        }
+      }
+    },
+    "loup_alpha": {
+      "name": "Loup Alpha",
+      "palier": "Palier 1",
+      "level_range": "10-15",
+      "rarity": "Boss",
+      "zone": "Forêt & Plaine",
+      "drops": [
+        "Griffe d'Alpha",
+        "Perle d'âme de loup"
+      ],
+      "abilities": [
+        "Hurlement du chef de meute:  Invoque 3-5 louveteaux (Lvl 10-15 selon nombre ennemis)",
+        "Hurlement du chef de meute:  Invoque 3-5 louveteaux (Lvl 10-15 selon nombre ennemis)"
+      ],
+      "variants": {
+        "10": {
+          "level": 10,
+          "hp_max": 150.0,
+          "mp_max": 60.0,
+          "STR": 30.0,
+          "AGI": 28.0,
+          "INT": 15.0,
+          "DEX": 25.0,
+          "VIT": 20.0,
+          "base_attack": 50.0,
+          "extra": null
+        },
+        "15": {
+          "level": 15,
+          "hp_max": 250.0,
+          "mp_max": 90.0,
+          "STR": 45.0,
+          "AGI": 38.0,
+          "INT": 20.0,
+          "DEX": 35.0,
+          "VIT": 30.0,
+          "base_attack": 70.0,
+          "extra": null
+        }
+      }
+    },
+    "clown_de_la_forêt": {
+      "name": "Clown de la forêt",
+      "palier": "Palier 1",
+      "level_range": "10-15",
+      "rarity": null,
+      "zone": "Forêt",
+      "drops": [
+        "Costumes clown",
+        "Roue de folie"
+      ],
+      "abilities": null,
+      "variants": {
+        "10": {
+          "level": 10,
+          "hp_max": 40.0,
+          "mp_max": 25.0,
+          "STR": 20.0,
+          "AGI": 18.0,
+          "INT": 12.0,
+          "DEX": 22.0,
+          "VIT": 8.0,
+          "base_attack": 30.0,
+          "extra": null
+        },
+        "15": {
+          "level": 15,
+          "hp_max": 65.0,
+          "mp_max": 40.0,
+          "STR": 30.0,
+          "AGI": 25.0,
+          "INT": 18.0,
+          "DEX": 30.0,
+          "VIT": 12.0,
+          "base_attack": 50.0,
+          "extra": null
+        }
+      }
+    },
+    "coxiplooosion": {
+      "name": "Coxiplooosion",
+      "palier": "Palier 1",
+      "level_range": "10-15",
+      "rarity": null,
+      "zone": "Forêt",
+      "drops": [
+        "Charbon",
+        "Bouchon enflammé"
+      ],
+      "abilities": [
+        "Explosion (à la mort):  50",
+        "Explosion (à la mort):  80"
+      ],
+      "variants": {
+        "10": {
+          "level": 10,
+          "hp_max": 20.0,
+          "mp_max": 15.0,
+          "STR": 15.0,
+          "AGI": 12.0,
+          "INT": 8.0,
+          "DEX": 10.0,
+          "VIT": 4.0,
+          "base_attack": 30.0,
+          "extra": null
+        },
+        "15": {
+          "level": 15,
+          "hp_max": 35.0,
+          "mp_max": 25.0,
+          "STR": 25.0,
+          "AGI": 18.0,
+          "INT": 12.0,
+          "DEX": 15.0,
+          "VIT": 6.0,
+          "base_attack": 50.0,
+          "extra": null
+        }
+      }
+    },
+    "slime": {
+      "name": "Slime",
+      "palier": "Palier 1",
+      "level_range": "5-10",
+      "rarity": "Élite",
+      "zone": "Donjon de l'Hydre",
+      "drops": [
+        "Gelée premium",
+        "Essence de slime"
+      ],
+      "abilities": [
+        "Mucus gluant:  Immobilise + 20% dégâts subis (cumulable)",
+        "Mucus gluant:  Immobilise + 20% dégâts subis (cumulable)"
+      ],
+      "variants": {
+        "5": {
+          "level": 5,
+          "hp_max": 100.0,
+          "mp_max": 20.0,
+          "STR": 5.0,
+          "AGI": 3.0,
+          "INT": 4.0,
+          "DEX": 2.0,
+          "VIT": 25.0,
+          "base_attack": 15.0,
+          "extra": null
+        },
+        "10": {
+          "level": 10,
+          "hp_max": 150.0,
+          "mp_max": 45.0,
+          "STR": 18.0,
+          "AGI": 6.0,
+          "INT": 10.0,
+          "DEX": 5.0,
+          "VIT": 45.0,
+          "base_attack": 40.0,
+          "extra": null
+        }
+      }
+    },
+    "hydre_au_poison": {
+      "name": "Hydre au poison",
+      "palier": "Palier 1",
+      "level_range": "15",
+      "rarity": "Élite",
+      "zone": "Donjon de l'Hydre",
+      "drops": [
+        "Écailles de l'hydre",
+        "Venin purifié",
+        "Cœur d'hydre"
+      ],
+      "abilities": [
+        "Crachat de poison:  50/tour + dégats de base"
+      ],
+      "variants": {}
+    },
+    "poisson_tentaculaire": {
+      "name": "Poisson tentaculaire",
+      "palier": "Palier 1",
+      "level_range": "10",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Brume d'encre: Réduit précision (12+ pour toucher au lieu de 10+)",
+        "- Rayon d'eau: 60 dégâts",
+        "- Drop: Tentacule géant, Encre magique, Perle des profondeurs",
+        "- Zone: Donjon de la Pêche"
+      ],
+      "variants": {}
+    },
+    "zombie": {
+      "name": "Zombie",
+      "palier": "Palier 1",
+      "level_range": "12-20",
+      "rarity": null,
+      "zone": "Zone Fantôme",
+      "drops": [
+        "Crâne maudit",
+        "Essence nécrotique"
+      ],
+      "abilities": null,
+      "variants": {
+        "12": {
+          "level": 12,
+          "hp_max": 80.0,
+          "mp_max": 10.0,
+          "STR": 22.0,
+          "AGI": 8.0,
+          "INT": 5.0,
+          "DEX": 10.0,
+          "VIT": 18.0,
+          "base_attack": 30.0,
+          "extra": null
+        },
+        "20": {
+          "level": 20,
+          "hp_max": 150.0,
+          "mp_max": 20.0,
+          "STR": 45.0,
+          "AGI": 12.0,
+          "INT": 8.0,
+          "DEX": 15.0,
+          "VIT": 35.0,
+          "base_attack": 70.0,
+          "extra": null
+        }
+      }
+    },
+    "spectre": {
+      "name": "Spectre",
+      "palier": "Palier 1",
+      "level_range": "12-20",
+      "rarity": null,
+      "zone": "Zone Fantôme",
+      "drops": [
+        "Essence spectrale",
+        "Voile maudit"
+      ],
+      "abilities": [
+        "Toucher maudit:  Malédiction -10% stats (cumulable)",
+        "Toucher maudit:  Malédiction -10% stats (cumulable)"
+      ],
+      "variants": {
+        "12": {
+          "level": 12,
+          "hp_max": 60.0,
+          "mp_max": 40.0,
+          "STR": 18.0,
+          "AGI": 20.0,
+          "INT": 30.0,
+          "DEX": 22.0,
+          "VIT": 12.0,
+          "base_attack": 30.0,
+          "extra": null
+        },
+        "20": {
+          "level": 20,
+          "hp_max": 120.0,
+          "mp_max": 80.0,
+          "STR": 35.0,
+          "AGI": 35.0,
+          "INT": 55.0,
+          "DEX": 40.0,
+          "VIT": 22.0,
+          "base_attack": 70.0,
+          "extra": null
+        }
+      }
+    },
+    "sanglier_enragé": {
+      "name": "Sanglier enragé",
+      "palier": "Palier 1",
+      "level_range": "20",
+      "rarity": "Élite",
+      "zone": "Donjon de l'Arbre Honey",
+      "drops": [
+        "Défense de sanglier",
+        "Fourrure épaisse"
+      ],
+      "abilities": [
+        "Charge enragée:  110"
+      ],
+      "variants": {}
+    },
+    "ours_en_colère": {
+      "name": "Ours en colère",
+      "palier": "Palier 1",
+      "level_range": "20",
+      "rarity": "Élite",
+      "zone": "Donjon de l'Arbre Honey",
+      "drops": [
+        "Patte d'ours",
+        "Miel sauvage"
+      ],
+      "abilities": null,
+      "variants": {}
+    },
+    "roi_de_la_nature_cerf_de_vie": {
+      "name": "Roi de la nature: Cerf de vie",
+      "palier": "Palier 1",
+      "level_range": null,
+      "rarity": "Boss",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Coup étourdissant: Étourdit cible 5 tours",
+        "- Bouclier magique: Immunité effets secondaires (poison, etc.)",
+        "- Régénération: Récupère tous PV tant qu'il a des pommes sur bois",
+        "- Drop: Bois de cerf sacré, Pomme de vie, Couronne de nature",
+        "- Zone: Donjon de l'Arbre Honey"
+      ],
+      "variants": {}
+    },
+    "grand_clown_à_massue": {
+      "name": "Grand Clown à massue",
+      "palier": "Palier 2",
+      "level_range": "20",
+      "rarity": "Élite",
+      "zone": "Event Secret",
+      "drops": [
+        "Massue légendaire",
+        "Masque du clown fou"
+      ],
+      "abilities": [
+        "Grand coup de massue:  200"
+      ],
+      "variants": {}
+    },
+    "phénix_de_glace": {
+      "name": "Phénix de glace",
+      "palier": "Palier 2",
+      "level_range": "25",
+      "rarity": "Élite",
+      "zone": "Event",
+      "drops": null,
+      "abilities": [
+        "- Pluie de plumes: 50/plume",
+        "- Javelot de glace: 150",
+        "- Gel instantané: Glacifie attaques liquides (réduction dégâts, sauf après attaque vent)",
+        "- Laserglace: 200",
+        "- Drop (Phase 1): Plume de glace, Cristal gelé"
+      ],
+      "variants": {}
+    },
+    "fils_du_kraken": {
+      "name": "Fils du Kraken",
+      "palier": "Palier 2",
+      "level_range": "25",
+      "rarity": "Event",
+      "zone": "Event",
+      "drops": [
+        "Tentacule du Kraken",
+        "Encre abyssale"
+      ],
+      "abilities": [
+        "Frappe tentaculaire:  150"
+      ],
+      "variants": {}
+    },
+    "tréant": {
+      "name": "Tréant",
+      "palier": "Palier 2",
+      "level_range": "20-25",
+      "rarity": null,
+      "zone": "Forêt Palier 2",
+      "drops": [
+        "Écorce renforcée",
+        "Racine éternelle"
+      ],
+      "abilities": null,
+      "variants": {
+        "20": {
+          "level": 20,
+          "hp_max": 200.0,
+          "mp_max": 50.0,
+          "STR": 50.0,
+          "AGI": 15.0,
+          "INT": 30.0,
+          "DEX": 20.0,
+          "VIT": 55.0,
+          "base_attack": 70.0,
+          "extra": {
+            "Attaque de flammes noires": "200 x3",
+            "Durée": "3 tours",
+            "Drop (Phase 2)": "Plume des ténèbres, Cœur de phénix, Essence duale"
+          }
+        },
+        "25": {
+          "level": 25,
+          "hp_max": 280.0,
+          "mp_max": 70.0,
+          "STR": 70.0,
+          "AGI": 18.0,
+          "INT": 40.0,
+          "DEX": 25.0,
+          "VIT": 70.0,
+          "base_attack": 100.0,
+          "extra": null
+        }
+      }
+    },
+    "louveteau_enragé": {
+      "name": "Louveteau enragé",
+      "palier": "Palier 2",
+      "level_range": "20-25",
+      "rarity": null,
+      "zone": "Palier 2",
+      "drops": [
+        "Peau d'alpha junior",
+        "Dent acérée"
+      ],
+      "abilities": [
+        "Hurlement de la meute:  Invoque 1+ loups selon roll 20",
+        "Hurlement de la meute:  Invoque 1+ loups selon roll 20"
+      ],
+      "variants": {
+        "20": {
+          "level": 20,
+          "hp_max": 150.0,
+          "mp_max": 60.0,
+          "STR": 50.0,
+          "AGI": 45.0,
+          "INT": 20.0,
+          "DEX": 40.0,
+          "VIT": 30.0,
+          "base_attack": 70.0,
+          "extra": null
+        },
+        "25": {
+          "level": 25,
+          "hp_max": 200.0,
+          "mp_max": 80.0,
+          "STR": 70.0,
+          "AGI": 60.0,
+          "INT": 25.0,
+          "DEX": 55.0,
+          "VIT": 40.0,
+          "base_attack": 100.0,
+          "extra": null
+        }
+      }
+    },
+    "golem": {
+      "name": "Golem",
+      "palier": "Palier 2",
+      "level_range": "5-25",
+      "rarity": null,
+      "zone": "Divers",
+      "drops": [
+        "Noyau de golem",
+        "Minerai rare"
+      ],
+      "abilities": null,
+      "variants": {
+        "5": {
+          "level": 5,
+          "hp_max": 120.0,
+          "mp_max": 5.0,
+          "STR": 25.0,
+          "AGI": 5.0,
+          "INT": 3.0,
+          "DEX": 8.0,
+          "VIT": 35.0,
+          "base_attack": 30.0,
+          "extra": null
+        },
+        "25": {
+          "level": 25,
+          "hp_max": 400.0,
+          "mp_max": 20.0,
+          "STR": 90.0,
+          "AGI": 12.0,
+          "INT": 10.0,
+          "DEX": 18.0,
+          "VIT": 100.0,
+          "base_attack": 100.0,
+          "extra": null
+        }
+      }
+    },
+    "roi_squelette": {
+      "name": "Roi squelette",
+      "palier": "Palier 2",
+      "level_range": "25",
+      "rarity": "Élite",
+      "zone": "Donjon Secret (après 4 morts)",
+      "drops": [
+        "Couronne du roi squelette",
+        "Sceptre maudit",
+        "Âme royale"
+      ],
+      "abilities": [
+        "Hurlement des morts:  Malédiction -20% gain de stats si touché",
+        "Condition apparition:  Être mort 4 fois"
+      ],
+      "variants": {}
+    },
+    "chevalier_démoniaque": {
+      "name": "Chevalier démoniaque",
+      "palier": "Palier 2",
+      "level_range": "25",
+      "rarity": "Élite",
+      "zone": "Zone corrompue",
+      "drops": null,
+      "abilities": [
+        "Lien maudit:  Immobilise + Empêche fuite/skills offensifs ou déplacement",
+        "Drop (Phase 1):  Armure démoniaque, Chaînes maudites",
+        "Goinfrerie:  Enferme victime dans ventre + Poison gastrique (dégâts durée)",
+        "Drop (Phase 2):  Épée démoniaque, Cœur corrompu"
+      ],
+      "variants": {}
+    },
+    "gardien_du_3ème_palier_terongor": {
+      "name": "Gardien du 3ème palier: Terongor",
+      "palier": "Palier 2",
+      "level_range": null,
+      "rarity": "Élite",
+      "zone": "Passage Palier 3",
+      "drops": [
+        "Clé du 3ème palier",
+        "Fragment de gardien",
+        "Armure de Terongor"
+      ],
+      "abilities": null,
+      "variants": {}
+    },
+    "roi_mécanique": {
+      "name": "Roi mécanique",
+      "palier": "Palier 3",
+      "level_range": "30",
+      "rarity": "Élite",
+      "zone": "Zone mécanique",
+      "drops": null,
+      "abilities": [
+        "Drop (Phase 1):  Pièces mécaniques, Circuit magique",
+        "Obtention skill:  \"Dieu mécanique\" (pour vainqueur)",
+        "Drop (Phase 2):  Cœur mécanique, Blueprint légendaire, Core du roi"
+      ],
+      "variants": {}
+    },
+    "loup_vétéran": {
+      "name": "Loup vétéran",
+      "palier": "Palier 3",
+      "level_range": "30-35",
+      "rarity": null,
+      "zone": "Zone rocheuse & Grotte cristal",
+      "drops": [
+        "Peau légendaire",
+        "Griffes de cristal"
+      ],
+      "abilities": null,
+      "variants": {
+        "30": {
+          "level": 30,
+          "hp_max": 350.0,
+          "mp_max": 120.0,
+          "STR": 90.0,
+          "AGI": 85.0,
+          "INT": 35.0,
+          "DEX": 75.0,
+          "VIT": 60.0,
+          "base_attack": 150.0,
+          "extra": null
+        },
+        "35": {
+          "level": 35,
+          "hp_max": 450.0,
+          "mp_max": 150.0,
+          "STR": 110.0,
+          "AGI": 100.0,
+          "INT": 40.0,
+          "DEX": 90.0,
+          "VIT": 75.0,
+          "base_attack": 180.0,
+          "extra": null
+        }
+      }
+    },
+    "taupe_de_cristal": {
+      "name": "Taupe de cristal",
+      "palier": "Palier 3",
+      "level_range": "30-35",
+      "rarity": null,
+      "zone": "Zone rocheuse & Grotte cristal",
+      "drops": [
+        "Cristal pur",
+        "Noyau de cristal"
+      ],
+      "abilities": null,
+      "variants": {
+        "30": {
+          "level": 30,
+          "hp_max": 320.0,
+          "mp_max": 100.0,
+          "STR": 85.0,
+          "AGI": 60.0,
+          "INT": 45.0,
+          "DEX": 80.0,
+          "VIT": 70.0,
+          "base_attack": 150.0,
+          "extra": null
+        },
+        "35": {
+          "level": 35,
+          "hp_max": 420.0,
+          "mp_max": 130.0,
+          "STR": 105.0,
+          "AGI": 75.0,
+          "INT": 55.0,
+          "DEX": 95.0,
+          "VIT": 85.0,
+          "base_attack": 180.0,
+          "extra": null
+        }
+      }
+    },
+    "gardien_du_4ème_palier_garde_lave_oursobot": {
+      "name": "Gardien du 4ème palier: Garde-Lave Oursobot",
+      "palier": "Palier 3",
+      "level_range": "40",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Environnement hostile: 5% HP/tour à tous (sauf lui)",
+        "- Canon multiple: 200/tir",
+        "- Déferlement de lave: 500 (zone)",
+        "- Drop: Clé du 4ème palier, Cœur de lave, Armure d'Oursobot",
+        "- Zone: Passage Palier 4"
+      ],
+      "variants": {}
+    },
+    "clown_du_crépuscule": {
+      "name": "Clown du crépuscule",
+      "palier": "Palier 4",
+      "level_range": "40-45",
+      "rarity": null,
+      "zone": "Forêt du crépuscule",
+      "drops": [
+        "Cape du crépuscule",
+        "Carte joker"
+      ],
+      "abilities": null,
+      "variants": {
+        "40": {
+          "level": 40,
+          "hp_max": 600.0,
+          "mp_max": 200.0,
+          "STR": 120.0,
+          "AGI": 100.0,
+          "INT": 80.0,
+          "DEX": 110.0,
+          "VIT": 90.0,
+          "base_attack": 300.0,
+          "extra": null
+        },
+        "45": {
+          "level": 45,
+          "hp_max": 750.0,
+          "mp_max": 250.0,
+          "STR": 145.0,
+          "AGI": 120.0,
+          "INT": 95.0,
+          "DEX": 130.0,
+          "VIT": 105.0,
+          "base_attack": 350.0,
+          "extra": null
+        }
+      }
+    },
+    "ours_en_colère_1": {
+      "name": "Ours en colère",
+      "palier": "Palier 4",
+      "level_range": "40-45",
+      "rarity": null,
+      "zone": "Forêt du crépuscule",
+      "drops": [
+        "Griffe titanesque",
+        "Cœur d'ours"
+      ],
+      "abilities": null,
+      "variants": {
+        "40": {
+          "level": 40,
+          "hp_max": 3000.0,
+          "mp_max": 150.0,
+          "STR": 140.0,
+          "AGI": 60.0,
+          "INT": 30.0,
+          "DEX": 70.0,
+          "VIT": 130.0,
+          "base_attack": 300.0,
+          "extra": null
+        },
+        "45": {
+          "level": 45,
+          "hp_max": 3500.0,
+          "mp_max": 180.0,
+          "STR": 165.0,
+          "AGI": 70.0,
+          "INT": 35.0,
+          "DEX": 80.0,
+          "VIT": 150.0,
+          "base_attack": 350.0,
+          "extra": null
+        }
+      }
+    },
+    "ourson_min_min": {
+      "name": "Ourson Min Min",
+      "palier": "Palier 4",
+      "level_range": "40-45",
+      "rarity": null,
+      "zone": "Forêt du crépuscule",
+      "drops": [
+        "Patte mignonne",
+        "Ruban Min Min"
+      ],
+      "abilities": null,
+      "variants": {
+        "40": {
+          "level": 40,
+          "hp_max": 3000.0,
+          "mp_max": 180.0,
+          "STR": 130.0,
+          "AGI": 80.0,
+          "INT": 40.0,
+          "DEX": 85.0,
+          "VIT": 125.0,
+          "base_attack": 300.0,
+          "extra": null
+        },
+        "45": {
+          "level": 45,
+          "hp_max": 3500.0,
+          "mp_max": 220.0,
+          "STR": 155.0,
+          "AGI": 95.0,
+          "INT": 50.0,
+          "DEX": 100.0,
+          "VIT": 145.0,
+          "base_attack": 350.0,
+          "extra": null
+        }
+      }
+    },
+    "chenille_ortifleur_1": {
+      "name": "Chenille ortifleur",
+      "palier": "Palier 4",
+      "level_range": "40-45",
+      "rarity": null,
+      "zone": "Grotte cristalline",
+      "drops": [
+        "Cocon cristallisé",
+        "Essence florale"
+      ],
+      "abilities": null,
+      "variants": {
+        "40": {
+          "level": 40,
+          "hp_max": 3000.0,
+          "mp_max": 150.0,
+          "STR": 125.0,
+          "AGI": 50.0,
+          "INT": 45.0,
+          "DEX": 70.0,
+          "VIT": 140.0,
+          "base_attack": 300.0,
+          "extra": null
+        },
+        "45": {
+          "level": 45,
+          "hp_max": 3500.0,
+          "mp_max": 180.0,
+          "STR": 150.0,
+          "AGI": 60.0,
+          "INT": 55.0,
+          "DEX": 85.0,
+          "VIT": 160.0,
+          "base_attack": 350.0,
+          "extra": null
+        }
+      }
+    },
+    "cactus": {
+      "name": "Cactus",
+      "palier": "Palier 4",
+      "level_range": "40-45",
+      "rarity": null,
+      "zone": "Grotte cristalline",
+      "drops": [
+        "Noyau de cactus",
+        "Sève toxique"
+      ],
+      "abilities": [
+        "Passif:  Zone poison (dégâts environnementaux/tour)",
+        "Passif:  Zone poison (dégâts environnementaux/tour)"
+      ],
+      "variants": {
+        "40": {
+          "level": 40,
+          "hp_max": 3000.0,
+          "mp_max": 200.0,
+          "STR": 115.0,
+          "AGI": 40.0,
+          "INT": 60.0,
+          "DEX": 65.0,
+          "VIT": 150.0,
+          "base_attack": 300.0,
+          "extra": null
+        },
+        "45": {
+          "level": 45,
+          "hp_max": 3500.0,
+          "mp_max": 240.0,
+          "STR": 140.0,
+          "AGI": 50.0,
+          "INT": 75.0,
+          "DEX": 80.0,
+          "VIT": 170.0,
+          "base_attack": 350.0,
+          "extra": null
+        }
+      }
+    },
+    "araignée_des_grottes": {
+      "name": "Araignée des grottes",
+      "palier": "Palier 4",
+      "level_range": "40-45",
+      "rarity": null,
+      "zone": "Grotte cristalline",
+      "drops": [
+        "Toile cristalline",
+        "Œufs d'araignée rare"
+      ],
+      "abilities": [
+        "Entoilement de poison:  Immobilise + Poison +5% + Statuts \"immobile\" & \"empoisonné\"",
+        "Entoilement de poison:  Immobilise + Poison +5% + Statuts \"immobile\" & \"empoisonné\""
+      ],
+      "variants": {
+        "40": {
+          "level": 40,
+          "hp_max": 3000.0,
+          "mp_max": 220.0,
+          "STR": 120.0,
+          "AGI": 110.0,
+          "INT": 70.0,
+          "DEX": 130.0,
+          "VIT": 115.0,
+          "base_attack": 300.0,
+          "extra": null
+        },
+        "45": {
+          "level": 45,
+          "hp_max": 3500.0,
+          "mp_max": 270.0,
+          "STR": 145.0,
+          "AGI": 130.0,
+          "INT": 85.0,
+          "DEX": 155.0,
+          "VIT": 135.0,
+          "base_attack": 350.0,
+          "extra": null
+        }
+      }
+    },
+    "améthyste_le_sabre_maudit_dévoreur": {
+      "name": "Améthyste, le sabre maudit dévoreur",
+      "palier": "Palier 4",
+      "level_range": "45",
+      "rarity": "Boss",
+      "zone": "Grotte cristalline (Quête unique)",
+      "drops": [
+        "Fragment d'Améthyste",
+        "Lame maudite",
+        "Âme du shogun"
+      ],
+      "abilities": [
+        "Quête:  \"La lame maudite du shogun d'edo\""
+      ],
+      "variants": {}
+    },
+    "méduse_volante": {
+      "name": "Méduse volante",
+      "palier": "Palier 4",
+      "level_range": "45-50",
+      "rarity": null,
+      "zone": "Forêt du crépuscule & Montagne du soleil couchant",
+      "drops": [
+        "Membrane ailée",
+        "Essence aérienne"
+      ],
+      "abilities": null,
+      "variants": {
+        "45": {
+          "level": 45,
+          "hp_max": 3000.0,
+          "mp_max": 300.0,
+          "STR": 110.0,
+          "AGI": 120.0,
+          "INT": 140.0,
+          "DEX": 125.0,
+          "VIT": 110.0,
+          "base_attack": 350.0,
+          "extra": null
+        },
+        "50": {
+          "level": 50,
+          "hp_max": 3500.0,
+          "mp_max": 400.0,
+          "STR": 135.0,
+          "AGI": 145.0,
+          "INT": 170.0,
+          "DEX": 150.0,
+          "VIT": 130.0,
+          "base_attack": 500.0,
+          "extra": null
+        }
+      }
+    },
+    "horde_de_tréant": {
+      "name": "Horde de tréant",
+      "palier": "Palier 4",
+      "level_range": "50",
+      "rarity": "Event",
+      "zone": "Event",
+      "drops": [
+        "Bois ancien massif",
+        "Racine entrelacée"
+      ],
+      "abilities": null,
+      "variants": {}
+    },
+    "reine_des_abeilles_enragée": {
+      "name": "Reine des abeilles enragée",
+      "palier": "Palier 4",
+      "level_range": "50",
+      "rarity": "Élite",
+      "zone": "Event",
+      "drops": [
+        "Miel royal enragé",
+        "Dard légendaire",
+        "Couronne de la reine"
+      ],
+      "abilities": null,
+      "variants": {}
+    },
+    "spider_barrage": {
+      "name": "Spider barrage",
+      "palier": "Palier 4",
+      "level_range": "50",
+      "rarity": "Event",
+      "zone": "Event",
+      "drops": [
+        "Toile de barrage",
+        "Venin concentré"
+      ],
+      "abilities": null,
+      "variants": {}
+    },
+    "ryuja_le_maître_de_la_tour": {
+      "name": "Ryuja le maître de la tour",
+      "palier": "Palier 4",
+      "level_range": "50",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Aura surpuissante: Repousse attaques distance (0 dégâts, fonctionne vs \"Hydre\")",
+        "- Perce-armure: Ignore défense",
+        "- Drop: Katana de Ryuja, Parchemin du maître, Médaillon de la tour",
+        "- Zone: Temple de Ryuja"
+      ],
+      "variants": {}
+    },
+    "gardienne_du_5ème_palier_kyubi_masqué_au_chakra_bleu": {
+      "name": "Gardienne du 5ème palier: Kyubi masqué au chakra bleu",
+      "palier": "Palier 4",
+      "level_range": "50",
+      "rarity": "Élite",
+      "zone": "Passage Palier 5",
+      "drops": [
+        "Clé du 5ème palier",
+        "Masque de Kyubi",
+        "Queue de chakra"
+      ],
+      "abilities": [
+        "Flammes des 9 queues:  400/boule + Chance moyenne brûlure"
+      ],
+      "variants": {}
+    },
+    "apôtre_du_dieu_céleste": {
+      "name": "Apôtre du dieu céleste",
+      "palier": "Palier 4",
+      "level_range": "50",
+      "rarity": "Élite",
+      "zone": "Désert foudroyant",
+      "drops": [
+        "Lance céleste",
+        "Ailes d'apôtre",
+        "Fragment divin"
+      ],
+      "abilities": [
+        "Attaque foudroyante:  2000",
+        "Fissure du vent:  Fend sol nuageux en 2"
+      ],
+      "variants": {}
+    },
+    "clown_du_ciel": {
+      "name": "Clown du ciel",
+      "palier": "Palier 5",
+      "level_range": "50-55",
+      "rarity": null,
+      "zone": "Plaines nuageuses",
+      "drops": [
+        "Chapeau volant",
+        "Carte du ciel"
+      ],
+      "abilities": null,
+      "variants": {
+        "50": {
+          "level": 50,
+          "hp_max": 1000.0,
+          "mp_max": 350.0,
+          "STR": 150.0,
+          "AGI": 140.0,
+          "INT": 120.0,
+          "DEX": 145.0,
+          "VIT": 115.0,
+          "base_attack": 700.0,
+          "extra": null
+        },
+        "55": {
+          "level": 55,
+          "hp_max": 1200.0,
+          "mp_max": 420.0,
+          "STR": 175.0,
+          "AGI": 165.0,
+          "INT": 140.0,
+          "DEX": 170.0,
+          "VIT": 135.0,
+          "base_attack": 850.0,
+          "extra": null
+        }
+      }
+    },
+    "gardienne_du_6ème_palier_nuage_médusé": {
+      "name": "Gardienne du 6ème palier: Nuage-médusé",
+      "palier": "Palier 5",
+      "level_range": "55",
+      "rarity": "Élite",
+      "zone": "Passage Palier 6",
+      "drops": [
+        "Clé du 6ème palier",
+        "Tentacule nuageux",
+        "Perle céleste"
+      ],
+      "abilities": [
+        "Coup de tentacule:  1000 x6"
+      ],
+      "variants": {}
+    },
+    "spectre_de_la_mort": {
+      "name": "Spectre de la mort",
+      "palier": "Palier 6",
+      "level_range": "55-60",
+      "rarity": null,
+      "zone": "Forêt spectrale",
+      "drops": [
+        "Essence de mort",
+        "Couronne spectrale"
+      ],
+      "abilities": null,
+      "variants": {
+        "55": {
+          "level": 55,
+          "hp_max": 1100.0,
+          "mp_max": 500.0,
+          "STR": 160.0,
+          "AGI": 155.0,
+          "INT": 200.0,
+          "DEX": 170.0,
+          "VIT": 130.0,
+          "base_attack": 1000.0,
+          "extra": null
+        },
+        "60": {
+          "level": 60,
+          "hp_max": 1300.0,
+          "mp_max": 600.0,
+          "STR": 185.0,
+          "AGI": 180.0,
+          "INT": 230.0,
+          "DEX": 195.0,
+          "VIT": 150.0,
+          "base_attack": 1200.0,
+          "extra": null
+        }
+      }
+    },
+    "fantôme_des_flammes_bleues": {
+      "name": "Fantôme des flammes bleues",
+      "palier": "Palier 6",
+      "level_range": "55-60",
+      "rarity": null,
+      "zone": "Manoir de l'ouest",
+      "drops": [
+        "Cœur de flamme",
+        "Lanterne maudite"
+      ],
+      "abilities": null,
+      "variants": {
+        "55": {
+          "level": 55,
+          "hp_max": 1050.0,
+          "mp_max": 550.0,
+          "STR": 155.0,
+          "AGI": 165.0,
+          "INT": 210.0,
+          "DEX": 175.0,
+          "VIT": 125.0,
+          "base_attack": 1000.0,
+          "extra": null
+        },
+        "60": {
+          "level": 60,
+          "hp_max": 1250.0,
+          "mp_max": 650.0,
+          "STR": 180.0,
+          "AGI": 190.0,
+          "INT": 240.0,
+          "DEX": 200.0,
+          "VIT": 145.0,
+          "base_attack": 1200.0,
+          "extra": null
+        }
+      }
+    },
+    "zombie_du_manoir": {
+      "name": "Zombie du manoir",
+      "palier": "Palier 6",
+      "level_range": "55-60",
+      "rarity": null,
+      "zone": "Manoir de l'ouest & Forêt spectrale",
+      "drops": [
+        "Os maudit",
+        "Relique du manoir"
+      ],
+      "abilities": null,
+      "variants": {
+        "55": {
+          "level": 55,
+          "hp_max": 1400.0,
+          "mp_max": 200.0,
+          "STR": 180.0,
+          "AGI": 80.0,
+          "INT": 50.0,
+          "DEX": 90.0,
+          "VIT": 170.0,
+          "base_attack": 1000.0,
+          "extra": null
+        },
+        "60": {
+          "level": 60,
+          "hp_max": 1600.0,
+          "mp_max": 250.0,
+          "STR": 210.0,
+          "AGI": 95.0,
+          "INT": 60.0,
+          "DEX": 105.0,
+          "VIT": 195.0,
+          "base_attack": 1200.0,
+          "extra": null
+        }
+      }
+    },
+    "feu_follet": {
+      "name": "Feu follet",
+      "palier": "Palier 6",
+      "level_range": "55-60",
+      "rarity": null,
+      "zone": "Cimetière",
+      "drops": [
+        "Lanterne du cimetière",
+        "Âme errante"
+      ],
+      "abilities": null,
+      "variants": {
+        "55": {
+          "level": 55,
+          "hp_max": 800.0,
+          "mp_max": 600.0,
+          "STR": 140.0,
+          "AGI": 180.0,
+          "INT": 220.0,
+          "DEX": 185.0,
+          "VIT": 100.0,
+          "base_attack": 1000.0,
+          "extra": null
+        },
+        "60": {
+          "level": 60,
+          "hp_max": 950.0,
+          "mp_max": 700.0,
+          "STR": 165.0,
+          "AGI": 205.0,
+          "INT": 250.0,
+          "DEX": 210.0,
+          "VIT": 115.0,
+          "base_attack": 1200.0,
+          "extra": null
+        }
+      }
+    },
+    "dragon_de_la_terre": {
+      "name": "Dragon de la terre",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Barrière magique: Protège vs magie (sauf pendant souffle)",
+        "- Souffle de pierre: 2000",
+        "- Écaille solide: -99% dégâts extérieur, x3 dégâts intérieur",
+        "- Drop: Écaille de dragon, Cœur de terre, Griffe titanesque",
+        "- Zone: Event"
+      ],
+      "variants": {}
+    },
+    "bibliothèque": {
+      "name": "Bibliothèque",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": "Event",
+      "drops": [
+        "Livre ancien",
+        "Parchemin de connaissance",
+        "Clé de bibliothèque"
+      ],
+      "abilities": [
+        "Vole-skill:  Vole temporairement compétences adversaire"
+      ],
+      "variants": {}
+    },
+    "élémentaire_de_lave_glace": {
+      "name": "Élémentaire de lave/glace",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": "Event",
+      "drops": null,
+      "abilities": [
+        "Drop (Phase 1):  Cristal de lave, Glace éternelle",
+        "Drop (Phase 2):  Noyau élémentaire, Essence duale"
+      ],
+      "variants": {}
+    },
+    "tortue_géante_de_la_mer_antique": {
+      "name": "Tortue géante de la mer antique",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": "Event",
+      "drops": [
+        "Carapace antique",
+        "Perle de mer",
+        "Écaille légendaire"
+      ],
+      "abilities": [
+        "Carapace:  Immunité dégâts sur carapace"
+      ],
+      "variants": {}
+    },
+    "guerrier_squelette_géant": {
+      "name": "Guerrier squelette géant",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": "Event",
+      "drops": [
+        "Épée géante maudite",
+        "Armure de squelette",
+        "Crâne colossal"
+      ],
+      "abilities": [
+        "Coup d'épée:  3000"
+      ],
+      "variants": {}
+    },
+    "liche_de_l_ancien_monde": {
+      "name": "Liche de l'ancien monde",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Boss",
+      "zone": "Event",
+      "drops": [
+        "Bâton de liche",
+        "Grimoire ancien",
+        "Phylactère"
+      ],
+      "abilities": [
+        "Invocation:  Armée de monstres (sauf boss/rares)"
+      ],
+      "variants": {}
+    },
+    "dino_pic_de_glace": {
+      "name": "Dino-pic de glace",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Roule mabroule: Oneshot si écrasé",
+        "- Lance-pique: Dégâts zone",
+        "- Drop: Pique de glace, Écaille de dino, Fossile gelé",
+        "- Zone: Event"
+      ],
+      "variants": {}
+    },
+    "caméléon_de_la_forêt_argenté_géant": {
+      "name": "Caméléon de la forêt argenté géant",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Camouflage de l'ombre: Invisibilité",
+        "- Langue somnifère: Endort cible",
+        "- Drop: Peau de caméléon, Langue magique, Œil argenté",
+        "- Zone: Event"
+      ],
+      "variants": {}
+    },
+    "tour_akashique_des_rois": {
+      "name": "Tour akashique des rois",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "- Barrière gravitationnelle: Repousse corps-à-corps (sauf attaques répétitives)",
+        "- Copie-cast: Renvoie sorts",
+        "- Drop: Fragment de tour, Archives royales, Clé akashique",
+        "- Zone: Event"
+      ],
+      "variants": {}
+    },
+    "élu_déchu_par_les_ténèbres": {
+      "name": "Élu déchu par les ténèbres",
+      "palier": "Palier 6",
+      "level_range": "60",
+      "rarity": "Élite",
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "Lame sacrée purificatrice:  Dégâts lumière élevés",
+        "Note:  Invulnérable sauf zone rose",
+        "Drop (Phase 1):  Fragment de lumière, Armure déchue"
+      ],
+      "variants": {}
+    },
+    "grand_tréant": {
+      "name": "Grand tréant",
+      "palier": "Palier 6",
+      "level_range": "25-60",
+      "rarity": null,
+      "zone": "Forêt Palier 6",
+      "drops": [
+        "Bois légendaire",
+        "Cœur d'arbre ancien",
+        "Sève éternelle"
+      ],
+      "abilities": null,
+      "variants": {
+        "25": {
+          "level": 25,
+          "hp_max": 500.0,
+          "mp_max": 100.0,
+          "STR": 90.0,
+          "AGI": 25.0,
+          "INT": 50.0,
+          "DEX": 35.0,
+          "VIT": 100.0,
+          "base_attack": 100.0,
+          "extra": null
+        },
+        "60": {
+          "level": 60,
+          "hp_max": 2000.0,
+          "mp_max": 400.0,
+          "STR": 220.0,
+          "AGI": 50.0,
+          "INT": 140.0,
+          "DEX": 80.0,
+          "VIT": 280.0,
+          "base_attack": 1200.0,
+          "extra": null
+        }
+      }
+    },
+    "légende_des_stats": {
+      "name": "Légende des stats:",
+      "palier": "Palier 6",
+      "level_range": null,
+      "rarity": null,
+      "zone": null,
+      "drops": null,
+      "abilities": [
+        "STR (Strength):  Force physique - Augmente dégâts physiques",
+        "AGI (Agility):  Agilité - Vitesse d'action et esquive",
+        "INT (Intelligence):  Intelligence - Puissance magique",
+        "DEX (Dexterity):  Dextérité - Précision et critique",
+        "VIT (Vitality):  Vitalité - Résistance et défense"
+      ],
+      "variants": {}
+    },
+    "symboles": {
+      "name": "Symboles:",
+      "palier": "Palier 6",
+      "level_range": null,
+      "rarity": null,
+      "zone": null,
+      "drops": null,
+      "abilities": null,
+      "variants": {}
+    },
+    "types_de_zones": {
+      "name": "Types de zones:",
+      "palier": "Palier 6",
+      "level_range": null,
+      "rarity": null,
+      "zone": null,
+      "drops": null,
+      "abilities": null,
+      "variants": {}
+    }
+  },
+  "skills": {
+    "détection_de_mana": {
+      "name": "Détection de mana",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Permet de détecter les joueurs ou monstres possédant du mana. Visualise leur quantité pour évaluer leur dangerosité magique.",
+      "cost_mp": "Passif",
+      "condition": "Être mage ou prêtre + Roll 20",
+      "palier": "Palier 1"
+    },
+    "boule_empoisonnée": {
+      "name": "Boule empoisonnée",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance une attaque empoisonnée. Chances d'empoisonner la cible.",
+      "cost_mp": "10 PM",
+      "condition": "Atteindre le Lvl 3",
+      "palier": "Palier 1"
+    },
+    "boule_de_poison_multiple": {
+      "name": "Boule de poison multiple",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance jusqu'à 5 boules de poison (sur une ou plusieurs cibles).",
+      "cost_mp": "30 PM",
+      "condition": "Lancer 3x \"Boule empoisonnée\" sur 3 ennemis différents",
+      "palier": "Palier 1"
+    },
+    "boule_de_foudre": {
+      "name": "Boule de foudre",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance une boule d'éclair. Peut paralyser.",
+      "cost_mp": "10 PM",
+      "condition": "Atteindre le Lvl 3",
+      "palier": "Palier 1"
+    },
+    "boule_de_foudre_multiple": {
+      "name": "Boule de foudre multiple",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance jusqu'à 5 boules de foudre (sur une ou plusieurs cibles).",
+      "cost_mp": "30 PM",
+      "condition": "Lancer 3x \"Boule de foudre\" sur 3 ennemis différents",
+      "palier": "Palier 1"
+    },
+    "boule_de_feu": {
+      "name": "Boule de feu",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance une boule de feu causant dégâts magiques. Chance de brûlure.",
+      "cost_mp": "10 PM",
+      "condition": "Spécialiste magie feu OU gagner des niveaux",
+      "palier": "Palier 1"
+    },
+    "boule_de_feu_multiple": {
+      "name": "Boule de feu multiple",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance jusqu'à 5 boules de feu (sur une ou plusieurs cibles).",
+      "cost_mp": "30 PM",
+      "condition": "Utiliser \"Boule de feu\" sur 3 ennemis différents (avec succès)",
+      "palier": "Palier 1"
+    },
+    "colonne_de_feu": {
+      "name": "Colonne de Feu",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Crée une colonne de feu infligeant dégâts.",
+      "cost_mp": "20 PM",
+      "condition": "Utiliser \"Boule de feu multiple\" 5x dans un combat",
+      "palier": "Palier 1"
+    },
+    "cage_flamboyant": {
+      "name": "Cage Flamboyant",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Après récitation de 5 tours, crée une cage de flammes immobilisant + brûlure/tour. Brisable par transformation/attaque surpuissante.",
+      "cost_mp": null,
+      "condition": "Lvl 15 + Spécialiste feu",
+      "palier": "Palier 1"
+    },
+    "auto_destruction": {
+      "name": "Auto-destruction",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Sacrifice infligeant dégâts colossaux (oneshot joueur standard). Plus les PV/MP manquent, plus les dégâts augmentent.",
+      "cost_mp": null,
+      "condition": "Lvl 15 + Spécialiste feu",
+      "palier": "Palier 1"
+    },
+    "lance_ardent": {
+      "name": "Lance ardent",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Crée des lances de flammes (dégâts > boule de feu).",
+      "cost_mp": "20 PM",
+      "condition": "Lvl 5 + Spécialiste feu",
+      "palier": "Palier 1"
+    },
+    "accélération_enflammé": {
+      "name": "Accélération enflammé",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "+AGI x2 temporaire (fuite/déplacement/esquive).",
+      "cost_mp": "10 PM",
+      "condition": "Lvl 7 + Spécialiste feu",
+      "palier": "Palier 1"
+    },
+    "bulle_d_eau": {
+      "name": "Bulle d'eau",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance une bulle d'eau causant dégâts magiques.",
+      "cost_mp": "10 PM",
+      "condition": "Spécialiste eau OU gagner des niveaux",
+      "palier": "Palier 1"
+    },
+    "bulle_d_eau_multiple": {
+      "name": "Bulle d'eau multiple",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance jusqu'à 5 bulles d'eau (sur une ou plusieurs cibles).",
+      "cost_mp": "30 PM",
+      "condition": "Utiliser \"Bulle d'eau\" sur 3 ennemis différents (avec succès)",
+      "palier": "Palier 1"
+    },
+    "balle_de_roche": {
+      "name": "Balle de roche",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance une balle de pierre causant dégâts magiques.",
+      "cost_mp": "10 PM",
+      "condition": "Spécialiste terre OU gagner des niveaux",
+      "palier": "Palier 1"
+    },
+    "multiple_balle_de_roche": {
+      "name": "Multiple balle de roche",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Lance jusqu'à 5 balles de roche (sur une ou plusieurs cibles).",
+      "cost_mp": "30 PM",
+      "condition": "Utiliser \"Balle de roche\" sur 3 ennemis différents (avec succès)",
+      "palier": "Palier 1"
+    },
+    "lance_de_terre": {
+      "name": "Lance de terre",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Invoque des lances de terre empalant les adversaires.",
+      "cost_mp": "Variable",
+      "condition": "Achat Boutique",
+      "palier": "Palier 1"
+    },
+    "barrière": {
+      "name": "Barrière",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Crée une barrière magique bloquant des dégâts. Applicable sur allié.",
+      "cost_mp": "10 PM",
+      "condition": "Spécialiste magie + Lvl 3",
+      "palier": "Palier 1"
+    },
+    "multi_barrière": {
+      "name": "Multi-barrière",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Crée jusqu'à 5 barrières (bloquer attaque puissante OU enfermer adversaire).",
+      "cost_mp": "Variable",
+      "condition": "Utiliser \"Barrière\" 10x dans un combat",
+      "palier": "Palier 1"
+    },
+    "mirage": {
+      "name": "Mirage",
+      "category": "🔮 Skills Magiques & Détection",
+      "description": "Crée une illusion pour tromper les monstres.",
+      "cost_mp": "Variable",
+      "condition": "Achat Boutique",
+      "palier": "Palier 1"
+    },
+    "slash": {
+      "name": "Slash",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Cause des dégâts tranchants.",
+      "cost_mp": null,
+      "condition": "Arme tranchante à 1 main + Tuer un monstre",
+      "palier": "Palier 1"
+    },
+    "double_triple_quadra_quintuple_slash": {
+      "name": "Double/Triple/Quadra/Quintuple Slash",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "2-5 coups comptés comme 1 attaque. Chaque slash = dégâts pleins (arme + STR).",
+      "cost_mp": null,
+      "condition": "Donner 2-5 coups tranchants tuant des monstres",
+      "palier": "Palier 1"
+    },
+    "déluge_de_coups": {
+      "name": "Déluge de coups",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "10 coups tranchants.",
+      "cost_mp": null,
+      "condition": "Vaincre boss avec uniquement techniques tranchantes (2 armes 1 main)",
+      "palier": "Palier 1"
+    },
+    "power_attack": {
+      "name": "Power Attack",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Attaque infligeant x2 dégâts.",
+      "cost_mp": null,
+      "condition": "Coup critique avec double épée",
+      "palier": "Palier 1"
+    },
+    "perce_défense": {
+      "name": "Perce-défense",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Ignore la défense adverse.",
+      "cost_mp": null,
+      "condition": "Roll 20 sur adversaire haute défense (PVP/PVE)",
+      "palier": "Palier 1"
+    },
+    "cisaille": {
+      "name": "Cisaille",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Enchaînement de coupures (arme tranchante).",
+      "cost_mp": null,
+      "condition": "Couper poils monstre parfaitement (Roll 20)",
+      "palier": "Palier 1"
+    },
+    "attaque_sauté": {
+      "name": "Attaque Sauté",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Attaque avec onde de choc.",
+      "cost_mp": null,
+      "condition": "Lvl 5 avec arme 2 mains",
+      "palier": "Palier 1"
+    },
+    "double_coup_sauté": {
+      "name": "Double coup sauté",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "2 ondes de choc (x2 dégâts \"Attaque Sauté\").",
+      "cost_mp": null,
+      "condition": "Manipuler 2 armes 2 mains",
+      "palier": "Palier 1"
+    },
+    "fissure": {
+      "name": "Fissure",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Grande fissure (Grande Hache) causant dégâts chute + repoussement.",
+      "cost_mp": null,
+      "condition": "Grande Hache + 50 STR minimum + Tuer monstre en 1 coup",
+      "palier": "Palier 1"
+    },
+    "charge_massive": {
+      "name": "Charge massive",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Charge renversant ennemis sur le passage.",
+      "cost_mp": null,
+      "condition": "Foncer dans groupe (3+ ennemis) et les éliminer",
+      "palier": "Palier 1"
+    },
+    "hache_brûlante": {
+      "name": "Hache Brûlante",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Ajoute élément feu à la hache. Dégâts brûlure.",
+      "cost_mp": null,
+      "condition": "Recevoir sort feu sur hache + Frapper adversaire",
+      "palier": "Palier 1"
+    },
+    "force_de_la_hache": {
+      "name": "Force de la hache",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "Coup surpuissant basé sur STR.",
+      "cost_mp": null,
+      "condition": "Lvl 5",
+      "palier": "Palier 1"
+    },
+    "berserk": {
+      "name": "Berserk",
+      "category": "⚔️ Skills de Combat Physique",
+      "description": "STR x3 + AGI x2",
+      "cost_mp": null,
+      "condition": "Combattre <30% HP après mort allié OU seul vs groupe/monstre supérieur (Grande Hache)",
+      "palier": "Palier 1"
+    },
+    "défense_absolue": {
+      "name": "Défense Absolue",
+      "category": "🛡️ Skills Défensifs",
+      "description": "VIT x2. Triple points requis pour STR/AGI/INT (+1 stat = 3 pts).",
+      "cost_mp": null,
+      "condition": "Subir 10 attaques sans dégâts",
+      "palier": "Palier 1"
+    },
+    "protection": {
+      "name": "Protection",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Se protège d'une attaque. Réduit dégâts si échec.",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "provocation": {
+      "name": "Provocation",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Attire l'attention des monstres.",
+      "cost_mp": null,
+      "condition": "Attirer 5+ monstres (avec/sans objet)",
+      "palier": "Palier 1"
+    },
+    "couverture_mouvementée": {
+      "name": "Couverture mouvementée",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Se déplace vers allié pour le protéger. Dégâts x2 reçus. Peut échouer si immobilisé/adversaire trop rapide/trop loin.",
+      "cost_mp": "Variable",
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "gardien_inébranlable": {
+      "name": "Gardien inébranlable",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Survit avec 1 PV lors de dégâts mortels (1ère fois). Cooldown défini.",
+      "cost_mp": null,
+      "condition": "Grand bouclier + Protéger allié avec ≤10% PV",
+      "palier": "Palier 1"
+    },
+    "counter_shield": {
+      "name": "Counter Shield",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Contre attaque monstre (si réussite). Utilise VIT comme source attaque. Dégâts réduits vs boss haute VIT.",
+      "cost_mp": null,
+      "condition": "Roll 20 + 20 dans donjon + Contrer groupe + Maîtrise bouclier",
+      "palier": "Palier 1"
+    },
+    "blocage_absolue": {
+      "name": "Blocage Absolue",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Bloque 1 coup/combat. Stack revient si repoussement bloqué. Ne bloque pas perce-armure/attaques non-blocables.",
+      "cost_mp": null,
+      "condition": "2x Roll 20 (roll multiple) vs boss",
+      "palier": "Palier 1"
+    },
+    "maîtrise_du_bouclier_arme": {
+      "name": "Maîtrise du Bouclier/Arme",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Augmente dégâts arme OU défense bouclier.",
+      "cost_mp": null,
+      "condition": "Utiliser arme sans skill + Tuer X ennemis",
+      "palier": "Palier 1"
+    },
+    "esquive": {
+      "name": "Esquive",
+      "category": "🏃 Skills de Mobilité",
+      "description": "+3 aux rolls défensifs (esquive/repli/fuite).",
+      "cost_mp": null,
+      "condition": "Roll 20 lors tentative esquive",
+      "palier": "Palier 1"
+    },
+    "esquive_absolue": {
+      "name": "Esquive Absolue",
+      "category": "🏃 Skills de Mobilité",
+      "description": "AGI x3 (défense uniquement) 3x/combat (esquive/fuite/repli).",
+      "cost_mp": null,
+      "condition": "Esquiver attaque mortelle vs adversaire surpuissant (Roll 20)",
+      "palier": "Palier 1"
+    },
+    "accélération": {
+      "name": "Accélération",
+      "category": "🏃 Skills de Mobilité",
+      "description": "AGI x2 (attaque/esquive/fuite). Déplacement rapide. Durée: 2 actions off/def. Cooldown: 1 tour.",
+      "cost_mp": "0",
+      "condition": "100+ AGI à la création",
+      "palier": "Palier 1"
+    },
+    "super_accélération": {
+      "name": "Super Accélération",
+      "category": "🏃 Skills de Mobilité",
+      "description": "AGI x3 (attaque/esquive/fuite). Déplacement rapide.",
+      "cost_mp": "20 PM",
+      "condition": "Soigner PNJ Manoir fantôme avec \"Heal\" OU Achat Shop",
+      "palier": "Palier 1"
+    },
+    "accélération_éclair": {
+      "name": "Accélération éclair",
+      "category": "🏃 Skills de Mobilité",
+      "description": "AGI x4 (attaque/esquive/fuite). Déplacement rapide (puissance du vent).",
+      "cost_mp": "Variable",
+      "condition": "Fuir adversaire aussi/plus rapide",
+      "palier": "Palier 1"
+    },
+    "passage_fantôme": {
+      "name": "Passage Fantôme",
+      "category": "🏃 Skills de Mobilité",
+      "description": "3x/jour. Masque présence (environnement). Durée: 10 min OU jusqu'à attaque. Pas de traces, bruits étouffés, légèrement transparent. Avantage: abri/zone encombrée/ombre. Cooldown: 1 tour.",
+      "cost_mp": null,
+      "condition": "Outrepasser vigilance entité(s) niveau supérieur + Surprise",
+      "palier": "Palier 1"
+    },
+    "jeu_de_jambes": {
+      "name": "Jeu de jambes",
+      "category": "🏃 Skills de Mobilité",
+      "description": "Immunité ralentissement/immobilisation.",
+      "cost_mp": null,
+      "condition": "Ne pas être touché vs boss",
+      "palier": "Palier 1"
+    },
+    "super_saut": {
+      "name": "Super Saut",
+      "category": "🏃 Skills de Mobilité",
+      "description": "Saute plus haut que normal.",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "tueur_de_géant": {
+      "name": "Tueur de géant",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Si 4 stats adversaire (sauf HP/MP) sont 2x supérieures: x2 toutes vos stats.",
+      "cost_mp": null,
+      "condition": "Vaincre adversaires niveau supérieur en solo",
+      "palier": "Palier 1"
+    },
+    "désigné_pour_mourir": {
+      "name": "Désigné pour Mourir",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Désigne cible visible. Jusqu'à 0 HP cible OU incapacité/paralysie/sommeil/0 HP utilisateur: Avantage attaques + [1d8 + Mod STR/INT] dégâts supplémentaires. 1 cible max.",
+      "cost_mp": null,
+      "condition": "Abattre créature/joueur niveau supérieur dirigeant groupe 5+ OU Abattre monstre rare seul (+5 lvl différence)",
+      "palier": "Palier 1"
+    },
+    "traque_des_bêtes": {
+      "name": "Traque des Bêtes",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Avantage traquer créatures \"Bête\"/\"Bestiale\" (après compréhension déplacement/chasse/repli).",
+      "cost_mp": null,
+      "condition": "Traquer groupe sans erreur/perte temps OU Roll 20 attraper bête bestiale à mains nues",
+      "palier": "Palier 1"
+    },
+    "goinfre": {
+      "name": "Goinfre",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Mange ennemi = oneshot. Pas boss/ennemis puissants. Assignable arme/bouclier. 10 utilisations avant cooldown (1 combat event).",
+      "cost_mp": null,
+      "condition": "Vaincre ennemi avec bouche + Le manger",
+      "palier": "Palier 1"
+    },
+    "saignement": {
+      "name": "Saignement",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Dégâts sur durée quand coup touche.",
+      "cost_mp": null,
+      "condition": "Vaincre joueur même niveau (PVP) après 10 tours (arme tranchante corps-à-corps) OU Vaincre monstre après 15 tours (arme tranchante)",
+      "palier": "Palier 1"
+    },
+    "choc_paralysant": {
+      "name": "Choc Paralysant",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Paralyse ennemis rayon 20m.",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "brume_d_encre": {
+      "name": "Brume d'encre",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Vision floue. Réduit chances toucher (12+ au lieu 10+).",
+      "cost_mp": null,
+      "condition": "Vaincre \"Poisson tentaculaire\" sans rater attaque",
+      "palier": "Palier 1"
+    },
+    "pêche": {
+      "name": "Pêche",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Pêche plus facilement.",
+      "cost_mp": null,
+      "condition": "Gagner 3 niveaux en pêchant",
+      "palier": "Palier 1"
+    },
+    "nage": {
+      "name": "Nage",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Nage plus aisément.",
+      "cost_mp": null,
+      "condition": "Passer temps à nager",
+      "palier": "Palier 1"
+    },
+    "plongée": {
+      "name": "Plongée",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Plonge + Retient air plus longtemps.",
+      "cost_mp": null,
+      "condition": "Passer temps sous l'eau",
+      "palier": "Palier 1"
+    },
+    "coupure_du_vent": {
+      "name": "Coupure du vent",
+      "category": "🎯 Skills Spécialisés",
+      "description": "Utilise vent pour augmenter dégâts coupure. Attaque distance (eau/air).",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "résistance_au_poison_faible_moyen": {
+      "name": "Résistance au poison faible/Moyen",
+      "category": "🧪 Skills de Poison",
+      "description": "Réduit dégâts poison.",
+      "cost_mp": null,
+      "condition": null,
+      "palier": "Palier 1"
+    },
+    "grande_résistance_au_poison": {
+      "name": "Grande résistance au poison",
+      "category": "🧪 Skills de Poison",
+      "description": "Réduit grandement dégâts poison.",
+      "cost_mp": null,
+      "condition": "Subir poison boss poison 9 tours",
+      "palier": "Palier 1"
+    },
+    "immunité_au_poison": {
+      "name": "Immunité au poison",
+      "category": "🧪 Skills de Poison",
+      "description": "Insensible aux poisons.",
+      "cost_mp": null,
+      "condition": "Subir poison boss 12 tours",
+      "palier": "Palier 1"
+    },
+    "souffle_mortel": {
+      "name": "Souffle mortel",
+      "category": "🧪 Skills de Poison",
+      "description": "Crée poison air autour de soi (secondes). Applicable objet.",
+      "cost_mp": null,
+      "condition": "\"Hydra Eater\" OU Lvl 10 mage poison",
+      "palier": "Palier 1"
+    },
+    "hydra_eater": {
+      "name": "Hydra Eater",
+      "category": "🧪 Skills de Poison",
+      "description": "Invoque Hydres poison (dégâts + empoisonnement). Immunité poison/paralysie. Toutes magies poison disponibles. Applicable eau. Coût PM selon invocation.",
+      "cost_mp": null,
+      "condition": "Vaincre boss poison solo (même niveau/inférieur) après \"Immunité poison\" + Le manger/Gagner",
+      "palier": "Palier 1"
+    },
+    "pluie_de_poison": {
+      "name": "Pluie de poison",
+      "category": "🧪 Skills de Poison",
+      "description": "Crée pluie poison sur adversaires.",
+      "cost_mp": null,
+      "condition": "Maîtriser \"Hydra Eater\" OU Lvl 15 mage poison",
+      "palier": "Palier 1"
+    },
+    "capsule_empoisonnée": {
+      "name": "Capsule empoisonnée",
+      "category": "🧪 Skills de Poison",
+      "description": "Enferme personne dans capsule poison. Libération possible. Sinon: statut \"poison\" temporaire. Brisable (attaque extérieure/intérieure).",
+      "cost_mp": null,
+      "condition": "Avoir \"Hydre\"",
+      "palier": "Palier 1"
+    },
+    "immunité_aux_explosions": {
+      "name": "Immunité aux explosions",
+      "category": "💥 Skills Explosifs",
+      "description": "Immunisé explosions.",
+      "cost_mp": null,
+      "condition": "Subir dégâts explosion 15 tours OU Manger 5 monstres explosifs",
+      "palier": "Palier 1"
+    },
+    "méditation": {
+      "name": "Méditation",
+      "category": "🩹 Skills de Soin & Support",
+      "description": "Récupère 1% PV/tour pendant 5 tours (inclut attaque/défense). Pas d'attaque. Pas de coût PM. Cooldown: 10 tours.",
+      "cost_mp": null,
+      "condition": "Subir attaques 6 tours sans bouger/agir",
+      "palier": "Palier 1"
+    },
+    "heal": {
+      "name": "Heal",
+      "category": "🩹 Skills de Soin & Support",
+      "description": "Soigne 10% PV d'une personne.",
+      "cost_mp": "20 PM",
+      "condition": "Achat Boutique",
+      "palier": "Palier 1"
+    },
+    "purge": {
+      "name": "Purge",
+      "category": "🩹 Skills de Soin & Support",
+      "description": "Purge ralentissement/immobilisation (sauf paralysie).",
+      "cost_mp": "10 PM/utilisation",
+      "condition": "Vaincre ennemi sous poison/immobilisation/ralentissement",
+      "palier": "Palier 1"
+    },
+    "antidote": {
+      "name": "Antidote",
+      "category": "🩹 Skills de Soin & Support",
+      "description": "Contre poison instantanément.",
+      "cost_mp": "20 PM/cible",
+      "condition": "Achat Boutique (spécialistes soins uniquement)",
+      "palier": "Palier 1"
+    },
+    "lance_sacrée": {
+      "name": "Lance sacrée",
+      "category": "🩹 Skills de Soin & Support",
+      "description": "Lance de lumière infligeant dégâts.",
+      "cost_mp": "10 PM",
+      "condition": "Soigneur prêtre OU Paladin",
+      "palier": "Palier 1"
+    },
+    "purification": {
+      "name": "Purification",
+      "category": "🩹 Skills de Soin & Support",
+      "description": "Purifie malédictions.",
+      "cost_mp": "50 PM",
+      "condition": "Non spécifié",
+      "palier": "Palier 1"
+    },
+    "célérité": {
+      "name": "Célérité",
+      "category": "🎵 Skills de Buff",
+      "description": "AGI x2 allié pendant 3 tours.",
+      "cost_mp": "20 PM/cible",
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "multi_célérité": {
+      "name": "Multi-célérité",
+      "category": "🎵 Skills de Buff",
+      "description": "AGI x2 plusieurs cibles.",
+      "cost_mp": "50 PM",
+      "condition": "Utiliser \"Célérité\" sur plusieurs alliés",
+      "palier": "Palier 1"
+    },
+    "boost": {
+      "name": "Boost",
+      "category": "🎵 Skills de Buff",
+      "description": "STR x2 pendant 3 tours.",
+      "cost_mp": "20 PM/cible",
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "multiboost": {
+      "name": "Multiboost",
+      "category": "🎵 Skills de Buff",
+      "description": "STR x2 plusieurs alliés pendant 3 tours.",
+      "cost_mp": null,
+      "condition": "Lancer \"Boost\" sur plusieurs alliés",
+      "palier": "Palier 1"
+    },
+    "chant_de_bataille": {
+      "name": "Chant de bataille",
+      "category": "🎵 Skills de Buff",
+      "description": "HP x2 tous membres groupe pendant 3 tours.",
+      "cost_mp": "40 PM",
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "portée_augmentée": {
+      "name": "Portée augmentée",
+      "category": "🎵 Skills de Buff",
+      "description": "Augmente distance attaques + DEX x2 pendant 3 tours.",
+      "cost_mp": "40 PM",
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "transfert": {
+      "name": "Transfert",
+      "category": "🎵 Skills de Buff",
+      "description": "Transfère buff/enchantement à allié. S'additionne si buff déjà actif.",
+      "cost_mp": "40 PM",
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "multi_transfert": {
+      "name": "Multi-transfert",
+      "category": "🎵 Skills de Buff",
+      "description": "Transfère buffs groupe à 1 membre.",
+      "cost_mp": "60 PM",
+      "condition": "Transférer plusieurs buffs dans même combat",
+      "palier": "Palier 1"
+    },
+    "amour_dévoué": {
+      "name": "Amour dévoué",
+      "category": "🎵 Skills de Buff",
+      "description": "Confère défense égale à la vôtre aux alliés <20m. Coût: 10% PV.",
+      "cost_mp": null,
+      "condition": "Accomplir quête \"Amour Dévoué!\"",
+      "palier": "Palier 1"
+    },
+    "trap": {
+      "name": "Trap",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Prépare piège. Coût PM selon type. Puissance = DEX.",
+      "cost_mp": null,
+      "condition": "Spécialisation pièges",
+      "palier": "Palier 1"
+    },
+    "pose_à_distance": {
+      "name": "Pose à distance",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Pose pièges préparés à distance.",
+      "cost_mp": null,
+      "condition": "Spécialisation pièges",
+      "palier": "Palier 1"
+    },
+    "téléportation": {
+      "name": "Téléportation",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Téléporte soi/cible courte distance. Longue distance: 5 tours préparation (sauf retour bercail).",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 1"
+    },
+    "multi_téléportation": {
+      "name": "Multi-téléportation",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Téléporte avec 5 personnes max courte distance. Longue distance: 5 tours préparation.",
+      "cost_mp": null,
+      "condition": "Lancer \"Téléportation\" 3x dans même combat",
+      "palier": "Palier 1"
+    },
+    "psychokinésie": {
+      "name": "Psychokinésie",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Fait léviter cible (ennemi/objet).",
+      "cost_mp": null,
+      "condition": "Pièce event",
+      "palier": "Palier 1"
+    },
+    "lainage": {
+      "name": "Lainage",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Crée laine à volonté. Protection attaques physiques. Peut être imbibée poison.",
+      "cost_mp": null,
+      "condition": "Jouer avec moutons",
+      "palier": "Palier 1"
+    },
+    "gigantisme": {
+      "name": "Gigantisme",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Devient Géant. Bonus dégâts + Résistance x2.",
+      "cost_mp": null,
+      "condition": "Pièce event",
+      "palier": "Palier 1"
+    },
+    "chroniques_akashiques": {
+      "name": "Chroniques akashiques",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Obtient skill aléatoire (durée: 1 jour IRL).",
+      "cost_mp": null,
+      "condition": "???",
+      "palier": "Palier 1"
+    },
+    "bibliothèque_magique_portable": {
+      "name": "Bibliothèque magique portable",
+      "category": "🔧 Skills Utilitaires",
+      "description": "Stocke skills appris. Utilise mana en avance pour lancer instantanément sans coût mana ultérieur.",
+      "cost_mp": null,
+      "condition": "???",
+      "palier": "Palier 1"
+    },
+    "1er_mouvement_lame_de_chaleur": {
+      "name": "1er mouvement: Lame de Chaleur",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Coup lame chaud. Chance légère brûlure.",
+      "cost_mp": null,
+      "condition": "Quête \"Voie du Samouraï I\" (épéistes longues)",
+      "palier": "Palier 1"
+    },
+    "3ème_lame_arc_lunaire": {
+      "name": "3ème lame: Arc Lunaire",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Ruée direction choisie (airs inclus) + Dégâts physiques.",
+      "cost_mp": null,
+      "condition": "Quête \"Voie du Samouraï II\"",
+      "palier": "Palier 1"
+    },
+    "agresseuse": {
+      "name": "Agresseuse",
+      "category": "🏹 Skills Spéciaux",
+      "description": "STR x2. Nécessite plus points pour VIT/AGI/INT.",
+      "cost_mp": null,
+      "condition": "Vaincre 5 boss (temps imparti) + 100+ STR",
+      "palier": "Palier 1"
+    },
+    "reine_roi_de_la_destruction": {
+      "name": "Reine/Roi de la destruction",
+      "category": "🏹 Skills Spéciaux",
+      "description": "Porte arme 2 mains avec 1 main.",
+      "cost_mp": null,
+      "condition": "Terminer donjon (temps imparti) + 100+ STR",
+      "palier": "Palier 1"
+    },
+    "one_man_army": {
+      "name": "One man Army",
+      "category": "🏹 Skills Spéciaux",
+      "description": "Plus dégâts attaques zone.",
+      "cost_mp": null,
+      "condition": "Vaincre groupe 10+ monstres (même niveau/supérieur) solo",
+      "palier": "Palier 1"
+    },
+    "sacrifice_du_guerrier": {
+      "name": "Sacrifice du guerrier",
+      "category": "🏹 Skills Spéciaux",
+      "description": "Chaque 10% HP perdu = +10% puissance attaque.",
+      "cost_mp": null,
+      "condition": "Lvl 10 avec \"Goinfre\" dans hache",
+      "palier": "Palier 1"
+    },
+    "glouton": {
+      "name": "Glouton",
+      "category": "🏹 Skills Spéciaux",
+      "description": "Régénère plus PV quand PV bas.",
+      "cost_mp": null,
+      "condition": "Manger plusieurs types ennemis",
+      "palier": "Palier 1"
+    },
+    "attaque_répétitif": {
+      "name": "Attaque répétitif",
+      "category": "🏹 Skills Spéciaux",
+      "description": "Rolls égaux = Dégâts augmentent exponentiellement.",
+      "cost_mp": null,
+      "condition": "Obtenir 3x même roll",
+      "palier": "Palier 1"
+    },
+    "insectologue": {
+      "name": "Insectologue",
+      "category": "🏹 Skills Spéciaux",
+      "description": "Connaît points faibles monstres insectes.",
+      "cost_mp": null,
+      "condition": "Artisan frappant parfaitement monstre insecte",
+      "palier": "Palier 1"
+    },
+    "maîtresse_des_insectes": {
+      "name": "Maîtresse des insectes",
+      "category": "🏹 Skills Spéciaux",
+      "description": "+10% attaque vs insectes (en plus \"Insectologue\").",
+      "cost_mp": null,
+      "condition": "\"Insectologue\" + Coup critique zone faiblesse",
+      "palier": "Palier 1"
+    },
+    "danse_lames": {
+      "name": "Danse-lames",
+      "category": "⚔️ Skills de Combat",
+      "description": "STR + AGI x2.",
+      "cost_mp": null,
+      "condition": "Shop (Palier 2)",
+      "palier": "Palier 2"
+    },
+    "riposte": {
+      "name": "Riposte",
+      "category": "⚔️ Skills de Combat",
+      "description": "Renvoie attaque. À utiliser avec réflexion.",
+      "cost_mp": null,
+      "condition": "Event",
+      "palier": "Palier 2"
+    },
+    "chaos_suintant": {
+      "name": "Chaos Suintant",
+      "category": "🐙 Skills Chaos",
+      "description": "Obtient 3 compétences: Prédateur, Chaos Suintant, Tyrannie.",
+      "cost_mp": null,
+      "condition": "Vaincre monstre surpuissant spécifique (situation unique)",
+      "palier": "Palier 2"
+    },
+    "laser": {
+      "name": "Laser",
+      "category": "🔥 Skills Magiques Avancés",
+      "description": "Tire laser sur adversaire.",
+      "cost_mp": "30 PM",
+      "condition": "Boutique",
+      "palier": "Palier 2"
+    },
+    "multilaser": {
+      "name": "Multilaser",
+      "category": "🔥 Skills Magiques Avancés",
+      "description": "Tire plusieurs lasers.",
+      "cost_mp": "60 PM",
+      "condition": "Toucher 3 adversaires différents avec \"Laser\" (même combat, sans rater)",
+      "palier": "Palier 2"
+    },
+    "eruption": {
+      "name": "Eruption",
+      "category": "🔥 Skills Magiques Avancés",
+      "description": "Vague chaleur causant dégâts zone devant lanceur.",
+      "cost_mp": "30 PM",
+      "condition": "Lvl 10 + Uniquement capacités Feu",
+      "palier": "Palier 2"
+    },
+    "flammes_explosives": {
+      "name": "Flammes explosives",
+      "category": "🔥 Skills Magiques Avancés",
+      "description": "Flammes explosives rayon 20m. Repousse adversaire.",
+      "cost_mp": "50 PM",
+      "condition": "Lvl 15 + Uniquement capacités Feu",
+      "palier": "Palier 2"
+    },
+    "4ème_lame_tourbillon": {
+      "name": "4ème lame: Tourbillon",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Attaque zone autour de soi (épée tranchante).",
+      "cost_mp": null,
+      "condition": "Quête \"Voie du Samouraï III\"",
+      "palier": "Palier 2"
+    },
+    "7ème_lame_fracture": {
+      "name": "7ème lame: Fracture",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Faille terre remontant en pilier sur cible. Dégâts importants.",
+      "cost_mp": null,
+      "condition": "Quête \"Voie du Samouraï IV\"",
+      "palier": "Palier 2"
+    },
+    "lame_originel_simulacre": {
+      "name": "Lame originel: Simulacre",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Chances critique élevées (17+ au lieu 20+) + Dégâts x2 si touché. Durée: Fin combat.",
+      "cost_mp": null,
+      "condition": "Quête \"Voie du Samouraï V\"",
+      "palier": "Palier 2"
+    },
+    "furie_des_lames": {
+      "name": "Furie des lames",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Divise arme en fragments (max 20) attaquant sans relâche.",
+      "cost_mp": null,
+      "condition": "Lvl 10 avec épée départ",
+      "palier": "Palier 2"
+    },
+    "forge_portable": {
+      "name": "Forge portable",
+      "category": "🛠️ Skills Utilitaires",
+      "description": "Crée items peu importe lieu.",
+      "cost_mp": null,
+      "condition": "Miner monstres étourdis + Accumuler minerai rare qualité",
+      "palier": "Palier 2"
+    },
+    "mort_ou_vif": {
+      "name": "Mort ou vif",
+      "category": "💀 Skills Spéciaux",
+      "description": "À 0 PV: 50% chance revivre avec tous PV.",
+      "cost_mp": null,
+      "condition": "Mort 4x + Compléter donjon \"Tombe du chevalier\"",
+      "palier": "Palier 2"
+    },
+    "dieu_mécanique": {
+      "name": "Dieu mécanique",
+      "category": "🤖 Skills Mécaniques",
+      "description": "Équipe tenue futuriste + Armes surpuissantes (rayon chargé, vol propulsion).",
+      "cost_mp": null,
+      "condition": "Réduire PV monstre mécanique rare à seuil spécifique",
+      "palier": "Palier 3"
+    },
+    "breakcore": {
+      "name": "BreakCore",
+      "category": "🤖 Skills Mécaniques",
+      "description": "Dégâts très élevés. Oneshot groupe ennemi. Mort utilisateur (sauf VIT élevée).",
+      "cost_mp": null,
+      "condition": "Avoir \"Dieu mécanique\"",
+      "palier": "Palier 3"
+    },
+    "instinct": {
+      "name": "Instinct",
+      "category": "🗡️ Skills de Combat Avancés",
+      "description": "Réussit action si roll ≥8.",
+      "cost_mp": null,
+      "condition": "Assassiner + Fuir monstre niveau supérieur (attaque groupe)",
+      "palier": "Palier 3"
+    },
+    "terre_gelée": {
+      "name": "Terre Gelée",
+      "category": "❄️ Skills Magiques",
+      "description": "Zone glace autour de soi. Peut geler adversaire 2 tours.",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 3"
+    },
+    "phantom_world": {
+      "name": "Phantom World",
+      "category": "❄️ Skills Magiques",
+      "description": "Multiplie personne par 7 max.",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 3"
+    },
+    "lame_sacrée_purificatrice": {
+      "name": "Lame sacrée purificatrice",
+      "category": "⚔️ Skills Lumière",
+      "description": "Dégâts élevés lumière.",
+      "cost_mp": null,
+      "condition": "Épée 2 mains + Quête \"L'élu\"",
+      "palier": "Palier 3"
+    },
+    "lame_sacrée_destructrice": {
+      "name": "Lame sacrée destructrice",
+      "category": "⚔️ Skills Lumière",
+      "description": "Utilise toute force utilisateur. Coup surpuissant (pouvoir lumière).",
+      "cost_mp": null,
+      "condition": "Finir quête \"L'élu\"",
+      "palier": "Palier 3"
+    },
+    "lame_sacrée_du_jugement": {
+      "name": "Lame sacrée du jugement",
+      "category": "⚔️ Skills Lumière",
+      "description": "Attaque rapide sacrée. Dégâts tranchants.",
+      "cost_mp": null,
+      "condition": "Quête \"L'élu\"",
+      "palier": "Palier 3"
+    },
+    "tisseuse": {
+      "name": "Tisseuse",
+      "category": "🕷️ Skills Spécialisés",
+      "description": "Manipule fils araignée. Étirables, portée 5m. Tirés mains/pieds.",
+      "cost_mp": null,
+      "condition": "Tuer \"Spider barrage\"",
+      "palier": "Palier 3"
+    },
+    "vision_d_esprit": {
+      "name": "Vision d'esprit",
+      "category": "🕷️ Skills Spécialisés",
+      "description": "Voit ennemis au ralenti. Réaction plus rapide.",
+      "cost_mp": null,
+      "condition": "Résoudre 3 quêtes \"Voie du Samouraï\"",
+      "palier": "Palier 3"
+    },
+    "carapace_de_cigale": {
+      "name": "Carapace de Cigale",
+      "category": "🏃 Skills de Mobilité",
+      "description": "Résiste 1x/jour attaque fatale. +50% AGI pendant 2 tours.",
+      "cost_mp": null,
+      "condition": "Lvl 35 + 2000+ AGI + Prioriser AGI répartition stats",
+      "palier": "Palier 4"
+    },
+    "6ème_lame_flambée": {
+      "name": "6ème lame: Flambée",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Parade flammes invisibles.",
+      "cost_mp": null,
+      "condition": "Quête \"Voie du Samouraï V\"",
+      "palier": "Palier 4"
+    },
+    "lame_ultime_lune_voilée": {
+      "name": "Lame Ultime: Lune voilée",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Série coups épée très rapides.",
+      "cost_mp": null,
+      "condition": "\"Lame Originel\" + Lvl 35",
+      "palier": "Palier 4"
+    },
+    "1ère_lame_brume_de_chaleur": {
+      "name": "1ère lame: Brume de chaleur",
+      "category": "⚔️ Skills Épéiste",
+      "description": "Coup estoc flamme rapide. Chances moyennes brûlure.",
+      "cost_mp": null,
+      "condition": "\"1er mouvement: Lame de Chaleur\" + Lvl 30",
+      "palier": "Palier 4"
+    },
+    "pluie_sacrée": {
+      "name": "Pluie sacrée",
+      "category": "⚔️ Skills Lumière",
+      "description": "Déferle puissance lame sacrée (nombre illimité ennemis).",
+      "cost_mp": null,
+      "condition": "Lvl 30 + \"L'élu\"",
+      "palier": "Palier 4"
+    },
+    "pandémonium": {
+      "name": "Pandémonium",
+      "category": "👹 Skills Spéciaux",
+      "description": "Invoque ogre rouge + Ogre bleu (1 min). Autres compétences/skills indisponibles. Adversaire ne peut fuir zone combat.",
+      "cost_mp": null,
+      "condition": "Vaincre Ryuja solo",
+      "palier": "Palier 4"
+    },
+    "trône_du_dieu_céleste": {
+      "name": "Trône du dieu céleste",
+      "category": "🛡️ Skills Défensifs",
+      "description": "Zone défensive autour utilisateur. Régénère PV (assis trône). Verrouille skills adverses rayon 20m. Annulé si levé.",
+      "cost_mp": null,
+      "condition": "Vaincre \"Apôtre dieu soleil\" en protégeant alliés (classe tank)",
+      "palier": "Palier 5"
+    },
+    "manipulation_de_la_foudre": {
+      "name": "Manipulation de la foudre",
+      "category": "⚡ Skills Élémentaires",
+      "description": "Manipule foudre.",
+      "cost_mp": null,
+      "condition": "Vaincre \"Apôtre dieu soleil\" avec 2 armes 2 mains (1 par main)",
+      "palier": "Palier 5"
+    },
+    "éruption_volcanique": {
+      "name": "Éruption volcanique",
+      "category": "🌋 Skills Magiques Puissants",
+      "description": "Après récitation 3 tours: Éruption volcanique (dégâts zone élevés).",
+      "cost_mp": null,
+      "condition": "Mage feu + Lvl 30",
+      "palier": "Palier 5"
+    },
+    "brasier_géant": {
+      "name": "Brasier géant",
+      "category": "🌋 Skills Magiques Puissants",
+      "description": "Grand lance-flamme vers adversaire. Dégâts flammes élevés.",
+      "cost_mp": "100 PM",
+      "condition": "Lvl 30",
+      "palier": "Palier 5"
+    },
+    "stalacmites": {
+      "name": "Stalacmites",
+      "category": "🌍 Skills Terre",
+      "description": "Invoque stalactites sol (pointes). Cible environnement/adversaire.",
+      "cost_mp": null,
+      "condition": "Achat Shop",
+      "palier": "Palier 5"
+    },
+    "vent_sacrée_lumière_réconfortante": {
+      "name": "Vent Sacrée: Lumière réconfortante",
+      "category": "🩹 Skills Soin",
+      "description": "Soins zone groupe.",
+      "cost_mp": "50 PM",
+      "condition": "Prêtre Lvl 30",
+      "palier": "Palier 5"
+    },
+    "liaison_avec_les_enfers": {
+      "name": "Liaison avec les enfers",
+      "category": "🔥 Skills Avancés",
+      "description": "Parfois aléatoirement: Ressenti doublant effets tous objets.",
+      "cost_mp": null,
+      "condition": "S'enfuir Manoir de l'ouest",
+      "palier": "Palier 6"
+    },
+    "appel_des_fonds_marins": {
+      "name": "Appel des fonds marins",
+      "category": "🌊 Skills Aquatiques",
+      "description": "Crée tentacules (dégâts + Utilitaire).",
+      "cost_mp": null,
+      "condition": "Vaincre poulpe géant (manger + Solo)",
+      "palier": "Palier 6"
+    },
+    "rayonnement": {
+      "name": "Rayonnement",
+      "category": "🔥 Skills Feu Avancés",
+      "description": "Flammes bleues. Plus dégâts que flammes bases.",
+      "cost_mp": null,
+      "condition": "Mage feu + Dompter phénix",
+      "palier": "Palier 6"
+    }
+  }
+}

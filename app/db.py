@@ -50,3 +50,16 @@ class Database:
             raise RuntimeError("DB non connectée")
         async with self._conn.execute(query, params) as cursor:
             return await cursor.fetchone()
+
+    async def check_tables(self):
+        # Vérifier si les tables nécessaires existent
+        tables = ["combats", "combat_participants", "combat_logs", "mobs"]
+        for table in tables:
+            row = await self.conn.execute_fetchone(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                (table,)
+            )
+            if not row:
+                logger.error(f"Table {table} manquante dans la base de données")
+                return False
+        return True

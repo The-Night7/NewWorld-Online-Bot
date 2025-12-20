@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import discord
+import logging
 from discord import app_commands
 from discord.ext import commands
 
@@ -19,6 +20,9 @@ from app.rules import resolve_attack, AttackType
 from app.cogs.combat import fetch_player_entity, save_player_hp
 from app.combat_session import combat_is_active
 
+# Configuration du logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('bofuri.mobs')
 
 class MobsCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -26,6 +30,7 @@ class MobsCog(commands.Cog):
 
     @app_commands.command(name="mobs", description="Liste les mobs du bestiaire (keys)")
     async def mobs(self, interaction: discord.Interaction):
+        logger.info(f"Commande /mobs appelée par {interaction.user}")
         mobs = registry.all()
         if not mobs:
             await interaction.response.send_message("Aucun mob enregistré.", ephemeral=True)
@@ -41,40 +46,61 @@ class MobsCog(commands.Cog):
     @app_commands.command(name="mob_spawn", description="Spawn un mob dans ce salon (nom unique auto)")
     @app_commands.describe(key="Ex: forest.lapin_vegetal", level="Niveau voulu (interpolé si besoin)")
     async def mob_spawn(self, interaction: discord.Interaction, key: str, level: int):
-        if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
-            await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
-            return
+        try:
+            # Répondre immédiatement pour éviter le timeout
+            await interaction.response.defer(ephemeral=False)
+            if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+                await interaction.followup.send("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
+                return
 
-        defn = registry.get(key)
-        if not defn:
-            await interaction.response.send_message("Key inconnue. Utilise /mobs.", ephemeral=True)
-            return
+            defn = registry.get(key)
+            if not defn:
+                await interaction.followup.send("Key inconnue. Utilise /mobs.", ephemeral=True)
+                return
 
-        channel_id = interaction.channel_id
-        mob_name = await next_unique_mob_name(self.bot.db.conn, channel_id, defn.display_name)
+            channel_id = interaction.channel_id
+            mob_name = await next_unique_mob_name(self.bot.db.conn, channel_id, defn.display_name)
 
-        ent = spawn_entity(defn, level=level, instance_name=mob_name)
-        await insert_mob(self.bot.db.conn, channel_id, mob_name, defn.key, level, ent, created_by=interaction.user.id)
+            ent = spawn_entity(defn, level=level, instance_name=mob_name)
+            await insert_mob(self.bot.db.conn, channel_id, mob_name, defn.key, level, ent, created_by=interaction.user.id)
 
-        await interaction.response.send_message(
-            f"Mob spawné: **{mob_name}** (`{defn.key}` lvl {level}) — PV {ent.hp:.0f}/{ent.hp_max:.0f}"
-        )
+            await interaction.followup.send(
+                f"Mob spawné: **{mob_name}** (`{defn.key}` lvl {level}) — PV {ent.hp:.0f}/{ent.hp_max:.0f}"
+            )
+        except Exception as e:
+            logger = logging.getLogger('bofuri')
+            logger.error(f"Erreur dans /mob_spawn: {str(e)}", exc_info=True)
+            if not interaction.response.is_done():
+            await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+            else:
+                await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+
     @app_commands.command(name="mob_list", description="Liste les mobs présents dans ce salon")
     async def mob_list(self, interaction: discord.Interaction):
-        if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
-            await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
-            return
+        try:
+            # Répondre immédiatement pour éviter le timeout
+            await interaction.response.defer(ephemeral=False)
+            if not await combat_is_active(self.bot.db.conn, interaction.channel_id):
+                await interaction.followup.send("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
+                return
 
-        rows = await list_mobs(self.bot.db.conn, interaction.channel_id)
-        if not rows:
-            await interaction.response.send_message("Aucun mob dans ce salon.", ephemeral=True)
-            return
+            rows = await list_mobs(self.bot.db.conn, interaction.channel_id)
+            if not rows:
+                await interaction.followup.send("Aucun mob dans ce salon.", ephemeral=True)
+                return
 
-        lines = [
-            f"- **{r['mob_name']}** — `{r['mob_key']}` lvl {r['level']} — PV {float(r['hp']):.2f}/{float(r['hp_max']):.2f}"
-            for r in rows
-        ]
-        await interaction.response.send_message("## Mobs du salon\n" + "\n".join(lines))
+            lines = [
+                f"- **{r['mob_name']}** — `{r['mob_key']}` lvl {r['level']} — PV {float(r['hp']):.2f}/{float(r['hp_max']):.2f}"
+                for r in rows
+            ]
+            await interaction.followup.send("## Mobs du salon\n" + "\n".join(lines))
+        except Exception as e:
+            logger = logging.getLogger('bofuri')
+            logger.error(f"Erreur dans /mob_list: {str(e)}", exc_info=True)
+            if not interaction.response.is_done():
+            await interaction.response.send_message(f"Une erreur est survenue: {str(e)}", ephemeral=True)
+            else:
+                await interaction.followup.send(f"Une erreur est survenue: {str(e)}", ephemeral=True)
 
     @app_commands.command(name="atk_mob", description="Attaque un mob (par nom unique)")
     @app_commands.describe(

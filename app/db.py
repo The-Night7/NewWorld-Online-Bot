@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS combats (
   created_by  INTEGER NOT NULL,
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   closed_at   TIMESTAMP,
-  UNIQUE(channel_id, status)
+  UNIQUE(thread_id, status)
 );
 
 CREATE TABLE IF NOT EXISTS combat_participants (

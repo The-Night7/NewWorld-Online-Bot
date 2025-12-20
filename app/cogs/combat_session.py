@@ -62,6 +62,7 @@ class CombatSessionCog(commands.Cog):
             logger = logging.getLogger('bofuri.combat')
             logger.info(f"Tentative de création de combat dans le salon {channel.id} par {interaction.user.id}")
 
+            # Création du combat dans la base de données (sans thread_id pour l'instant)
             await combat_create(self.bot.db, int(channel.id), created_by=int(interaction.user.id))
             logger.info(f"Combat créé avec succès dans le salon {channel.id}")
 
@@ -75,20 +76,27 @@ class CombatSessionCog(commands.Cog):
             # Ajout du créateur au fil
             await thread.add_user(interaction.user)
 
+            # Enregistrement du thread dans la base de données
+            try:
+                await combat_set_thread(self.bot.db, channel.id, thread.id)
+            except CombatError as e:
+                # Si un combat est déjà actif dans ce fil, annuler la création
+                await combat_close(self.bot.db, channel.id)
+                await thread.delete()
+                await interaction.response.send_message(str(e), ephemeral=True)
+                return
+
             # Ajout des membres mentionnés au fil et au combat
             members_added = []
             for user_id in ids:
                 try:
                     member = await interaction.guild.fetch_member(user_id)
                     if member:
-                        await participants_add(self.bot.db, channel.id, member.id, added_by=interaction.user.id)
+                        await participants_add(self.bot.db, thread.id, member.id, added_by=interaction.user.id)
                         await thread.add_user(member)
                         members_added.append(member.mention)
                 except Exception as e:
                     logger.error(f"Erreur lors de l'ajout du membre {user_id}: {str(e)}")
-
-            # Enregistrement du thread dans la base de données
-            await combat_set_thread(self.bot.db, channel.id, thread.id)
 
             # Message de bienvenue dans le fil
             welcome_message = f"Combat créé par {interaction.user.mention}."
@@ -96,11 +104,10 @@ class CombatSessionCog(commands.Cog):
                 welcome_message += f" Participants: {', '.join(members_added)}"
             await thread.send(welcome_message)
             # Ajout du log
-            await log_add(self.bot.db, channel.id, "system", f"Combat créé par {interaction.user}.")
+            await log_add(self.bot.db, thread.id, "system", f"Combat créé par {interaction.user}.")
 
             # Réponse à l'interaction
             await interaction.response.send_message(f"Combat créé! Fil: {thread.mention}", ephemeral=False)
-
         except CombatError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
@@ -122,24 +129,31 @@ class CombatSessionCog(commands.Cog):
             await interaction.response.send_message("Commande serveur uniquement.", ephemeral=True)
             return
 
-        if not await combat_is_active(self.bot.db, interaction.channel_id):
-            await interaction.response.send_message("Aucun combat actif dans ce salon.", ephemeral=True)
-            return
-
-        await participants_add(self.bot.db, interaction.channel_id, member.id, added_by=interaction.user.id)
-        await log_add(self.bot.db, interaction.channel_id, "system", f"{member} ajouté au combat par {interaction.user}.")
-
-        thread = await self._get_active_thread(interaction.channel)  # type: ignore
-        if thread:
-            try:
-                await thread.add_user(member)
-            except Exception:
-                pass
-            await interaction.response.send_message(f"{member.mention} ajouté. Fil: {thread.mention}")
+        # Si l'interaction est dans un thread, utiliser directement ce thread_id
+        if isinstance(interaction.channel, discord.Thread):
+            thread_id = interaction.channel.id
+            if not await combat_is_active(self.bot.db, thread_id):
+                await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
+                return
+            thread = interaction.channel
         else:
-            await interaction.response.send_message(f"{member.mention} ajouté, mais fil introuvable/non défini.", ephemeral=True)
+            # Sinon, chercher le thread associé au salon
+            thread = await self._get_active_thread(interaction.channel)  # type: ignore
+            if not thread:
+                await interaction.response.send_message("Aucun fil de combat actif trouvé pour ce salon.", ephemeral=True)
+                return
+            thread_id = thread.id
 
-    @app_commands.command(name="combat_end", description="Termine le combat actif dans ce salon")
+        await participants_add(self.bot.db, thread_id, member.id, added_by=interaction.user.id)
+        await log_add(self.bot.db, thread_id, "system", f"{member} ajouté au combat par {interaction.user}.")
+
+        try:
+            await thread.add_user(member)
+        except Exception:
+            pass
+        await interaction.response.send_message(f"{member.mention} ajouté. Fil: {thread.mention}")
+
+    @app_commands.command(name="combat_end", description="Termine le combat actif dans ce fil")
     async def combat_end(self, interaction: discord.Interaction):
         if not interaction.guild or not interaction.channel:
             await interaction.response.send_message("Commande serveur uniquement.", ephemeral=True)
@@ -147,22 +161,30 @@ class CombatSessionCog(commands.Cog):
 
         logger = logging.getLogger('bofuri.combat')
         try:
-            if not await combat_is_active(self.bot.db, interaction.channel_id):
-                await interaction.response.send_message("Aucun combat actif dans ce salon.", ephemeral=True)
-                return
+            # Si l'interaction est dans un thread, utiliser directement ce thread_id
+            if isinstance(interaction.channel, discord.Thread):
+                thread_id = interaction.channel.id
+                thread = interaction.channel
+                if not await combat_is_active(self.bot.db, thread_id):
+                    await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
+                    return
+            else:
+                # Sinon, chercher le thread associé au salon
+                thread = await self._get_active_thread(interaction.channel)  # type: ignore
+                if not thread:
+                    await interaction.response.send_message("Aucun fil de combat actif trouvé pour ce salon.", ephemeral=True)
+                    return
+                thread_id = thread.id
 
-            thread = await self._get_active_thread(interaction.channel)  # type: ignore
+            logger.info(f"Fermeture du combat dans le fil {thread_id} par {interaction.user.id}")
+            await combat_close(self.bot.db, thread_id)
+            await log_add(self.bot.db, thread_id, "system", f"Combat terminé par {interaction.user}.")
 
-            logger.info(f"Fermeture du combat dans le salon {interaction.channel_id} par {interaction.user.id}")
-            await combat_close(self.bot.db, interaction.channel_id)
-            await log_add(self.bot.db, interaction.channel_id, "system", f"Combat terminé par {interaction.user}.")
-
-            if thread:
-                try:
-                    await thread.send("Combat terminé. Thread va être archivé.")
-                    await thread.edit(archived=True, locked=True)
-                except Exception as e:
-                    logger.error(f"Erreur lors de l'archivage du thread: {str(e)}", exc_info=True)
+            try:
+                await thread.send("Combat terminé. Thread va être archivé.")
+                await thread.edit(archived=True, locked=True)
+            except Exception as e:
+                logger.error(f"Erreur lors de l'archivage du thread: {str(e)}", exc_info=True)
 
             await interaction.response.send_message("Combat terminé.")
         except Exception as e:

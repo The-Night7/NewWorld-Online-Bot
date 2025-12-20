@@ -3,6 +3,7 @@ from discord.ext import commands
 import discord
 import logging
 
+
 class DebugCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -15,11 +16,11 @@ class DebugCog(commands.Cog):
             await interaction.response.defer(ephemeral=True)
 
             # Récupérer tous les combats pour ce canal
-        combats = await self.bot.db.execute_fetchall(
-            "SELECT * FROM combats WHERE channel_id = ?",
-            (interaction.channel_id,)
-        )
-        
+            combats = await self.bot.db.execute_fetchall(
+                "SELECT * FROM combats WHERE channel_id = ?",
+                (interaction.channel_id,)
+            )
+
             if not combats:
                 await interaction.followup.send("Aucun combat trouvé pour ce salon.")
                 return
@@ -28,16 +29,16 @@ class DebugCog(commands.Cog):
             lines = []
             for c in combats:
                 lines.append(f"ID: {c['id']}, Status: {c['status']}, Thread: {c['thread_id'] or 'None'}, "
-                            f"Created by: {c['created_by']}, Created at: {c['created_at']}, "
-                            f"Closed at: {c['closed_at'] or 'None'}")
+                             f"Created by: {c['created_by']}, Created at: {c['created_at']}, "
+                             f"Closed at: {c['closed_at'] or 'None'}")
 
             await interaction.followup.send("## Combats dans ce salon\n" + "\n".join(lines))
 
             # Vérifier s'il y a des combats actifs
-        active = await self.bot.db.execute_fetchone(
+            active = await self.bot.db.execute_fetchone(
                 "SELECT COUNT(*) as count FROM combats WHERE channel_id = ? AND status = 'active'",
-            (interaction.channel_id,)
-        )
+                (interaction.channel_id,)
+            )
 
             await interaction.followup.send(f"Nombre de combats actifs: {active['count']}")
 
@@ -57,7 +58,7 @@ class DebugCog(commands.Cog):
                 "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP "
                 "WHERE channel_id = ? AND status = 'active'",
                 (interaction.channel_id,)
-        )
+            )
             await self.bot.db.conn.commit()
 
             await interaction.followup.send("Tous les combats actifs ont été fermés dans ce salon.")

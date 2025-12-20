@@ -27,28 +27,36 @@ async def combat_is_active(db, thread_id: int) -> bool:
         return False
 
 
-async def combat_get_thread_id(db, channel_id: int) -> Optional[int]:
-    row = await db.execute_fetchone(
-        "SELECT thread_id FROM combats WHERE channel_id = ? AND status = 'active'",
+async def combat_get_thread_ids(db, channel_id: int) -> list[int]:
+    """Retourne la liste des thread_id de tous les combats actifs dans un salon."""
+    rows = await db.execute_fetchall(
+        "SELECT thread_id FROM combats WHERE channel_id = ? AND status = 'active' AND thread_id IS NOT NULL",
         (int(channel_id),),
     )
-    return int(row["thread_id"]) if row and row["thread_id"] else None
+    return [int(row["thread_id"]) for row in rows if row["thread_id"]]
 
 
-async def combat_create(db, channel_id: int, created_by: int) -> None:
+async def combat_get_thread_id(db, channel_id: int) -> Optional[int]:
+    """Fonction maintenue pour compatibilité, retourne le premier thread_id trouvé."""
+    thread_ids = await combat_get_thread_ids(db, channel_id)
+    return thread_ids[0] if thread_ids else None
+
+
+async def combat_create(db, channel_id: int, created_by: int) -> int:
     channel_id = int(channel_id)  # Conversion explicite en entier
     created_by = int(created_by)  # Conversion explicite en entier
 
-    # La vérification du combat actif sera faite après avoir créé le thread
-    # car nous avons besoin du thread_id pour vérifier
-    await db.conn.execute(
+    # Insérer un nouveau combat sans vérification (plusieurs combats autorisés par salon)
+    cursor = await db.conn.execute(
         "INSERT INTO combats(channel_id, status, created_by) VALUES(?, 'active', ?)",
         (channel_id, created_by),
     )
+    combat_id = cursor.lastrowid
     await db.conn.commit()
 
+    return combat_id
 
-async def combat_set_thread(db, channel_id: int, thread_id: int) -> None:
+async def combat_set_thread(db, channel_id: int, thread_id: int, combat_id: Optional[int] = None) -> None:
     # Mise à jour pour inclure le thread_id et vérifier si un combat est déjà actif dans ce fil
     thread_id = int(thread_id)
 
@@ -63,11 +71,28 @@ async def combat_set_thread(db, channel_id: int, thread_id: int) -> None:
         raise CombatError("Un combat est déjà actif dans ce fil.")
 
     # Mettre à jour le combat avec le thread_id
-    await db.conn.execute(
-    "UPDATE combats SET thread_id = ? WHERE channel_id = ? AND status = 'active'",
-    (thread_id, int(channel_id)),
-    )
-    await db.conn.commit()
+    if combat_id is not None:
+        # Si un combat_id est fourni, mettre à jour ce combat spécifique
+        await db.conn.execute(
+            "UPDATE combats SET thread_id = ? WHERE id = ? AND status = 'active'",
+            (thread_id, int(combat_id)),
+        )
+    else:
+        # Sinon, utiliser l'ancienne méthode (pour compatibilité)
+        # Récupérer d'abord le premier combat actif sans thread_id
+        row = await db.execute_fetchone(
+            "SELECT id FROM combats WHERE channel_id = ? AND status = 'active' AND thread_id IS NULL",
+            (int(channel_id),),
+        )
+
+        if row and row["id"]:
+            # Mettre à jour ce combat spécifique
+            await db.conn.execute(
+                "UPDATE combats SET thread_id = ? WHERE id = ?",
+                (thread_id, row["id"]),
+        )
+
+        await db.conn.commit()
 
 
 async def combat_close(db, thread_id: int) -> None:
@@ -95,7 +120,7 @@ async def combat_close(db, thread_id: int) -> None:
         # Mettre à jour le statut du combat existant
         await db.conn.execute(
             "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
-            (combat_id,),
+        (combat_id,),
         )
         await db.conn.commit()
         logger.info(f"Combat ID {combat_id} fermé avec succès")
@@ -105,60 +130,63 @@ async def combat_close(db, thread_id: int) -> None:
 
 
 async def participants_add(db, thread_id: int, user_id: int, added_by: int) -> None:
-    # Récupérer d'abord le channel_id associé au thread_id
+    # Récupérer d'abord le combat_id associé au thread_id
     row = await db.execute_fetchone(
-        "SELECT channel_id FROM combats WHERE thread_id = ? AND status = 'active'",
+        "SELECT id, channel_id FROM combats WHERE thread_id = ? AND status = 'active'",
         (int(thread_id),),
     )
 
     if not row:
         raise CombatError("Aucun combat actif trouvé pour ce fil.")
 
+    combat_id = row['id']
     channel_id = row['channel_id']
+
     await db.conn.execute(
         """
-        INSERT INTO combat_participants(channel_id, user_id, added_by)
-        VALUES(?, ?, ?)
-        ON CONFLICT(channel_id, user_id) DO NOTHING
+        INSERT INTO combat_participants(channel_id, user_id, added_by, combat_id)
+        VALUES(?, ?, ?, ?)
+        ON CONFLICT(combat_id, user_id) DO NOTHING
         """,
-        (int(channel_id), int(user_id), int(added_by)),
+        (int(channel_id), int(user_id), int(added_by), combat_id),
     )
     await db.conn.commit()
 
 
 async def participants_list(db, thread_id: int) -> list[int]:
-    # Récupérer d'abord le channel_id associé au thread_id
+    # Récupérer d'abord le combat_id associé au thread_id
     row = await db.execute_fetchone(
-        "SELECT channel_id FROM combats WHERE thread_id = ? AND status = 'active'",
+        "SELECT id FROM combats WHERE thread_id = ? AND status = 'active'",
         (int(thread_id),),
     )
 
     if not row:
         raise CombatError("Aucun combat actif trouvé pour ce fil.")
 
-    channel_id = row['channel_id']
+    combat_id = row['id']
 
     rows = await db.execute_fetchall(
-        "SELECT user_id FROM combat_participants WHERE channel_id = ?",
-        (int(channel_id),),
+        "SELECT user_id FROM combat_participants WHERE combat_id = ?",
+        (combat_id,),
     )
     return [int(r["user_id"]) for r in rows]
 
 
 async def log_add(db, thread_id: int, kind: str, message: str) -> None:
-    # Récupérer d'abord le channel_id associé au thread_id
+    # Récupérer d'abord le combat_id associé au thread_id
     row = await db.execute_fetchone(
-        "SELECT channel_id FROM combats WHERE thread_id = ? AND status = 'active'",
+        "SELECT id, channel_id FROM combats WHERE thread_id = ? AND status = 'active'",
         (int(thread_id),),
     )
 
     if not row:
         raise CombatError("Aucun combat actif trouvé pour ce fil.")
 
+    combat_id = row['id']
     channel_id = row['channel_id']
 
     await db.conn.execute(
-        "INSERT INTO combat_logs(channel_id, kind, message) VALUES(?, ?, ?)",
-        (int(channel_id), str(kind), str(message)),
+        "INSERT INTO combat_logs(channel_id, kind, message, combat_id) VALUES(?, ?, ?, ?)",
+        (int(channel_id), str(kind), str(message), combat_id),
     )
     await db.conn.commit()

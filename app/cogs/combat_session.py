@@ -64,8 +64,56 @@ class CombatSessionCog(commands.Cog):
 
             await combat_create(self.bot.db, int(channel.id), created_by=int(interaction.user.id))
             logger.info(f"Combat créé avec succès dans le salon {channel.id}")
+
+            # Création du fil de discussion
+            thread = await channel.create_thread(
+                name=f"Combat - {interaction.user.display_name}",
+                type=discord.ChannelType.private_thread,
+                reason="Fil de combat créé par Bofuri"
+            )
+
+            # Ajout du créateur au fil
+            await thread.add_user(interaction.user)
+
+            # Ajout des membres mentionnés au fil et au combat
+            members_added = []
+            for user_id in ids:
+                try:
+                    member = await interaction.guild.fetch_member(user_id)
+                    if member:
+                        await participants_add(self.bot.db, channel.id, member.id, added_by=interaction.user.id)
+                        await thread.add_user(member)
+                        members_added.append(member.mention)
+                except Exception as e:
+                    logger.error(f"Erreur lors de l'ajout du membre {user_id}: {str(e)}")
+
+            # Enregistrement du thread dans la base de données
+            await combat_set_thread(self.bot.db, channel.id, thread.id)
+
+            # Message de bienvenue dans le fil
+            welcome_message = f"Combat créé par {interaction.user.mention}."
+            if members_added:
+                welcome_message += f" Participants: {', '.join(members_added)}"
+            await thread.send(welcome_message)
+            # Ajout du log
+            await log_add(self.bot.db, channel.id, "system", f"Combat créé par {interaction.user}.")
+
+            # Réponse à l'interaction
+            await interaction.response.send_message(f"Combat créé! Fil: {thread.mention}", ephemeral=False)
+
         except CombatError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
+            return
+        except discord.Forbidden:
+            await interaction.response.send_message("Je n'ai pas les permissions nécessaires pour créer un fil de discussion.", ephemeral=True)
+            # Annuler le combat créé dans la base de données
+            await combat_close(self.bot.db, channel.id)
+            return
+        except Exception as e:
+            logger.error(f"Erreur lors de la création du combat: {str(e)}", exc_info=True)
+            await interaction.response.send_message("Une erreur est survenue lors de la création du combat.", ephemeral=True)
+            # Annuler le combat créé dans la base de données
+            await combat_close(self.bot.db, channel.id)
             return
 
     @app_commands.command(name="combat_add", description="Ajoute un membre au combat actif et l'invite au fil")

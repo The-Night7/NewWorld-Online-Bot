@@ -9,6 +9,7 @@ from app.combat_session import (
     combat_create,
     combat_close,
     combat_get_thread_id,
+    combat_get_thread_ids,
     combat_is_active,
     combat_set_thread,
     participants_add,
@@ -35,6 +36,23 @@ class CombatSessionCog(commands.Cog):
         except Exception:
             return None
 
+    async def _get_active_threads(self, channel: discord.abc.GuildChannel) -> list[discord.Thread]:
+        """Récupère tous les fils de combats actifs pour un salon."""
+        thread_ids = await combat_get_thread_ids(self.bot.db, channel.id)
+        threads = []
+
+        for tid in thread_ids:
+            thr = channel.guild.get_thread(tid)
+            if thr:
+                threads.append(thr)
+            else:
+                try:
+                    thr = await channel.guild.fetch_channel(tid)
+                    threads.append(thr)
+                except Exception:
+                    pass
+
+        return threads
     @app_commands.command(name="combat_start", description="Démarre un combat dans ce salon et ouvre un fil privé")
     @app_commands.describe(members="Membres à inclure dans le combat (en plus de toi)")
     async def combat_start(self, interaction: discord.Interaction, members: str = ""):
@@ -56,15 +74,14 @@ class CombatSessionCog(commands.Cog):
                 tok = tok.replace("<@", "").replace(">", "").replace("!", "")
                 if tok.isdigit():
                     ids.append(int(tok))
-
         try:
             # Ajout de journalisation
             logger = logging.getLogger('bofuri.combat')
             logger.info(f"Tentative de création de combat dans le salon {channel.id} par {interaction.user.id}")
 
             # Création du combat dans la base de données (sans thread_id pour l'instant)
-            await combat_create(self.bot.db, int(channel.id), created_by=int(interaction.user.id))
-            logger.info(f"Combat créé avec succès dans le salon {channel.id}")
+            combat_id = await combat_create(self.bot.db, int(channel.id), created_by=int(interaction.user.id))
+            logger.info(f"Combat ID {combat_id} créé avec succès dans le salon {channel.id}")
 
             # Création du fil de discussion
             thread = await channel.create_thread(
@@ -78,10 +95,10 @@ class CombatSessionCog(commands.Cog):
 
             # Enregistrement du thread dans la base de données
             try:
-                await combat_set_thread(self.bot.db, channel.id, thread.id)
+                await combat_set_thread(self.bot.db, channel.id, thread.id, combat_id=combat_id)
             except CombatError as e:
                 # Si un combat est déjà actif dans ce fil, annuler la création
-                await combat_close(self.bot.db, channel.id)
+                await combat_close(self.bot.db, thread.id)
                 await thread.delete()
                 await interaction.response.send_message(str(e), ephemeral=True)
                 return
@@ -114,13 +131,25 @@ class CombatSessionCog(commands.Cog):
         except discord.Forbidden:
             await interaction.response.send_message("Je n'ai pas les permissions nécessaires pour créer un fil de discussion.", ephemeral=True)
             # Annuler le combat créé dans la base de données
-            await combat_close(self.bot.db, channel.id)
+            if 'combat_id' in locals():
+                # Si le combat_id existe, utiliser cette méthode
+                await db.conn.execute(
+                    "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
+                    (combat_id,),
+                )
+                await db.conn.commit()
             return
         except Exception as e:
             logger.error(f"Erreur lors de la création du combat: {str(e)}", exc_info=True)
             await interaction.response.send_message("Une erreur est survenue lors de la création du combat.", ephemeral=True)
             # Annuler le combat créé dans la base de données
-            await combat_close(self.bot.db, channel.id)
+            if 'combat_id' in locals():
+                # Si le combat_id existe, utiliser cette méthode
+                await db.conn.execute(
+                    "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
+                    (combat_id,),
+                )
+                await db.conn.commit()
             return
 
     @app_commands.command(name="combat_add", description="Ajoute un membre au combat actif et l'invite au fil")
@@ -138,10 +167,19 @@ class CombatSessionCog(commands.Cog):
             thread = interaction.channel
         else:
             # Sinon, chercher le thread associé au salon
-            thread = await self._get_active_thread(interaction.channel)  # type: ignore
-            if not thread:
+            threads = await self._get_active_threads(interaction.channel)  # type: ignore
+            if not threads:
                 await interaction.response.send_message("Aucun fil de combat actif trouvé pour ce salon.", ephemeral=True)
                 return
+            elif len(threads) > 1:
+                # S'il y a plusieurs fils actifs, demander à l'utilisateur de spécifier
+                thread_options = "\n".join([f"{i+1}. {t.name} ({t.mention})" for i, t in enumerate(threads)])
+                await interaction.response.send_message(
+                    f"Plusieurs combats actifs trouvés. Veuillez utiliser la commande directement dans le fil concerné:\n{thread_options}",
+                    ephemeral=True
+                )
+                return
+            thread = threads[0]
             thread_id = thread.id
 
         await participants_add(self.bot.db, thread_id, member.id, added_by=interaction.user.id)
@@ -170,10 +208,19 @@ class CombatSessionCog(commands.Cog):
                     return
             else:
                 # Sinon, chercher le thread associé au salon
-                thread = await self._get_active_thread(interaction.channel)  # type: ignore
-                if not thread:
+                threads = await self._get_active_threads(interaction.channel)  # type: ignore
+                if not threads:
                     await interaction.response.send_message("Aucun fil de combat actif trouvé pour ce salon.", ephemeral=True)
                     return
+                elif len(threads) > 1:
+                    # S'il y a plusieurs fils actifs, demander à l'utilisateur de spécifier
+                    thread_options = "\n".join([f"{i+1}. {t.name} ({t.mention})" for i, t in enumerate(threads)])
+                    await interaction.response.send_message(
+                        f"Plusieurs combats actifs trouvés. Veuillez utiliser la commande directement dans le fil concerné:\n{thread_options}",
+                        ephemeral=True
+                    )
+                    return
+                thread = threads[0]
                 thread_id = thread.id
 
             logger.info(f"Fermeture du combat dans le fil {thread_id} par {interaction.user.id}")

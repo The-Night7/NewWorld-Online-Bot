@@ -92,7 +92,7 @@ async def combat_set_thread(db, channel_id: int, thread_id: int, combat_id: Opti
                 (thread_id, row["id"]),
             )
 
-        await db.conn.commit()
+    await db.conn.commit()
 
 
 async def combat_close(db, thread_id: int) -> None:

@@ -4,6 +4,7 @@ import discord
 import logging
 from discord import app_commands
 from discord.ext import commands
+import math
 
 # Modifier cette ligne pour importer REGISTRY au lieu de registry
 from app.mobs.registry import REGISTRY
@@ -38,12 +39,27 @@ class MobsCog(commands.Cog):
             await interaction.response.send_message("Aucun mob enregistré.", ephemeral=True)
             return
 
-        lines = [f"- `{m.key}` → **{m.display_name}** ({', '.join(m.tags) or 'no-tags'})" for m in mobs[:40]]
-        msg = "## Bestiaire (extraits)\n" + "\n".join(lines)
-        if len(mobs) > 40:
-            msg += f"\n… +{len(mobs) - 40} autres"
+            # Répondre immédiatement pour éviter le timeout
+        await interaction.response.defer(ephemeral=True)
 
-        await interaction.response.send_message(msg, ephemeral=True)
+        # Créer des pages de 20 mobs maximum pour éviter de dépasser la limite de caractères
+        mobs_per_page = 20
+        total_pages = math.ceil(len(mobs) / mobs_per_page)
+
+        for page in range(total_pages):
+            start_idx = page * mobs_per_page
+            end_idx = min(start_idx + mobs_per_page, len(mobs))
+            page_mobs = mobs[start_idx:end_idx]
+
+            lines = [f"- `{m.key}` → **{m.display_name}** ({', '.join(m.tags) or 'no-tags'})" for m in page_mobs]
+
+            page_title = f"## Bestiaire (page {page+1}/{total_pages})"
+            msg = page_title + "\n" + "\n".join(lines)
+
+            if page == 0:
+                await interaction.followup.send(msg, ephemeral=True)
+            else:
+                await interaction.followup.send(msg, ephemeral=True)
 
     @app_commands.command(name="mob_spawn", description="Spawn un mob dans ce salon (nom unique auto)")
     @app_commands.describe(key="Ex: forest.lapin_vegetal", level="Niveau voulu (interpolé si besoin)")

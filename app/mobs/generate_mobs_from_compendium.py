@@ -6,7 +6,7 @@
 # - utiliser des noms de fichiers sûrs (ascii, snake_case) et des keys stables (namespace.slug)
 #
 # Hypothèses (à adapter si besoin):
-# - app.mobs.types expose MobDefinition, MobStats
+# - app.mobs.mob_types expose MobDefinition, MobStats
 # - MobDefinition accepte au minimum: key, display_name, level_min, level_max, rarity, zone, drops, abilities, level_stats
 # - level_stats est un dict[int, MobStats] avec les statistiques par niveau
 #
@@ -163,9 +163,9 @@ def render_module(monster_id: str, data: Dict[str, Any]) -> str:
     # Nom de fichier sûr
     module_slug = snake_slug(monster_id)
 
-    # Utiliser level_stats au lieu de variants
+    # Utiliser level_stats au lieu de variants et le nouveau chemin d'import
     return f'''from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(

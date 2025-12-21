@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import Tuple
 
-from .types import MobDefinition, MobStats
+from .mob_types import MobDefinition, MobStats
 from ..models import RuntimeEntity
 
 

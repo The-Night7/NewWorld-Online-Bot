@@ -9,31 +9,88 @@ from ..dice import d20
 from ..rules import resolve_attack, AttackType
 
 
-async def fetch_player_entity(bot: commands.Bot, user: discord.abc.User) -> RuntimeEntity:
-    row = await bot.db.execute_fetchone(  # Changé de bot.db.conn.execute_fetchone à bot.db.execute_fetchone
+async def fetch_player_entity(db, user_id: int) -> RuntimeEntity:
+    """
+    Récupère ou crée une entité de joueur pour le combat
+    """
+    # Essayer d'abord de récupérer depuis la nouvelle table characters
+    async with db.execute(
+        "SELECT * FROM characters WHERE user_id = ?",
+        (user_id,)
+    ) as cursor:
+        row = await cursor.fetchone()
+
+    if row:
+        # Utiliser les données de la table characters
+        return RuntimeEntity(
+            name=row['name'],
+            hp=float(row['hp']),
+            hp_max=float(row['hp_max']),
+            mp=float(row['mp']),
+            mp_max=float(row['mp_max']),
+            STR=float(row['STR']),
+            AGI=float(row['AGI']),
+            INT=float(row['INT']),
+            DEX=float(row['DEX']),
+            VIT=float(row['VIT']),
+        )
+
+    # Fallback: essayer l'ancienne table players
+    async with db.execute(
         "SELECT * FROM players WHERE user_id = ?",
-        (user.id,),
-    )
-    if not row:
-        raise ValueError("Joueur introuvable en base. Utilise /pc_create d'abord.")
+        (user_id,)
+    ) as cursor:
+        row = await cursor.fetchone()
+
+    if row:
+        return RuntimeEntity(
+            name=row['name'],
+            hp=float(row['hp']),
+            hp_max=float(row['hp_max']),
+            mp=float(row['mp']),
+            mp_max=float(row['mp_max']),
+            STR=float(row['str']),
+            AGI=float(row['agi']),
+            INT=float(row['int_']),
+            DEX=float(row['dex']),
+            VIT=float(row['vit']),
+        )
+
+    # Si aucune donnée n'est trouvée, créer un personnage par défaut
+    from ..character import create_character
+    character = await create_character(db, user_id, f"Joueur_{user_id}")
 
     return RuntimeEntity(
-        name=row["name"],
-        hp=float(row["hp"]),
-        hp_max=float(row["hp_max"]),
-        mp=float(row["mp"]),
-        mp_max=float(row["mp_max"]),
-        STR=float(row["str"]),
-        AGI=float(row["agi"]),
-        INT=float(row["int_"]),
-        DEX=float(row["dex"]),
-        VIT=float(row["vit"]),
+        name=character.name,
+        hp=character.hp,
+        hp_max=character.hp_max,
+        mp=character.mp,
+        mp_max=character.mp_max,
+        STR=character.STR,
+        AGI=character.AGI,
+        INT=character.INT,
+        DEX=character.DEX,
+        VIT=character.VIT,
     )
 
 
-async def save_player_hp(bot: commands.Bot, user_id: int, hp: float) -> None:
-    await bot.db.conn.execute("UPDATE players SET hp = ? WHERE user_id = ?", (float(hp), int(user_id)))
-    await bot.db.conn.commit()
+async def save_player_hp(db, user_id: int, hp: float) -> None:
+    """
+    Sauvegarde les HP d'un joueur après un combat
+    """
+    # Mettre à jour la table characters
+    await db.execute(
+        "UPDATE characters SET hp = ? WHERE user_id = ?",
+        (hp, user_id)
+    )
+    await db.commit()
+
+    # Pour la compatibilité, mettre également à jour l'ancienne table players
+    await db.execute(
+        "UPDATE players SET hp = ? WHERE user_id = ?",
+        (hp, user_id)
+    )
+    await db.commit()
 
 
 class CombatCog(commands.Cog):

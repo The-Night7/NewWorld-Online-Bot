@@ -10,6 +10,7 @@ from app.cogs.combat import CombatCog
 from app.cogs.mobs import MobsCog
 from app.cogs.combat_session import CombatSessionCog
 from app.mobs.registry import discover_and_register
+from app.items import initialize_basic_items
 
 # Ajoutez ces imports en haut du fichier
 import traceback
@@ -53,6 +54,9 @@ class BofuriBot(commands.Bot):
         logger.info("Configuration du bot en cours...")
         await self.db.connect()
 
+        logger.info("Initialisation des objets de base...")
+        await initialize_basic_items(self.db)
+
         logger.info("Découverte et enregistrement des mobs...")
         discover_and_register("app.mobs")
 
@@ -61,6 +65,11 @@ class BofuriBot(commands.Bot):
         await self.add_cog(CombatCog(self))
         await self.add_cog(MobsCog(self))
         await self.add_cog(CombatSessionCog(self))
+
+        # Charger le nouveau Cog pour les personnages
+        from app.cogs.character import CharacterCog
+        await self.add_cog(CharacterCog(self))
+
         from app.cogs.debug import DebugCog
         await self.add_cog(DebugCog(self))
 

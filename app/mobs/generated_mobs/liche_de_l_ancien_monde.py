@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Event',
         drops=['Bâton de liche', 'Grimoire ancien', 'Phylactère'],
         abilities=['Invocation:  Armée de monstres (sauf boss/rares)'],
+        level_stats={},
         variants={},
     )
 )

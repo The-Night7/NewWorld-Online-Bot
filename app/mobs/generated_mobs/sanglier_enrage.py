@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone="Donjon de l'Arbre Honey",
         drops=['Défense de sanglier', 'Fourrure épaisse'],
         abilities=['Charge enragée:  110'],
+        level_stats={},
         variants={},
     )
 )

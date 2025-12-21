@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Roule mabroule: Oneshot si écrasé', '- Lance-pique: Dégâts zone', '- Drop: Pique de glace, Écaille de dino, Fossile gelé', '- Zone: Event'],
+        level_stats={},
         variants={},
     )
 )

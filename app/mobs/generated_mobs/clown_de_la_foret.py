@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,9 +12,10 @@ REGISTRY.register(
         zone='Forêt',
         drops=['Costumes clown', 'Roue de folie'],
         abilities=None,
-        variants={
-    10: MobStats(hp=40.0, mp=25.0, STR=20.0, AGI=18.0, INT=12.0, DEX=22.0, VIT=8.0),
-    15: MobStats(hp=65.0, mp=40.0, STR=30.0, AGI=25.0, INT=18.0, DEX=30.0, VIT=12.0),
+        level_stats={
+    10: MobStats(hp=40.0, mp=25.0, STR=20.0, AGI=18.0, INT=12.0, DEX=22.0, VIT=8.0, base_attack=0.0),
+    15: MobStats(hp=65.0, mp=40.0, STR=30.0, AGI=25.0, INT=18.0, DEX=30.0, VIT=12.0, base_attack=0.0),
 },
+        variants={},
     )
 )

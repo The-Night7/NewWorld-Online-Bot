@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Donjon Secret (après 4 morts)',
         drops=['Couronne du roi squelette', 'Sceptre maudit', 'Âme royale'],
         abilities=['Hurlement des morts:  Malédiction -20% gain de stats si touché', 'Condition apparition:  Être mort 4 fois'],
+        level_stats={},
         variants={},
     )
 )

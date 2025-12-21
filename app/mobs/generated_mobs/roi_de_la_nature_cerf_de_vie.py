@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Coup étourdissant: Étourdit cible 5 tours', '- Bouclier magique: Immunité effets secondaires (poison, etc.)', "- Régénération: Récupère tous PV tant qu'il a des pommes sur bois", '- Drop: Bois de cerf sacré, Pomme de vie, Couronne de nature', "- Zone: Donjon de l'Arbre Honey"],
+        level_stats={},
         variants={},
     )
 )

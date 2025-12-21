@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Event',
         drops=None,
         abilities=['- Pluie de plumes: 50/plume', '- Javelot de glace: 150', '- Gel instantané: Glacifie attaques liquides (réduction dégâts, sauf après attaque vent)', '- Laserglace: 200', '- Drop (Phase 1): Plume de glace, Cristal gelé'],
+        level_stats={},
         variants={},
     )
 )

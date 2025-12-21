@@ -17,7 +17,7 @@ class MobStats:
     base_attack: float = 0.0  # optionnel (si tu veux t'en servir plus tard)
 
 
-@dataclass(frozen=False)  # Changed from frozen=True to allow post-init modification
+@dataclass(frozen=True)
 class MobDefinition:
     """
     Définition "bestiaire".
@@ -43,18 +43,6 @@ class MobDefinition:
     rarity: Optional[str] = None
     abilities: List[str] = field(default_factory=list)
     variants: Dict[str, Any] = field(default_factory=dict)
-
-    def __post_init__(self):
-        # Copy variants to level_stats if variants is not empty and level_stats is empty
-        if self.variants and not self.level_stats:
-            # Create a new dict to avoid modifying the frozen dataclass
-            new_level_stats = {}
-            for level, stats in self.variants.items():
-                if isinstance(level, (int, str)) and isinstance(stats, MobStats):
-                    new_level_stats[int(level)] = stats
-            
-            # Use object.__setattr__ to modify the frozen dataclass
-            object.__setattr__(self, 'level_stats', new_level_stats)
 
     def available_levels(self) -> List[int]:
         if self.level_min is not None and self.level_max is not None:

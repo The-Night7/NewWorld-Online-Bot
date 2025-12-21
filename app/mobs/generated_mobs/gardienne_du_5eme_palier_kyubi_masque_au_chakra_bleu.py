@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Passage Palier 5',
         drops=['Clé du 5ème palier', 'Masque de Kyubi', 'Queue de chakra'],
         abilities=['Flammes des 9 queues:  400/boule + Chance moyenne brûlure'],
+        level_stats={},
         variants={},
     )
 )

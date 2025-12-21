@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Environnement hostile: 5% HP/tour à tous (sauf lui)', '- Canon multiple: 200/tir', '- Déferlement de lave: 500 (zone)', "- Drop: Clé du 4ème palier, Cœur de lave, Armure d'Oursobot", '- Zone: Passage Palier 4'],
+        level_stats={},
         variants={},
     )
 )

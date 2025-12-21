@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Barrière gravitationnelle: Repousse corps-à-corps (sauf attaques répétitives)', '- Copie-cast: Renvoie sorts', '- Drop: Fragment de tour, Archives royales, Clé akashique', '- Zone: Event'],
+        level_stats={},
         variants={},
     )
 )

@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Zone corrompue',
         drops=None,
         abilities=['Lien maudit:  Immobilise + Empêche fuite/skills offensifs ou déplacement', 'Drop (Phase 1):  Armure démoniaque, Chaînes maudites', 'Goinfrerie:  Enferme victime dans ventre + Poison gastrique (dégâts durée)', 'Drop (Phase 2):  Épée démoniaque, Cœur corrompu'],
+        level_stats={},
         variants={},
     )
 )

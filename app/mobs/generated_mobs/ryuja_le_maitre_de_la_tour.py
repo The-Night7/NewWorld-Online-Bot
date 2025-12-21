@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Aura surpuissante: Repousse attaques distance (0 dégâts, fonctionne vs "Hydre")', '- Perce-armure: Ignore défense', '- Drop: Katana de Ryuja, Parchemin du maître, Médaillon de la tour', '- Zone: Temple de Ryuja'],
+        level_stats={},
         variants={},
     )
 )

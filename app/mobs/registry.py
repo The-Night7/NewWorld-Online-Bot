@@ -4,7 +4,7 @@ import importlib
 import pkgutil
 from typing import Dict, Iterable, List, Optional
 
-from .types import MobDefinition
+from .mob_types import MobDefinition
 
 
 class MobRegistry:
@@ -29,7 +29,7 @@ REGISTRY = MobRegistry()
 def discover_and_register(package: str = "app.mobs") -> None:
     """
     Importe tous les sous-modules de `app.mobs` (et sous-dossiers)
-    pour déclencher l’enregistrement (via REGISTRY.register).
+    pour déclencher l'enregistrement (via REGISTRY.register).
 
     À appeler 1 fois au démarrage du bot.
     """

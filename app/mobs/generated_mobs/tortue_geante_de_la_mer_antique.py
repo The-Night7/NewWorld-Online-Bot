@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Event',
         drops=['Carapace antique', 'Perle de mer', 'Écaille légendaire'],
         abilities=['Carapace:  Immunité dégâts sur carapace'],
+        level_stats={},
         variants={},
     )
 )

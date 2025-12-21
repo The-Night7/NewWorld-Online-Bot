@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Passage Palier 6',
         drops=['Clé du 6ème palier', 'Tentacule nuageux', 'Perle céleste'],
         abilities=['Coup de tentacule:  1000 x6'],
+        level_stats={},
         variants={},
     )
 )

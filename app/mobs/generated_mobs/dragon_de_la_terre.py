@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Barrière magique: Protège vs magie (sauf pendant souffle)', '- Souffle de pierre: 2000', '- Écaille solide: -99% dégâts extérieur, x3 dégâts intérieur', '- Drop: Écaille de dragon, Cœur de terre, Griffe titanesque', '- Zone: Event'],
+        level_stats={},
         variants={},
     )
 )

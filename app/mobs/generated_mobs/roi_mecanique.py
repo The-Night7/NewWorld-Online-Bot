@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Zone mécanique',
         drops=None,
         abilities=['Drop (Phase 1):  Pièces mécaniques, Circuit magique', 'Obtention skill:  "Dieu mécanique" (pour vainqueur)', 'Drop (Phase 2):  Cœur mécanique, Blueprint légendaire, Core du roi'],
+        level_stats={},
         variants={},
     )
 )

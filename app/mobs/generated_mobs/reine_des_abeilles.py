@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['- Cri de la reine: Quand PV dans le rouge, invoque 1-5 abeilles selon roll (max 15)', '- Dard empoisonné: 30/tour', "- Drop: Miel royal, Ailes d'abeille magique", '- Zone: Forêt'],
+        level_stats={},
         variants={},
     )
 )

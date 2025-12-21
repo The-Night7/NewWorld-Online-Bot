@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=["- Brume d'encre: Réduit précision (12+ pour toucher au lieu de 10+)", "- Rayon d'eau: 60 dégâts", '- Drop: Tentacule géant, Encre magique, Perle des profondeurs', '- Zone: Donjon de la Pêche'],
+        level_stats={},
         variants={},
     )
 )

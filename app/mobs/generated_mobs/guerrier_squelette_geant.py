@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone='Event',
         drops=['Épée géante maudite', 'Armure de squelette', 'Crâne colossal'],
         abilities=["Coup d'épée:  3000"],
+        level_stats={},
         variants={},
     )
 )

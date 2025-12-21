@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone="Donjon de l'Hydre",
         drops=["Écailles de l'hydre", 'Venin purifié', "Cœur d'hydre"],
         abilities=['Crachat de poison:  50/tour + dégats de base'],
+        level_stats={},
         variants={},
     )
 )

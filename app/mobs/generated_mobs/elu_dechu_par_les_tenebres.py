@@ -1,5 +1,5 @@
 from app.mobs.registry import REGISTRY
-from app.mobs.types import MobDefinition, MobStats
+from app.mobs.mob_types import MobDefinition, MobStats
 
 
 REGISTRY.register(
@@ -12,6 +12,7 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=['Lame sacrée purificatrice:  Dégâts lumière élevés', 'Note:  Invulnérable sauf zone rose', 'Drop (Phase 1):  Fragment de lumière, Armure déchue'],
+        level_stats={},
         variants={},
     )
 )

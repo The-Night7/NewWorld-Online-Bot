@@ -7,8 +7,8 @@
 #
 # Hypothèses (à adapter si besoin):
 # - app.mobs.types expose MobDefinition, MobStats
-# - MobDefinition accepte au minimum: key, display_name, level_min, level_max, rarity, zone, drops, abilities, variants
-# - variants est un dict[int, MobStats] OU un dict[int, {...}] selon votre code
+# - MobDefinition accepte au minimum: key, display_name, level_min, level_max, rarity, zone, drops, abilities, level_stats
+# - level_stats est un dict[int, MobStats] avec les statistiques par niveau
 #
 # Si vos champs MobDefinition diffèrent, modifiez la fonction render_module().
 
@@ -40,7 +40,7 @@ def snake_slug(s: str) -> str:
     """
     s = s.strip()
     s = s.replace("&", " and ")
-    s = s.replace("’", "'")
+    s = s.replace("'", "'")
     s = strip_accents(s).lower()
     s = re.sub(r"[^a-z0-9]+", "_", s)
     s = re.sub(r"_+", "_", s).strip("_")
@@ -104,10 +104,10 @@ def render_list_str(items: Any) -> str:
     return "[" + ", ".join(py_str(x) for x in items) + "]"
 
 
-def render_variants(variants: Dict[str, Any]) -> Tuple[str, int | None, int | None]:
+def render_level_stats(variants: Dict[str, Any]) -> Tuple[str, int | None, int | None]:
     """
     Produit:
-    - un littéral Python pour variants (dict[int, MobStats] par défaut)
+    - un littéral Python pour level_stats (dict[int, MobStats])
     - level_min, level_max déduits des keys si possible
     """
     if not variants:
@@ -131,7 +131,7 @@ def render_variants(variants: Dict[str, Any]) -> Tuple[str, int | None, int | No
         DEX = v.get("DEX")
         VIT = v.get("VIT")
         lines.append(
-            f"    {k}: MobStats(hp={float(hp)}, mp={float(mp)}, STR={float(STR)}, AGI={float(AGI)}, INT={float(INT)}, DEX={float(DEX)}, VIT={float(VIT)}),"
+            f"    {k}: MobStats(hp={float(hp)}, mp={float(mp)}, STR={float(STR)}, AGI={float(AGI)}, INT={float(INT)}, DEX={float(DEX)}, VIT={float(VIT)}, base_attack=0.0),"
         )
     lines.append("}")
     return "\n".join(lines), level_min, level_max
@@ -145,7 +145,7 @@ def render_module(monster_id: str, data: Dict[str, Any]) -> str:
     drops = data.get("drops")
 
     variants = data.get("variants") or {}
-    variants_py, level_min, level_max = render_variants(variants)
+    level_stats_py, level_min, level_max = render_level_stats(variants)
 
     # fallback si "level_range" est un format texte (ex "1-10" / "10")
     # On s'en sert si variants est vide.
@@ -163,8 +163,7 @@ def render_module(monster_id: str, data: Dict[str, Any]) -> str:
     # Nom de fichier sûr
     module_slug = snake_slug(monster_id)
 
-    # NOTE: adaptez les champs MobDefinition selon votre dataclass.
-    # Ici on suppose qu'il accepte: key, display_name, level_min, level_max, rarity, zone, drops, abilities, variants
+    # Utiliser level_stats au lieu de variants
     return f'''from app.mobs.registry import REGISTRY
 from app.mobs.types import MobDefinition, MobStats
 
@@ -179,7 +178,8 @@ REGISTRY.register(
         zone={py_str(zone)},
         drops={render_list_str(drops)},
         abilities={render_list_str(abilities)},
-        variants={variants_py},
+        level_stats={level_stats_py},
+        variants={{}},
     )
 )
 '''

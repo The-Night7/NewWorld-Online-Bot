@@ -44,6 +44,7 @@ def stats_for_level(defn: MobDefinition, level: int) -> Tuple[int, MobStats]:
         return l0, defn.level_stats[l0]
     if lvl >= levels[-1]:
         l1 = levels[-1]
+        # Correction ici: on utilise directement l1 qui est garanti d'être dans level_stats
         return l1, defn.level_stats[l1]
 
     # find bounding levels

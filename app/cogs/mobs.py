@@ -18,9 +18,10 @@ from app.combat_mobs import (
     cleanup_dead_mobs,
 )
 from app.dice import d20
-from app.rules import resolve_attack, AttackType
+from app.rules import resolve_attack, AttackType, calculate_xp_amount
 from app.cogs.combat import fetch_player_entity, save_player_hp
 from app.combat_session import combat_is_active
+from app.character import get_character, add_xp
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
@@ -162,6 +163,71 @@ class MobsCog(commands.Cog):
 
         embed.add_field(name="Toucher A vs D", value=f'{result["hit_a"]:.2f} vs {result["hit_b"]:.2f}', inline=False)
         embed.add_field(name="Log", value="\n".join(result["effects"]) if result["effects"] else "—", inline=False)
+
+        # Vérifier si le mob est mort (HP = 0) et attribuer de l'XP si c'est le cas
+        if defender.hp <= 0:
+            try:
+                # Récupérer les informations du mob depuis le registre
+                mob_key = None
+                mob_info = None
+                rows = await list_mobs(self.bot.db, interaction.channel_id)
+                for row in rows:
+                    if row['mob_name'] == mob_name:
+                        mob_key = row['mob_key']
+                        mob_level = row['level']
+                        break
+                
+                if mob_key:
+                    mob_def = REGISTRY.get(mob_key)
+                    if mob_def:
+                        # Déterminer le type de mob (commun, rare, elite, boss)
+                        mob_type = "commun"
+                        is_boss = False
+                        is_event = False
+                        
+                        # Vérifier les tags pour déterminer le type
+                        if mob_def.tags:
+                            if "boss" in mob_def.tags:
+                                mob_type = "boss"
+                                is_boss = True
+                            elif "elite" in mob_def.tags:
+                                mob_type = "elite"
+                            elif "rare" in mob_def.tags:
+                                mob_type = "rare"
+                            
+                            if "event" in mob_def.tags:
+                                is_event = True
+                        
+                        # Récupérer le personnage du joueur
+                        character = await get_character(self.bot.db, interaction.user.id)
+                        if character:
+                            # Calculer l'XP gagnée
+                            xp_amount, explanation = calculate_xp_amount(
+                                player_level=character.level,
+                                mob_level=mob_level,
+                                mob_type=mob_type,
+                                mob_name=mob_name,
+                                is_boss=is_boss,
+                                is_event=is_event,
+                                xp_next_level=character.xp_next
+                            )
+                            
+                            # Ajouter l'XP au personnage
+                            if xp_amount > 0:
+                                character, leveled_up, levels_gained = await add_xp(self.bot.db, character.user_id, xp_amount)
+                                
+                                # Message d'XP
+                                xp_message = f"Vous avez gagné {xp_amount} XP! ({explanation})"
+                                if leveled_up:
+                                    xp_message += f"\n**NIVEAU UP!** Vous êtes maintenant niveau {character.level}!"
+                                    if levels_gained > 1:
+                                        xp_message += f" (+{levels_gained} niveaux)"
+                                    xp_message += f"\nPoints de compétence disponibles: {character.skill_points}"
+                                
+                                embed.add_field(name="Expérience", value=xp_message, inline=False)
+            except Exception as e:
+                logger.error(f"Erreur lors de l'attribution d'XP: {str(e)}", exc_info=True)
+                embed.add_field(name="Erreur XP", value=f"Une erreur est survenue lors de l'attribution d'XP: {str(e)}", inline=False)
 
         if deleted:
             embed.add_field(name="Info", value=f"{deleted} mob(s) mort(s) retiré(s) du salon.", inline=False)

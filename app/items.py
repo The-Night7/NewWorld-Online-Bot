@@ -19,8 +19,8 @@ class ItemDefinition:
     
     @classmethod
     async def from_db(cls, db, item_id: str) -> Optional[ItemDefinition]:
-        """Charge une définition d'objet depuis la base de données"""
-        async with db.execute(
+        # Charge une définition d'objet depuis la base de données
+        async with db.conn.execute(
             "SELECT * FROM items WHERE item_id = ?",
             (item_id,)
         ) as cursor:
@@ -39,25 +39,26 @@ class ItemDefinition:
             properties=json.loads(row['properties']) if row['properties'] else {}
         )
     
-    async def save_to_db(self, db) -> None:
-        """Sauvegarde la définition d'objet dans la base de données"""
-        await db.execute(
+    async def save_to_db(self, db):
+        # Convertir les propriétés en JSON
+        properties_json = json.dumps(self.properties)
+        
+        # Insérer ou mettre à jour l'objet dans la base de données
+        await db.conn.execute(
             """
-            INSERT OR REPLACE INTO items 
-            (item_id, name, description, type, rarity, value, properties)
+            INSERT INTO items (item_id, name, description, type, rarity, value, properties)
             VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(item_id) DO UPDATE SET
+                name = excluded.name,
+                description = excluded.description,
+                type = excluded.type,
+                rarity = excluded.rarity,
+                value = excluded.value,
+                properties = excluded.properties
             """,
-            (
-                self.item_id,
-                self.name,
-                self.description,
-                self.type,
-                self.rarity,
-                self.value,
-                json.dumps(self.properties)
-            )
+            (self.item_id, self.name, self.description, self.type, self.rarity, self.value, properties_json)
         )
-        await db.commit()
+        await db.conn.commit()
 
 
 # Registre des objets (similaire au registre des mobs)

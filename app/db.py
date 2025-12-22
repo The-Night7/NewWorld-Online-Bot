@@ -71,6 +71,16 @@ CREATE TABLE IF NOT EXISTS combat_mobs (
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(channel_id, mob_name)
 );
+
+CREATE TABLE IF NOT EXISTS items (
+  item_id     TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  description TEXT NOT NULL,
+  type        TEXT NOT NULL,
+  rarity      TEXT NOT NULL,
+  value       INTEGER NOT NULL,
+  properties  TEXT NOT NULL
+);
 """
 
 class Database:

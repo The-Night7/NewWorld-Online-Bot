@@ -218,6 +218,19 @@ class MobsCog(commands.Cog):
         # reprendre ton /atk actuel, juste renommé pour éviter ambiguïtés
         try:
             attacker = await fetch_player_entity(self.bot, interaction.user)
+            
+            # --- Système de Skills (Mana) ---
+            mana_cost = 0
+            if attack_type == "magic": mana_cost = 15
+            elif attack_type == "ranged": mana_cost = 0
+            
+            if attacker.mp < mana_cost:
+                await interaction.response.send_message(f"Pas assez de MP ! Requis: {mana_cost}, Actuel: {attacker.mp:.0f}", ephemeral=True)
+                return
+            
+            attacker.mp -= mana_cost
+            # -------------------------------
+
             defender = await fetch_mob_entity(self.bot.db, interaction.channel_id, mob_name)
         except ValueError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
@@ -225,7 +238,18 @@ class MobsCog(commands.Cog):
 
         ra = d20()
         rb = d20()
+        
+        # Sauvegarder les MP avant l'attaque (nécessite une petite modif de save_player_hp ou faire à la main)
+        await self.bot.db.conn.execute("UPDATE characters SET mp = ? WHERE user_id = ?", (attacker.mp, interaction.user.id))
+        
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
+
+        # --- Réaction du Mob ---
+        if result["hit"] and defender.hp > 0:
+            hp_percent = (defender.hp / defender.hp_max) * 100
+            if hp_percent <= 50:
+                result["effects"].append(f"⚠️ **{defender.name}** entre en rage ! Il semble plus féroce !")
+        # ----------------------
 
         # persist
         await save_player_hp(self.bot, interaction.user.id, attacker.hp)

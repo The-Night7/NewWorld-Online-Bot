@@ -81,6 +81,11 @@ def resolve_attack(
         out["raw"]["damage"] = dmg
         out["effects"].append(f"{attacker.name} {attack_desc} {defender.name} et inflige {dmg:.2f} dégâts.")
         out["effects"].append(f"PV {defender.name}: {defender.hp:.2f}/{defender.hp_max:.2f}")
+        
+        # Optionnel : On peut ajouter le mana restant de l'attaquant dans les logs
+        if attack_type != "phys":
+            out["effects"].append(f"MP {attacker.name}: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
+        
         return out
 
     defense_power = (hit_b - hit_a) + vit_term - atk

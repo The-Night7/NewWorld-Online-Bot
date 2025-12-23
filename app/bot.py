@@ -65,6 +65,10 @@ class BofuriBot(commands.Bot):
         await self.add_cog(CombatCog(self))
         await self.add_cog(MobsCog(self))
         await self.add_cog(CombatSessionCog(self))
+        
+        # Ajouter le Cog des métiers
+        from app.cogs.professions import ProfessionsCog
+        await self.add_cog(ProfessionsCog(self))
 
         # Charger le nouveau Cog pour les personnages
         from app.cogs.character import CharacterCog

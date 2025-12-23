@@ -219,13 +219,15 @@ class MobsCog(commands.Cog):
         try:
             attacker = await fetch_player_entity(self.bot, interaction.user)
             
-            # --- Système de Skills (Mana) ---
+            # --- Gestion du Mana (Skills) ---
             mana_cost = 0
             if attack_type == "magic": mana_cost = 15
-            elif attack_type == "ranged": mana_cost = 0
             
             if attacker.mp < mana_cost:
-                await interaction.response.send_message(f"Pas assez de MP ! Requis: {mana_cost}, Actuel: {attacker.mp:.0f}", ephemeral=True)
+                await interaction.response.send_message(
+                    f"❌ Pas assez de Mana ! (Requis: {mana_cost}, Actuel: {attacker.mp:.0f})", 
+                    ephemeral=True
+                )
                 return
             
             attacker.mp -= mana_cost
@@ -239,17 +241,26 @@ class MobsCog(commands.Cog):
         ra = d20()
         rb = d20()
         
-        # Sauvegarder les MP avant l'attaque (nécessite une petite modif de save_player_hp ou faire à la main)
-        await self.bot.db.conn.execute("UPDATE characters SET mp = ? WHERE user_id = ?", (attacker.mp, interaction.user.id))
+        # Sauvegarde du mana consommé
+        await self.bot.db.conn.execute(
+            "UPDATE characters SET mp = ? WHERE user_id = ?", 
+            (float(attacker.mp), int(interaction.user.id))
+        )
         
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-        # --- Réaction du Mob ---
-        if result["hit"] and defender.hp > 0:
-            hp_percent = (defender.hp / defender.hp_max) * 100
-            if hp_percent <= 50:
-                result["effects"].append(f"⚠️ **{defender.name}** entre en rage ! Il semble plus féroce !")
-        # ----------------------
+        # --- Riposte Automatique du Mob ---
+        riposte_result = None
+        if defender.hp > 0:
+            # Le mob attaque le joueur en retour
+            ma = d20()
+            mb = d20()
+            riposte_result = resolve_attack(defender, attacker, ma, mb, attack_type="phys")
+            
+            # Réaction de Rage si PV < 50%
+            if (defender.hp / defender.hp_max) <= 0.5:
+                riposte_result["effects"].insert(0, f"💢 **{defender.name}** entre en rage !")
+        # ----------------------------------
 
         # persist
         await save_player_hp(self.bot, interaction.user.id, attacker.hp)
@@ -257,13 +268,14 @@ class MobsCog(commands.Cog):
         deleted = await cleanup_dead_mobs(self.bot.db, interaction.channel_id)
 
         color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
-        embed = discord.Embed(title="⚔️ Attaque sur mob", color=color)
-        embed.add_field(name="Cible", value=mob_name, inline=True)
-        embed.add_field(name="Type", value=str(attack_type), inline=True)
-        embed.add_field(name="Perce-armure", value="Oui" if perce_armure else "Non", inline=True)
+        embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
+        embed.add_field(name=f"▶️ Ton attaque ({attack_type})", value="\n".join(result["effects"]), inline=False)
 
-        embed.add_field(name="Toucher A vs D", value=f'{result["hit_a"]:.2f} vs {result["hit_b"]:.2f}', inline=False)
-        embed.add_field(name="Log", value="\n".join(result["effects"]) if result["effects"] else "—", inline=False)
+        if riposte_result:
+            embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
+        
+        if attacker.mp_max > 0:
+            embed.set_footer(text=f"Mana restant: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
 
         # Vérifier si le mob est mort (HP = 0) et attribuer de l'XP si c'est le cas
         if defender.hp <= 0:

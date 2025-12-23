@@ -244,14 +244,6 @@ class CombatSessionCog(commands.Cog):
             else:
                 await interaction.followup.send("Une erreur est survenue lors de la fermeture du combat. Veuillez réessayer.", ephemeral=True)
 
-    async def log_add(db, thread_id: int, kind: str, message: str) -> None:
-        """Ajoute un log au combat."""
-        await db.conn.execute(
-            "INSERT INTO combat_logs (thread_id, kind, message) VALUES (?, ?, ?)",
-            (thread_id, kind, message),
-        )
-        await db.conn.commit()
-
     @app_commands.command(name="initiative", description="Affiche l'ordre de passage basé sur l'agilité")
     async def initiative(self, interaction: discord.Interaction):
         if not interaction.guild or not interaction.channel:
@@ -259,7 +251,7 @@ class CombatSessionCog(commands.Cog):
 
         thread_id = interaction.channel.id
         if not await combat_is_active(self.bot.db, thread_id):
-            await interaction.response.send_message("Aucun combat actif ici.", ephemeral=True)
+            await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
             return
 
         await interaction.response.defer()
@@ -273,7 +265,8 @@ class CombatSessionCog(commands.Cog):
             try:
                 ent = await fetch_player_entity(self.bot.db, uid)
                 entities.append(ent)
-            except: continue
+            except Exception:
+                continue
 
         # 2. Récupérer les mobs du salon
         from app.combat_mobs import list_mobs, fetch_mob_entity
@@ -282,15 +275,17 @@ class CombatSessionCog(commands.Cog):
             try:
                 ent = await fetch_mob_entity(self.bot.db, interaction.channel_id, m['mob_name'])
                 entities.append(ent)
-            except: continue
+            except Exception:
+                continue
 
         # 3. Trier par AGI (décroissant)
         entities.sort(key=lambda x: x.AGI, reverse=True)
 
-        embed = discord.Embed(title="ordre de Combat (Initiative)", color=discord.Color.gold())
-        description = ""
+        embed = discord.Embed(title="⚔️ Ordre d'Initiative", color=discord.Color.gold())
+        lines = []
         for i, ent in enumerate(entities):
-            description += f"{i+1}. **{ent.name}** (AGI: {ent.AGI})\n"
+            emoji = "👤" if hasattr(ent, 'user_id') or "Joueur" in ent.name else "👹"
+            lines.append(f"{i+1}. {emoji} **{ent.name}** — AGI: `{ent.AGI:.0f}`")
         
-        embed.description = description or "Aucun combattant trouvé."
+        embed.description = "\n".join(lines) if lines else "Aucun combattant trouvé."
         await interaction.followup.send(embed=embed)

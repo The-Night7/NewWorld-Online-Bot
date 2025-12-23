@@ -4,6 +4,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
+from app import db
 from app.combat_session import (
     CombatError,
     combat_create,
@@ -224,8 +225,10 @@ class CombatSessionCog(commands.Cog):
                 thread_id = thread.id
 
             logger.info(f"Fermeture du combat dans le fil {thread_id} par {interaction.user.id}")
-            await combat_close(self.bot.db, thread_id)
+            
+            # On ajoute le log AVANT de fermer le combat en DB
             await log_add(self.bot.db, thread_id, "system", f"Combat terminé par {interaction.user}.")
+            await combat_close(self.bot.db, thread_id)
 
             try:
                 await thread.send("Combat terminé. Thread va être archivé.")

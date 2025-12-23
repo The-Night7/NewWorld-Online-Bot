@@ -21,7 +21,7 @@ from app.dice import d20
 from app.models import RuntimeEntity
 from app.rules import resolve_attack, AttackType, calculate_xp_amount
 from app.cogs.combat import fetch_player_entity, save_player_hp
-from app.combat_session import combat_is_active
+from app.combat_session import combat_is_active, combat_close
 from app.character import get_character, add_xp, add_item_to_inventory
 from app.items import ITEM_REGISTRY, ItemDefinition
 import random
@@ -276,6 +276,10 @@ class MobsCog(commands.Cog):
         await save_mob_hp(self.bot.db, interaction.channel_id, mob_name, defender.hp)
         deleted = await cleanup_dead_mobs(self.bot.db, interaction.channel_id)
 
+        # --- Vérification mort du joueur ---
+        player_dead = attacker.hp <= 0
+        # ----------------------------------
+
         color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
         embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
         
@@ -400,7 +404,25 @@ class MobsCog(commands.Cog):
         if deleted:
             embed.add_field(name="Info", value=f"{deleted} mob(s) mort(s) retiré(s) du salon.", inline=False)
 
+        if player_dead:
+            embed.add_field(
+                name="💀 Défaite", 
+                value=f"**{attacker.name}** a succombé au combat... Le combat prend fin.", 
+                inline=False
+            )
+            embed.color = discord.Color.dark_red()
+
         await interaction.response.send_message(embed=embed)
+
+        # Fermeture du combat si le joueur est mort
+        if player_dead:
+            try:
+                await combat_close(self.bot.db, interaction.channel_id)
+                if isinstance(interaction.channel, discord.Thread):
+                    await interaction.channel.send("Le joueur est mort. Le fil va être archivé.")
+                    await interaction.channel.edit(archived=True, locked=True)
+            except Exception as e:
+                logger.error(f"Erreur lors de la fermeture automatique du combat: {e}")
 
     @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
     async def atk_player(

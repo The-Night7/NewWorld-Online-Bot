@@ -219,19 +219,24 @@ class MobsCog(commands.Cog):
         try:
             attacker = await fetch_player_entity(self.bot, interaction.user)
             
-            # --- Gestion du Mana (Skills) ---
+            # --- Gestion du Mana (Coûts variables) ---
             mana_cost = 0
-            if attack_type == "magic": mana_cost = 15
+            if attack_type == "magic":
+                # Pour l'instant, coût de base magie. 
+                # On pourra lier cela à des capacités spécifiques du compendium plus tard.
+                mana_cost = 10 
+            elif attack_type == "ranged":
+                mana_cost = 0  # Gratuit comme demandé
             
             if attacker.mp < mana_cost:
                 await interaction.response.send_message(
-                    f"❌ Pas assez de Mana ! (Requis: {mana_cost}, Actuel: {attacker.mp:.0f})", 
+                    f"❌ Mana insuffisant ! (Requis: {mana_cost}, Actuel: {attacker.mp:.0f})", 
                     ephemeral=True
                 )
                 return
             
             attacker.mp -= mana_cost
-            # -------------------------------
+            # ----------------------------------------
 
             defender = await fetch_mob_entity(self.bot.db, interaction.channel_id, mob_name)
         except ValueError as e:
@@ -241,7 +246,7 @@ class MobsCog(commands.Cog):
         ra = d20()
         rb = d20()
         
-        # Sauvegarde du mana consommé
+        # Persistance du mana
         await self.bot.db.conn.execute(
             "UPDATE characters SET mp = ? WHERE user_id = ?", 
             (float(attacker.mp), int(interaction.user.id))
@@ -249,17 +254,21 @@ class MobsCog(commands.Cog):
         
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-        # --- Riposte Automatique du Mob ---
+        # --- Riposte Automatique & Rage ---
         riposte_result = None
         if defender.hp > 0:
-            # Le mob attaque le joueur en retour
             ma = d20()
             mb = d20()
+            
+            # Si le mob est à < 50% HP, il gagne un bonus de +2 aux dégâts pour sa riposte
+            hp_ratio = defender.hp / defender.hp_max
+            is_enraged = hp_ratio <= 0.5
+            
+            # On simule la riposte
             riposte_result = resolve_attack(defender, attacker, ma, mb, attack_type="phys")
             
-            # Réaction de Rage si PV < 50%
-            if (defender.hp / defender.hp_max) <= 0.5:
-                riposte_result["effects"].insert(0, f"💢 **{defender.name}** entre en rage !")
+            if is_enraged:
+                riposte_result["effects"].insert(0, f"💢 **{defender.name}** est enragé et frappe plus fort !")
         # ----------------------------------
 
         # persist
@@ -269,13 +278,17 @@ class MobsCog(commands.Cog):
 
         color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
         embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
-        embed.add_field(name=f"▶️ Ton attaque ({attack_type})", value="\n".join(result["effects"]), inline=False)
-
+        
+        embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]), inline=False)
+        
         if riposte_result:
             embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
         
+        # Affichage du statut final
+        status_text = f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f}"
         if attacker.mp_max > 0:
-            embed.set_footer(text=f"Mana restant: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
+            status_text += f" | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}"
+        embed.set_footer(text=status_text)
 
         # Vérifier si le mob est mort (HP = 0) et attribuer de l'XP si c'est le cas
         if defender.hp <= 0:

@@ -81,6 +81,35 @@ CREATE TABLE IF NOT EXISTS items (
   value       INTEGER NOT NULL,
   properties  TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS characters (
+  user_id      INTEGER PRIMARY KEY,
+  name         TEXT NOT NULL,
+  level        INTEGER DEFAULT 1,
+  xp           INTEGER DEFAULT 0,
+  xp_next      INTEGER DEFAULT 100,
+  hp           REAL NOT NULL,
+  hp_max       REAL NOT NULL,
+  mp           REAL NOT NULL,
+  mp_max       REAL NOT NULL,
+  STR          REAL NOT NULL,
+  AGI          REAL NOT NULL,
+  INT          REAL NOT NULL,
+  DEX          REAL NOT NULL,
+  VIT          REAL NOT NULL,
+  skill_points INTEGER DEFAULT 0,
+  gold         INTEGER DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS inventories (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  character_id INTEGER NOT NULL,
+  item_id      TEXT NOT NULL,
+  quantity     INTEGER DEFAULT 1,
+  equipped     INTEGER DEFAULT 0,
+  properties   TEXT,
+  FOREIGN KEY(character_id) REFERENCES characters(user_id)
+);
 """
 
 class Database:

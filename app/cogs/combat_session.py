@@ -20,6 +20,17 @@ from app.combat_session import (
 
 import logging
 
+# Table des rencontres par salon
+ZONE_MONSTERS = {
+    1398615884196610088: ["forest.lapin_vegetal", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "misc.reine_des_abeilles"],
+    1398617728474153061: ["forest_plains.louveteau_des_forets", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "forest_plains.loup_alpha"],
+    1398617842064035840: ["misc.golem"],
+    1398617763093807184: ["forest_plains.louveteau_des_forets", "hydra_dungeon.slime", "forest.coxiplooosion"],
+    1398626100615188530: ["ghost_zone.spectre", "ghost_zone.zombie"],
+    1398626193254645820: ["ghost_zone.zombie", "ghost_zone.spectre"],
+    1398626132403687504: ["ghost_zone.spectre"],
+    1398191886589624421: ["misc.poisson_tentaculaire"],
+}
 
 class CombatSessionCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -121,6 +132,35 @@ class CombatSessionCog(commands.Cog):
             if members_added:
                 welcome_message += f" Participants: {', '.join(members_added)}"
             await thread.send(welcome_message)
+
+            # --- AUTO SPAWN LOGIC ---
+            if channel.id in ZONE_MONSTERS:
+                from app.mobs.registry import REGISTRY
+                from app.mobs.factory import spawn_entity
+                from app.combat_mobs import next_unique_mob_name, insert_mob
+                import random
+
+                mob_keys = ZONE_MONSTERS[channel.id]
+                # Pour les zones normales, on spawn 1 ou 2 mobs aléatoires. 
+                # Pour les donjons (ID spécifiques), on peut spawn le boss directement.
+                mobs_to_spawn = []
+                
+                if len(mob_keys) == 1: # Boss unique ou zone à un seul mob
+                    mobs_to_spawn = mob_keys
+                else:
+                    mobs_to_spawn = random.sample(mob_keys, k=random.randint(1, 2))
+
+                for m_key in mobs_to_spawn:
+                    defn = REGISTRY.get(m_key)
+                    if defn:
+                        # On prend le niveau min du mob ou 1 par défaut
+                        level = defn.level_min or 1
+                        m_name = await next_unique_mob_name(self.bot.db, thread.id, defn.display_name)
+                        ent = spawn_entity(defn, level=level, instance_name=m_name)
+                        await insert_mob(self.bot.db, thread.id, m_name, defn.key, level, ent, created_by=self.bot.user.id)
+                        await thread.send(f"⚠️ Un sauvage **{m_name}** (Lvl {level}) apparaît !")
+            # ------------------------
+
             # Ajout du log
             await log_add(self.bot.db, thread.id, "system", f"Combat créé par {interaction.user}.")
 

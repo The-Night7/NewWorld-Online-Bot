@@ -30,7 +30,9 @@ def _interpolate_stats(low_lvl: int, low: MobStats, high_lvl: int, high: MobStat
 def stats_for_level(defn: MobDefinition, level: int) -> Tuple[int, MobStats]:
     levels = defn.available_levels()
     if not levels:
-        raise ValueError(f"{defn.key}: aucun level_stats")
+        # Fallback stats to prevent crash if data is missing
+        fallback_stats = MobStats(hp=100.0, mp=50.0, STR=1.0, AGI=1.0, INT=1.0, DEX=1.0, VIT=1.0)
+        return int(level), fallback_stats
 
     lvl = int(level)
 

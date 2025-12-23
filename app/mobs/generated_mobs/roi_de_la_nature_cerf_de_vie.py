@@ -6,8 +6,8 @@ REGISTRY.register(
     MobDefinition(
         key='misc.roi_de_la_nature_cerf_de_vie',
         display_name='Roi de la nature: Cerf de vie',
-        level_min=None,
-        level_max=None,
+        level_min=18,
+        level_max=20,
         rarity='Boss',
         zone=None,
         drops=None,

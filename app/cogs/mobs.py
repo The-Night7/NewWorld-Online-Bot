@@ -47,28 +47,18 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
 
     if row:
         # Créer une entité RuntimeEntity avec les données de la table characters
-        ent = RuntimeEntity()
-        ent.user_id = row["user_id"]
-        ent.name = row["name"]
-        ent.level = row["level"]
-        ent.xp = row["xp"]
-        ent.xp_next = row["xp_next"]
-        ent.hp = row["hp"]
-        ent.hp_max = row["hp_max"]
-        ent.mana = row["mana"]
-        ent.mana_max = row["mana_max"]
-        ent.physical_attack = row["physical_attack"]
-        ent.magical_attack = row["magical_attack"]
-        ent.armor = row["armor"]
-        ent.resistance = row["resistance"]
-        ent.crit_chance = row["crit_chance"]
-        ent.dodge_chance = row["dodge_chance"]
-        ent.skill_points = row["skill_points"]
-        ent.gold = row["gold"]
-
-        # Log des infos récupérées pour débogage
-        logger.info(f"Entité de joueur récupérée depuis la table 'characters': {ent.name} (lvl {ent.level})")
-        return ent
+        return RuntimeEntity(
+            name=row["name"],
+            hp=float(row["hp"]),
+            hp_max=float(row["hp_max"]),
+            mp=float(row["mp"]),
+            mp_max=float(row["mp_max"]),
+            STR=float(row["STR"]),
+            AGI=float(row["AGI"]),
+            INT=float(row["INT"]),
+            DEX=float(row["DEX"]),
+            VIT=float(row["VIT"])
+        )
     
     # Fallback: essayer l'ancienne table players
     async with db.conn.execute(
@@ -79,33 +69,20 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
 
     if row:
         # Créer une entité RuntimeEntity avec les données de l'ancienne table players
-        ent = RuntimeEntity()
-        ent.user_id = row["user_id"]
-        ent.name = row["name"]
-        ent.level = row["level"]
-        ent.xp = row["xp"]
-        ent.xp_next = row["xp_next"]
-        ent.hp = row["hp"]
-        ent.hp_max = row["hp_max"]
-        ent.mana = row["mana"]
-        ent.mana_max = row["mana_max"]
-        ent.physical_attack = row["physical_attack"]
-        ent.magical_attack = row["magical_attack"]
-        ent.armor = row["armor"]
-        ent.resistance = row["resistance"]
-        ent.crit_chance = row["crit_chance"]
-        ent.dodge_chance = row["dodge_chance"]
-        # Les anciennes tables n'ont pas skill_points et gold, on initialise à 0
-        ent.skill_points = 0
-        ent.gold = 0
-
-        # Log des infos récupérées pour débogage
-        logger.info(f"Entité de joueur récupérée depuis la table 'players' (ancienne table): {ent.name} (lvl {ent.level})")
-        return ent
+        return RuntimeEntity(
+            name=row["name"],
+            hp=float(row["hp"]),
+            hp_max=float(row["hp_max"]),
+            mp=float(row["mp"]),
+            mp_max=float(row["mp_max"]),
+            STR=float(row["str"]),
+            AGI=float(row["agi"]),
+            INT=float(row["int_"]),
+            DEX=float(row["dex"]),
+            VIT=float(row["vit"])
+        )
 
     # Si aucune donnée n'est trouvée, log une erreur et retourne None
-    logger.error(f"Aucune donnée trouvée pour l'utilisateur {user_id} dans les tables 'characters' ou 'players'.")
-    raise ValueError(f"Aucun joueur trouvé avec l'ID {user_id}")
 
 async def save_player_hp(bot, user_id: int, hp: float) -> None:
     """

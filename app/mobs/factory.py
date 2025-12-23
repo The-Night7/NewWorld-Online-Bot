@@ -28,31 +28,29 @@ def _interpolate_stats(low_lvl: int, low: MobStats, high_lvl: int, high: MobStat
 
 
 def stats_for_level(defn: MobDefinition, level: int) -> Tuple[int, MobStats]:
-    levels = defn.available_levels()
-    if not levels:
-        # Fallback stats to prevent crash if data is missing
-        fallback_stats = MobStats(hp=100.0, mp=50.0, STR=1.0, AGI=1.0, INT=1.0, DEX=1.0, VIT=1.0)
-        return int(level), fallback_stats
+    """
+    Finds the best matching stats for the given level.
+    If the exact level isn't found, it picks the highest available level
+    that doesn't exceed the requested level.
+    """
+    if level in defn.level_stats:
+        return level, defn.level_stats[level]
 
-    lvl = int(level)
+    # Get all defined levels and sort them
+    available_levels = sorted(defn.level_stats.keys())
 
-    # exact
-    if lvl in defn.level_stats:
-        return lvl, defn.level_stats[lvl]
+    if not available_levels:
+        raise ValueError(f"Mob definition '{defn.display_name}' has no level_stats defined.")
 
-    # clamp
-    if lvl <= levels[0]:
-        l0 = levels[0]
-        return l0, defn.level_stats[l0]
-    if lvl >= levels[-1]:
-        l1 = levels[-1]
-        # Correction ici: on utilise directement l1 qui est garanti d'être dans level_stats
-        return l1, defn.level_stats[l1]
+    # Find the closest level that is <= requested level
+    best_level = available_levels[0]
+    for l in available_levels:
+        if l <= level:
+            best_level = l
+        else:
+            break
 
-    # find bounding levels
-    lo = max(x for x in levels if x < lvl)
-    hi = min(x for x in levels if x > lvl)
-    return lvl, _interpolate_stats(lo, defn.level_stats[lo], hi, defn.level_stats[hi], lvl)
+    return best_level, defn.level_stats[best_level]
 
 
 def spawn_entity(defn: MobDefinition, level: int, instance_name: str | None = None) -> RuntimeEntity:

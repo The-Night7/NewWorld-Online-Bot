@@ -12,7 +12,9 @@ REGISTRY.register(
         zone=None,
         drops=None,
         abilities=["- Camouflage de l'ombre: Invisibilité", '- Langue somnifère: Endort cible', '- Drop: Peau de caméléon, Langue magique, Œil argenté', '- Zone: Event'],
-        level_stats={},
+        level_stats={
+    60: MobStats(hp=6000.0, mp=900.0, STR=1000.0, AGI=180.0, INT=160.0, DEX=220.0, VIT=190.0, base_attack=0.0),
+},
         variants={},
     )
 )

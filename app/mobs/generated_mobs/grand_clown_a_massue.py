@@ -12,7 +12,9 @@ REGISTRY.register(
         zone='Event Secret',
         drops=['Massue légendaire', 'Masque du clown fou'],
         abilities=['Grand coup de massue:  200'],
-        level_stats={},
+        level_stats={
+    20: MobStats(hp=1000.0, mp=100.0, STR=100.0, AGI=35.0, INT=25.0, DEX=40.0, VIT=55.0, base_attack=0.0),
+},
         variants={},
     )
 )

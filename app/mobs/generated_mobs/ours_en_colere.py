@@ -12,7 +12,9 @@ REGISTRY.register(
         zone="Donjon de l'Arbre Honey",
         drops=["Patte d'ours", 'Miel sauvage'],
         abilities=None,
-        level_stats={},
+        level_stats={
+    20: MobStats(hp=250.0, mp=35.0, STR=90.0, AGI=22.0, INT=12.0, DEX=20.0, VIT=50.0, base_attack=0.0),
+},
         variants={},
     )
 )

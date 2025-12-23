@@ -4,15 +4,17 @@ from app.mobs.mob_types import MobDefinition, MobStats
 
 REGISTRY.register(
     MobDefinition(
-        key='event.phenix_de_glace',
+        key='misc.phenix_de_glace',
         display_name='Phénix de glace',
         level_min=25,
         level_max=25,
         rarity='Élite',
-        zone='Event',
+        zone=None,
         drops=None,
-        abilities=['- Pluie de plumes: 50/plume', '- Javelot de glace: 150', '- Gel instantané: Glacifie attaques liquides (réduction dégâts, sauf après attaque vent)', '- Laserglace: 200', '- Drop (Phase 1): Plume de glace, Cristal gelé'],
-        level_stats={},
+        abilities=['Phase 1: '],
+        level_stats={
+    25: MobStats(hp=2500.0, mp=400.0, STR=100.0, AGI=70.0, INT=120.0, DEX=65.0, VIT=90.0, base_attack=0.0),
+},
         variants={},
     )
 )

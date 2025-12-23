@@ -12,7 +12,9 @@ REGISTRY.register(
         zone='Event',
         drops=['Épée géante maudite', 'Armure de squelette', 'Crâne colossal'],
         abilities=["Coup d'épée:  3000"],
-        level_stats={},
+        level_stats={
+    60: MobStats(hp=6000.0, mp=500.0, STR=250.0, AGI=130.0, INT=100.0, DEX=150.0, VIT=210.0, base_attack=0.0),
+},
         variants={},
     )
 )

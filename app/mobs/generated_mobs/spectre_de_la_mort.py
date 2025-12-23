@@ -13,8 +13,8 @@ REGISTRY.register(
         drops=['Essence de mort', 'Couronne spectrale'],
         abilities=None,
         level_stats={
-    55: MobStats(hp=1100.0, mp=500.0, STR=160.0, AGI=155.0, INT=200.0, DEX=170.0, VIT=130.0, base_attack=0.0),
-    60: MobStats(hp=1300.0, mp=600.0, STR=185.0, AGI=180.0, INT=230.0, DEX=195.0, VIT=150.0, base_attack=0.0),
+    55: MobStats(hp=1100.0, mp=500.0, STR=1000.0, AGI=155.0, INT=200.0, DEX=170.0, VIT=130.0, base_attack=0.0),
+    60: MobStats(hp=1300.0, mp=600.0, STR=1200.0, AGI=180.0, INT=230.0, DEX=195.0, VIT=150.0, base_attack=0.0),
 },
         variants={},
     )

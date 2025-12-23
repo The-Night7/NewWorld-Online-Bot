@@ -13,8 +13,8 @@ REGISTRY.register(
         drops=['Cristal pur', 'Noyau de cristal'],
         abilities=None,
         level_stats={
-    30: MobStats(hp=320.0, mp=100.0, STR=85.0, AGI=60.0, INT=45.0, DEX=80.0, VIT=70.0, base_attack=0.0),
-    35: MobStats(hp=420.0, mp=130.0, STR=105.0, AGI=75.0, INT=55.0, DEX=95.0, VIT=85.0, base_attack=0.0),
+    30: MobStats(hp=320.0, mp=100.0, STR=150.0, AGI=60.0, INT=45.0, DEX=80.0, VIT=70.0, base_attack=0.0),
+    35: MobStats(hp=420.0, mp=130.0, STR=180.0, AGI=75.0, INT=55.0, DEX=95.0, VIT=85.0, base_attack=0.0),
 },
         variants={},
     )

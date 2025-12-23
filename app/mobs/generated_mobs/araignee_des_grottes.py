@@ -13,8 +13,8 @@ REGISTRY.register(
         drops=['Toile cristalline', "Œufs d'araignée rare"],
         abilities=['Entoilement de poison:  Immobilise + Poison +5% + Statuts "immobile" & "empoisonné"', 'Entoilement de poison:  Immobilise + Poison +5% + Statuts "immobile" & "empoisonné"'],
         level_stats={
-    40: MobStats(hp=3000.0, mp=220.0, STR=120.0, AGI=110.0, INT=70.0, DEX=130.0, VIT=115.0, base_attack=0.0),
-    45: MobStats(hp=3500.0, mp=270.0, STR=145.0, AGI=130.0, INT=85.0, DEX=155.0, VIT=135.0, base_attack=0.0),
+    40: MobStats(hp=3000.0, mp=220.0, STR=300.0, AGI=110.0, INT=70.0, DEX=130.0, VIT=115.0, base_attack=0.0),
+    45: MobStats(hp=3500.0, mp=270.0, STR=350.0, AGI=130.0, INT=85.0, DEX=155.0, VIT=135.0, base_attack=0.0),
 },
         variants={},
     )

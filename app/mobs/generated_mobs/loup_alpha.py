@@ -13,8 +13,8 @@ REGISTRY.register(
         drops=["Griffe d'Alpha", "Perle d'âme de loup"],
         abilities=['Hurlement du chef de meute:  Invoque 3-5 louveteaux (Lvl 10-15 selon nombre ennemis)', 'Hurlement du chef de meute:  Invoque 3-5 louveteaux (Lvl 10-15 selon nombre ennemis)'],
         level_stats={
-    10: MobStats(hp=150.0, mp=60.0, STR=30.0, AGI=28.0, INT=15.0, DEX=25.0, VIT=20.0, base_attack=0.0),
-    15: MobStats(hp=250.0, mp=90.0, STR=45.0, AGI=38.0, INT=20.0, DEX=35.0, VIT=30.0, base_attack=0.0),
+    10: MobStats(hp=150.0, mp=60.0, STR=50.0, AGI=28.0, INT=15.0, DEX=25.0, VIT=20.0, base_attack=0.0),
+    15: MobStats(hp=250.0, mp=90.0, STR=70.0, AGI=38.0, INT=20.0, DEX=35.0, VIT=30.0, base_attack=0.0),
 },
         variants={},
     )

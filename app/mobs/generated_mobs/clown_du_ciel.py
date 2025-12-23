@@ -13,8 +13,8 @@ REGISTRY.register(
         drops=['Chapeau volant', 'Carte du ciel'],
         abilities=None,
         level_stats={
-    50: MobStats(hp=1000.0, mp=350.0, STR=150.0, AGI=140.0, INT=120.0, DEX=145.0, VIT=115.0, base_attack=0.0),
-    55: MobStats(hp=1200.0, mp=420.0, STR=175.0, AGI=165.0, INT=140.0, DEX=170.0, VIT=135.0, base_attack=0.0),
+    50: MobStats(hp=1000.0, mp=350.0, STR=700.0, AGI=140.0, INT=120.0, DEX=145.0, VIT=115.0, base_attack=0.0),
+    55: MobStats(hp=1200.0, mp=420.0, STR=850.0, AGI=165.0, INT=140.0, DEX=170.0, VIT=135.0, base_attack=0.0),
 },
         variants={},
     )

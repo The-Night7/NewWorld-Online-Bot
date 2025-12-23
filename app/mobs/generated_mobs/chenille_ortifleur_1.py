@@ -13,8 +13,8 @@ REGISTRY.register(
         drops=['Cocon cristallisé', 'Essence florale'],
         abilities=None,
         level_stats={
-    40: MobStats(hp=3000.0, mp=150.0, STR=125.0, AGI=50.0, INT=45.0, DEX=70.0, VIT=140.0, base_attack=0.0),
-    45: MobStats(hp=3500.0, mp=180.0, STR=150.0, AGI=60.0, INT=55.0, DEX=85.0, VIT=160.0, base_attack=0.0),
+    40: MobStats(hp=3000.0, mp=150.0, STR=300.0, AGI=50.0, INT=45.0, DEX=70.0, VIT=140.0, base_attack=0.0),
+    45: MobStats(hp=3500.0, mp=180.0, STR=350.0, AGI=60.0, INT=55.0, DEX=85.0, VIT=160.0, base_attack=0.0),
 },
         variants={},
     )

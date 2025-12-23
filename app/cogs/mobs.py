@@ -18,6 +18,7 @@ from app.combat_mobs import (
     cleanup_dead_mobs,
 )
 from app.dice import d20
+from app.models import RuntimeEntity
 from app.rules import resolve_attack, AttackType, calculate_xp_amount
 from app.cogs.combat import fetch_player_entity, save_player_hp
 from app.combat_session import combat_is_active
@@ -28,6 +29,102 @@ import random
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('bofuri.mobs')
+
+async def fetch_player_entity(bot, user: discord.User | discord.Member) -> RuntimeEntity:
+    """
+    Récupère ou crée une entité de joueur pour le combat.
+    On passe 'bot' pour accéder à bot.db.
+    """
+    db = bot.db
+    user_id = user.id
+    
+    # Essayer d'abord de récupérer depuis la nouvelle table characters
+    async with db.conn.execute(
+        "SELECT * FROM characters WHERE user_id = ?",
+        (user_id,)
+    ) as cursor:
+        row = await cursor.fetchone()
+
+    if row:
+        # Créer une entité RuntimeEntity avec les données de la table characters
+        ent = RuntimeEntity()
+        ent.user_id = row["user_id"]
+        ent.name = row["name"]
+        ent.level = row["level"]
+        ent.xp = row["xp"]
+        ent.xp_next = row["xp_next"]
+        ent.hp = row["hp"]
+        ent.hp_max = row["hp_max"]
+        ent.mana = row["mana"]
+        ent.mana_max = row["mana_max"]
+        ent.physical_attack = row["physical_attack"]
+        ent.magical_attack = row["magical_attack"]
+        ent.armor = row["armor"]
+        ent.resistance = row["resistance"]
+        ent.crit_chance = row["crit_chance"]
+        ent.dodge_chance = row["dodge_chance"]
+        ent.skill_points = row["skill_points"]
+        ent.gold = row["gold"]
+
+        # Log des infos récupérées pour débogage
+        logger.info(f"Entité de joueur récupérée depuis la table 'characters': {ent.name} (lvl {ent.level})")
+        return ent
+    
+    # Fallback: essayer l'ancienne table players
+    async with db.conn.execute(
+        "SELECT * FROM players WHERE user_id = ?",
+        (user_id,)
+    ) as cursor:
+        row = await cursor.fetchone()
+
+    if row:
+        # Créer une entité RuntimeEntity avec les données de l'ancienne table players
+        ent = RuntimeEntity()
+        ent.user_id = row["user_id"]
+        ent.name = row["name"]
+        ent.level = row["level"]
+        ent.xp = row["xp"]
+        ent.xp_next = row["xp_next"]
+        ent.hp = row["hp"]
+        ent.hp_max = row["hp_max"]
+        ent.mana = row["mana"]
+        ent.mana_max = row["mana_max"]
+        ent.physical_attack = row["physical_attack"]
+        ent.magical_attack = row["magical_attack"]
+        ent.armor = row["armor"]
+        ent.resistance = row["resistance"]
+        ent.crit_chance = row["crit_chance"]
+        ent.dodge_chance = row["dodge_chance"]
+        # Les anciennes tables n'ont pas skill_points et gold, on initialise à 0
+        ent.skill_points = 0
+        ent.gold = 0
+
+        # Log des infos récupérées pour débogage
+        logger.info(f"Entité de joueur récupérée depuis la table 'players' (ancienne table): {ent.name} (lvl {ent.level})")
+        return ent
+
+    # Si aucune donnée n'est trouvée, log une erreur et retourne None
+    logger.error(f"Aucune donnée trouvée pour l'utilisateur {user_id} dans les tables 'characters' ou 'players'.")
+    raise ValueError(f"Aucun joueur trouvé avec l'ID {user_id}")
+
+async def save_player_hp(bot, user_id: int, hp: float) -> None:
+    """
+    Sauvegarde les HP d'un joueur après un combat.
+    """
+    db = bot.db
+    # Mettre à jour la table characters
+    await db.conn.execute(
+        "UPDATE characters SET hp = ? WHERE user_id = ?",
+        (float(hp), int(user_id))
+    )
+    await db.conn.commit()
+
+    # Pour la compatibilité, mettre également à jour l'ancienne table players
+    await db.conn.execute(
+        "UPDATE players SET hp = ? WHERE user_id = ?",
+        (float(hp), int(user_id))
+    )
+    await db.conn.commit()
 
 class MobsCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -141,6 +238,7 @@ class MobsCog(commands.Cog):
             await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
             return
 
+        # reprendre ton /atk actuel, juste renommé pour éviter ambiguïtés
         try:
             attacker = await fetch_player_entity(self.bot, interaction.user)
             defender = await fetch_mob_entity(self.bot.db, interaction.channel_id, mob_name)
@@ -202,18 +300,23 @@ class MobsCog(commands.Cog):
                                 is_event = True
 
                         # Récupérer le personnage du joueur
-                        character = await get_character(self.bot.db, interaction.user.id)
-                        if character:
-                            # Calculer l'XP gagnée
-                            xp_amount, explanation = calculate_xp_amount(
-                                player_level=character.level,
-                                mob_level=mob_level,
-                                mob_type=mob_type,
-                                mob_name=mob_name,
-                                is_boss=is_boss,
-                                is_event=is_event,
-                                xp_next_level=character.xp_next
-                            )
+                            try:
+                                character = await get_character(self.bot.db, interaction.user.id)
+                            except Exception as e:
+                                logger.error(f"Erreur lors de la récupération du personnage: {e}")
+                                character = None
+
+                            if character:
+                                # Calculer l'XP gagnée
+                                xp_amount, explanation = calculate_xp_amount(
+                                    player_level=character.level,
+                                    mob_level=mob_level,
+                                    mob_type=mob_type,
+                                    mob_name=mob_name,
+                                    is_boss=is_boss,
+                                    is_event=is_event,
+                                    xp_next_level=character.xp_next
+                                )
 
                             # Ajouter l'XP au personnage
                             if xp_amount > 0:

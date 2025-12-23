@@ -37,16 +37,15 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
     """
     db = bot.db
     user_id = user.id
-    
-    # Essayer d'abord de récupérer depuis la nouvelle table characters
-    async with db.conn.execute(
+
+    # Correction: On utilise await directement au lieu de 'async with' sur l'appel de fonction
+    cursor = await db.conn.execute(
         "SELECT * FROM characters WHERE user_id = ?",
         (user_id,)
-    ) as cursor:
-        row = await cursor.fetchone()
+    )
+    row = await cursor.fetchone()
 
     if row:
-        # Créer une entité RuntimeEntity avec les données de la table characters
         return RuntimeEntity(
             name=row["name"],
             hp=float(row["hp"]),
@@ -59,16 +58,14 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
             DEX=float(row["DEX"]),
             VIT=float(row["VIT"])
         )
-    
-    # Fallback: essayer l'ancienne table players
-    async with db.conn.execute(
+
+    cursor = await db.conn.execute(
         "SELECT * FROM players WHERE user_id = ?",
         (user_id,)
-    ) as cursor:
-        row = await cursor.fetchone()
+    )
+    row = await cursor.fetchone()
 
     if row:
-        # Créer une entité RuntimeEntity avec les données de l'ancienne table players
         return RuntimeEntity(
             name=row["name"],
             hp=float(row["hp"]),
@@ -81,8 +78,7 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
             DEX=float(row["dex"]),
             VIT=float(row["vit"])
         )
-
-    # Si aucune donnée n'est trouvée, log une erreur et retourne None
+    return None
 
 async def save_player_hp(bot, user_id: int, hp: float) -> None:
     """

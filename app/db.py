@@ -150,6 +150,17 @@ class Database:
             raise RuntimeError("DB non connectée")
         return self._conn
 
+    async def execute(self, query: str, params: Tuple = ()) -> aiosqlite.Cursor:
+        """Helper to execute a query directly via the Database object."""
+        if not self._conn:
+            raise RuntimeError("DB non connectée")
+        return await self._conn.execute(query, params)
+
+    async def commit(self) -> None:
+        """Helper to commit changes."""
+        if self._conn:
+            await self._conn.commit()
+
     async def execute_fetchone(self, query: str, params: Tuple = ()) -> Optional[Dict[str, Any]]:
         """Exécute une requête SQL et retourne la première ligne du résultat."""
         if not self._conn:

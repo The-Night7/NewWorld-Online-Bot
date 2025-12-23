@@ -125,115 +125,50 @@ def calculate_xp_gain(
     is_event: bool = False,
 ) -> Tuple[float, str]:
     """
-    Calcule le gain d'XP en fonction du niveau du joueur, du niveau du mob et de son type.
-
-    Args:
-        player_level: Niveau du joueur
-        mob_level: Niveau du mob
-        mob_type: Type du mob ('commun', 'rare', 'elite')
-        mob_name: Nom du mob (pour identifier certains boss spéciaux)
-        is_boss: Indique si le mob est un boss
-        is_event: Indique si le mob est un mob d'événement
-
-    Returns:
-        Tuple contenant le pourcentage d'XP gagné et une description du calcul
+    Calcule le gain d'XP selon le tableau Bofuri RP.
     """
-    # Valeurs de base pour le pourcentage d'XP
+    # Pourcentages de base selon le type
     base_xp_percentages = {
-        "commun": 0.02,  # 2%
-        "rare": 0.03,    # 3%
-        "elite": 0.05,   # 5%
-        "boss": 0.15,    # 15%
+        "commun": 0.015,  # Milieu de 1-2%
+        "rare": 0.035,    # Milieu de 3-4%
+        "elite": 0.05,    # Fixe à 5%
+        "boss": 0.15,     # Base pour boss
     }
 
-    # Déterminer le type de base pour le calcul
     mob_category = "boss" if is_boss else mob_type.lower()
+    base_percentage = base_xp_percentages.get(mob_category, 0.015)
 
-    # Obtenir le pourcentage de base
-    base_percentage = base_xp_percentages.get(mob_category, 0.02)
-
-    # Ajustements pour les boss spéciaux
+    # Cas particuliers des Boss de Donjon (Palier 1 & 2)
     if is_boss:
-        # Boss de niveau 60
-        if mob_level == 60:
-            if "liche" in mob_name.lower() or "élu déchu" in mob_name.lower():
-                base_percentage = 0.55  # 55%
-            elif "tour akashique" in mob_name.lower():
-                base_percentage = 0.50  # 50%
-            else:
-                base_percentage = 0.45  # 45%
-        # Boss de niveau 50-55
-        elif mob_level >= 50:
-            if "ryuja" in mob_name.lower() or "kyubi" in mob_name.lower():
-                base_percentage = 0.38  # 38%
-            else:
-                base_percentage = 0.33  # 33%
-        # Boss de niveau 40-45
-        elif mob_level >= 40:
-            base_percentage = 0.30  # 30%
-        # Boss de niveau 30-35
-        elif mob_level >= 30:
-            base_percentage = 0.25  # 25%
-        # Boss de niveau 25
-        elif mob_level >= 25:
-            if "gardien terongor" in mob_name.lower():
-                base_percentage = 0.28  # 28%
-            else:
-                base_percentage = 0.20  # 20%
-        # Boss de niveau 20
-        elif mob_level >= 20:
-            if "roi de la nature" in mob_name.lower():
-                base_percentage = 0.18  # 18%
-            else:
-                base_percentage = 0.15  # 15%
-        # Boss de niveau 15 et moins
-        else:
-            base_percentage = 0.10  # 10%
-
-    # Ajustement pour les mobs d'événement
-    if is_event and not is_boss:
-        base_percentage *= 1.2  # +20% pour les mobs d'événement
-
+        low_name = mob_name.lower()
+        if "hydre au poison" in low_name: base_percentage = 0.125
+        elif "poisson tentaculaire" in low_name: base_percentage = 0.10
+        elif "cerf de vie" in low_name: base_percentage = 0.175
+        elif mob_level >= 60: base_percentage = 0.50 # High level boss
+    
     # Calcul de la différence de niveau
     level_diff = player_level - mob_level
-
-    # Ajustement en fonction de la différence de niveau
     final_percentage = base_percentage
-    explanation = ""
+    explanation = f"Base {base_percentage:.1%}"
 
-    # Si le joueur a un niveau supérieur au mob
+    # Règle: Niveau joueur > niveau mob (Malus)
     if level_diff > 0:
         if level_diff > 10 and not is_boss:
-            final_percentage = 0.0
-            explanation = f"Aucune XP (différence de niveau > 10)"
-        elif level_diff >= 8:
+            return 0.0, "Niveau trop élevé (>10 lvl d'écart)"
+        
+        if level_diff >= 10: 
             final_percentage /= 4.0
-            explanation = f"{base_percentage:.1%} ÷ 4 (différence de niveau: {level_diff})"
-        elif level_diff >= 4:
-            final_percentage /= 3.0
-            explanation = f"{base_percentage:.1%} ÷ 3 (différence de niveau: {level_diff})"
-        elif level_diff >= 1:
+            explanation += " (÷4 car >10 lvl d'écart)"
+        elif level_diff >= 5:
             final_percentage /= 2.0
-            explanation = f"{base_percentage:.1%} ÷ 2 (différence de niveau: {level_diff})"
-        else:
-            explanation = f"{base_percentage:.1%} (même niveau)"
-
-    # Si le joueur a un niveau inférieur au mob
+            explanation += " (÷2 car >5 lvl d'écart)"
+    
+    # Règle: Niveau joueur < niveau mob (Bonus jusqu'à +5)
     elif level_diff < 0:
-        level_diff_abs = abs(level_diff)
-        if level_diff_abs >= 5:
-            final_percentage += 0.03  # +3%
-            explanation = f"{base_percentage:.1%} + 3% (différence de niveau: +{level_diff_abs})"
-        elif level_diff_abs >= 3:
-            final_percentage += 0.02  # +2%
-            explanation = f"{base_percentage:.1%} + 2% (différence de niveau: +{level_diff_abs})"
-        elif level_diff_abs >= 1:
-            final_percentage += 0.01  # +1%
-            explanation = f"{base_percentage:.1%} + 1% (différence de niveau: +{level_diff_abs})"
-        else:
-            explanation = f"{base_percentage:.1%} (même niveau)"
-    else:
-        explanation = f"{base_percentage:.1%} (même niveau)"
+        diff_abs = abs(level_diff)
+        bonus = min(diff_abs, 5) * 0.006 # +0.6% par niveau, max +3%
+        final_percentage += bonus
+        explanation += f" (+{bonus:.1%} bonus niveau)"
 
     return final_percentage, explanation
 

@@ -21,7 +21,9 @@ from app.dice import d20
 from app.rules import resolve_attack, AttackType, calculate_xp_amount
 from app.cogs.combat import fetch_player_entity, save_player_hp
 from app.combat_session import combat_is_active
-from app.character import get_character, add_xp
+from app.character import get_character, add_xp, add_item_to_inventory
+from app.items import ITEM_REGISTRY, ItemDefinition
+import random
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
@@ -40,7 +42,7 @@ class MobsCog(commands.Cog):
             await interaction.response.send_message("Aucun mob enregistré.", ephemeral=True)
             return
 
-            # Répondre immédiatement pour éviter le timeout
+        # Répondre immédiatement pour éviter le timeout (correction de l'indentation)
         await interaction.response.defer(ephemeral=True)
 
         # Créer des pages de 20 mobs maximum pour éviter de dépasser la limite de caractères
@@ -167,16 +169,17 @@ class MobsCog(commands.Cog):
         # Vérifier si le mob est mort (HP = 0) et attribuer de l'XP si c'est le cas
         if defender.hp <= 0:
             try:
+                # 1. Calcul de l'XP (déjà présent mais on s'assure qu'il utilise le nouveau rules.py)
                 # Récupérer les informations du mob depuis le registre
                 mob_key = None
-                mob_info = None
+                mob_level = None
                 rows = await list_mobs(self.bot.db, interaction.channel_id)
                 for row in rows:
                     if row['mob_name'] == mob_name:
                         mob_key = row['mob_key']
                         mob_level = row['level']
                         break
-                
+
                 if mob_key:
                     mob_def = REGISTRY.get(mob_key)
                     if mob_def:
@@ -184,7 +187,7 @@ class MobsCog(commands.Cog):
                         mob_type = "commun"
                         is_boss = False
                         is_event = False
-                        
+
                         # Vérifier les tags pour déterminer le type
                         if mob_def.tags:
                             if "boss" in mob_def.tags:
@@ -194,10 +197,10 @@ class MobsCog(commands.Cog):
                                 mob_type = "elite"
                             elif "rare" in mob_def.tags:
                                 mob_type = "rare"
-                            
+
                             if "event" in mob_def.tags:
                                 is_event = True
-                        
+
                         # Récupérer le personnage du joueur
                         character = await get_character(self.bot.db, interaction.user.id)
                         if character:
@@ -211,11 +214,11 @@ class MobsCog(commands.Cog):
                                 is_event=is_event,
                                 xp_next_level=character.xp_next
                             )
-                            
+
                             # Ajouter l'XP au personnage
                             if xp_amount > 0:
                                 character, leveled_up, levels_gained = await add_xp(self.bot.db, character.user_id, xp_amount)
-                                
+
                                 # Message d'XP
                                 xp_message = f"Vous avez gagné {xp_amount} XP! ({explanation})"
                                 if leveled_up:
@@ -223,11 +226,47 @@ class MobsCog(commands.Cog):
                                     if levels_gained > 1:
                                         xp_message += f" (+{levels_gained} niveaux)"
                                     xp_message += f"\nPoints de compétence disponibles: {character.skill_points}"
-                                
-                                embed.add_field(name="Expérience", value=xp_message, inline=False)
+
+                            # 2. Système de LOOT Automatisé
+                            loot_received = []
+                            if mob_def.drops:
+                                for drop_name in mob_def.drops:
+                                    # On simule une chance de drop (ex: 40% pour les items communs, 10% pour les boss)
+                                    drop_chance = 0.15 if is_boss else 0.40
+                                    if random.random() < drop_chance:
+                                        # On cherche l'item dans le registre par son nom d'affichage
+                                        item_to_give = None
+                                        for item in ITEM_REGISTRY.all():
+                                            if item.name.lower() == drop_name.lower():
+                                                item_to_give = item
+                                                break
+
+                                        if item_to_give:
+                                            await add_item_to_inventory(self.bot.db, character.user_id, item_to_give.item_id, 1)
+                                            loot_received.append(f"**{item_to_give.name}**")
+                                        else:
+                                            # Si l'item n'existe pas encore dans ITEM_REGISTRY, on log l'erreur
+                                            logger.warning(f"Loot défini mais inexistant dans le registre: {drop_name}")
+
+                            # Bonus: Ajout d'un peu d'or
+                            gold_gain = random.randint(mob_level, mob_level * 5)
+                            character.gold += gold_gain
+                            await character.save_to_db(self.bot.db)
+
+                            # 3. Message de récompenses
+                            reward_text = f"✨ **Récompenses de victoire !**\n"
+                            reward_text += f"├ XP: +{xp_amount} ({explanation})\n"
+                            reward_text += f"├ Or: +{gold_gain} pièces\n"
+
+                            if loot_received:
+                                reward_text += f"└ Butin: {', '.join(loot_received)}"
+                            else:
+                                reward_text += f"└ Butin: Aucun objet trouvé"
+
+                            embed.add_field(name="Butin & Expérience", value=reward_text, inline=False)
             except Exception as e:
-                logger.error(f"Erreur lors de l'attribution d'XP: {str(e)}", exc_info=True)
-                embed.add_field(name="Erreur XP", value=f"Une erreur est survenue lors de l'attribution d'XP: {str(e)}", inline=False)
+                logger.error(f"Erreur lors du traitement des récompenses: {str(e)}", exc_info=True)
+                embed.add_field(name="Erreur", value="Une erreur est survenue lors du calcul des récompenses.", inline=False)
 
         if deleted:
             embed.add_field(name="Info", value=f"{deleted} mob(s) mort(s) retiré(s) du salon.", inline=False)

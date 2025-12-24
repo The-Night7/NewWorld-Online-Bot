@@ -110,11 +110,11 @@ class CombatSessionCog(commands.Cog):
             # Ajout du créateur au fil
             await thread.add_user(interaction.user)
 
-            # AJOUT : Enregistrer le créateur comme participant au combat
+            # Enregistrer explicitement le créateur comme participant
             try:
                 await participants_add(self.bot.db, thread.id, interaction.user.id, added_by=interaction.user.id)
             except Exception as e:
-                logger.error(f"Erreur lors de l'ajout du créateur {interaction.user.id}: {str(e)}")
+                logging.getLogger('bofuri').error(f"Erreur ajout créateur: {e}")
 
             # Enregistrement du thread dans la base de données
             try:
@@ -303,43 +303,43 @@ class CombatSessionCog(commands.Cog):
 
         thread_id = interaction.channel.id
         if not await combat_is_active(self.bot.db, thread_id):
-            await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
+            await interaction.response.send_message("Aucun combat actif ici.", ephemeral=True)
             return
 
         await interaction.response.defer()
         
-        # 1. Récupérer les joueurs participants
+        # 1. Récupérer les joueurs
         user_ids = await participants_list(self.bot.db, thread_id)
-        entities = []
         
+        # Sécurité : Si le créateur n'est pas dans la liste DB, on l'ajoute pour l'affichage
+        if interaction.user.id not in user_ids:
+            user_ids.append(interaction.user.id)
+
+        entities = []
         from app.cogs.combat import fetch_player_entity
         for uid in user_ids:
             try:
                 ent = await fetch_player_entity(self.bot.db, uid)
-                entities.append(ent)
-            except Exception:
-                continue
+                if ent: entities.append(ent)
+            except Exception: continue
 
-        # 2. Récupérer les mobs du salon
+        # 2. Récupérer les mobs
         from app.combat_mobs import list_mobs, fetch_mob_entity
-        # CORRECTION : Utiliser thread_id au lieu de interaction.channel_id
         mob_rows = await list_mobs(self.bot.db, thread_id)
         for m in mob_rows:
             try:
-                # CORRECTION : Utiliser thread_id ici aussi
                 ent = await fetch_mob_entity(self.bot.db, thread_id, m['mob_name'])
-                entities.append(ent)
-            except Exception:
-                continue
+                if ent: entities.append(ent)
+            except Exception: continue
 
-        # 3. Trier par AGI (décroissant)
+        # 3. Tri
         entities.sort(key=lambda x: x.AGI, reverse=True)
 
         embed = discord.Embed(title="⚔️ Ordre d'Initiative", color=discord.Color.gold())
         lines = []
         for i, ent in enumerate(entities):
-            emoji = "👤" if hasattr(ent, 'user_id') or "Joueur" in ent.name else "👹"
+            emoji = "👤" if "Joueur" in ent.name or any(u == ent.name for u in [interaction.user.display_name]) else "👹"
             lines.append(f"{i+1}. {emoji} **{ent.name}** — AGI: `{ent.AGI:.0f}`")
         
-        embed.description = "\n".join(lines) if lines else "Aucun combattant trouvé."
+        embed.description = "\n".join(lines) if lines else "Personne en combat."
         await interaction.followup.send(embed=embed)

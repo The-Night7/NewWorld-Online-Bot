@@ -204,8 +204,8 @@ class MobsCog(commands.Cog):
         mob_name: str,
         attack_type: AttackType = "phys",
     ):
-        # Utiliser interaction.channel.id pour supporter les threads
-        target_id = interaction.channel.id
+        # Utilisation de l'ID du salon/fil actuel
+        target_id = interaction.channel_id
 
         if not await combat_is_active(self.bot.db, target_id):
             await interaction.response.send_message("Aucun combat actif ici. Utilise /combat_start.", ephemeral=True)
@@ -242,8 +242,7 @@ class MobsCog(commands.Cog):
             await interaction.response.send_message(str(e), ephemeral=True)
             return
 
-        ra = d20()
-        rb = d20()
+        ra, rb = d20(), d20()
     
         # Persistance du mana
         await self.bot.db.conn.execute(
@@ -253,7 +252,7 @@ class MobsCog(commands.Cog):
     
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-        # --- Riposte Automatique & Rage ---
+        # --- Riposte Automatique ---
         riposte_result = None
         if defender.hp > 0:
             ma, mb = d20(), d20()
@@ -262,79 +261,40 @@ class MobsCog(commands.Cog):
         
             riposte_result = resolve_attack(defender, attacker, ma, mb, attack_type="phys")
             if is_enraged:
-                riposte_result["effects"].insert(0, f"💢 **{defender.name}** est enragé et frappe plus fort !")
-        # ----------------------------------
+                riposte_result["effects"].insert(0, f"💢 **{defender.name}** est enragé !")
+            # ---------------------------
 
-        # Sauvegarde des PV
-        await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-        await save_mob_hp(self.bot.db, target_id, mob_name, defender.hp)
-        deleted = await cleanup_dead_mobs(self.bot.db, target_id)
+            # Sauvegarde
+            await save_player_hp(self.bot, interaction.user.id, attacker.hp)
+            await save_mob_hp(self.bot.db, target_id, mob_name, defender.hp)
+            deleted = await cleanup_dead_mobs(self.bot.db, target_id)
 
-        player_dead = attacker.hp <= 0
-
-        color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
-        embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
-        embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]), inline=False)
+            color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
+            embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
+            embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]), inline=False)
     
-        if perce_armure:
-            embed.set_author(name="✨ Passif 'Coup Perçant' actif")
+            if riposte_result:
+                embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
     
-        if riposte_result:
-            embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
-    
-        status_text = f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f} | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}"
-        embed.set_footer(text=status_text)
+            embed.set_footer(text=f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f} | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
 
-        # --- Récompenses si Mob mort ---
-        if defender.hp <= 0:
-            try:
-                # On recherche les infos du mob pour l'XP
-                mob_key, mob_level = None, 1
-                rows = await list_mobs(self.bot.db, target_id)
-                # Note: list_mobs renvoie les mobs AVANT le cleanup, ou on cherche dans le cache
-                # Pour faire simple, on va chercher dans le REGISTRY via le nom de base
-                base_name = mob_name.split('#')[0]
-                mob_def = None
-                for m in REGISTRY.all():
-                    if m.display_name == base_name:
-                        mob_def = m
-                        break
+            # Récompenses XP simplifiées
+            if defender.hp <= 0:
+                xp_gain = 25 # Valeur par défaut
+                await add_xp(self.bot.db, interaction.user.id, xp_gain)
+                embed.add_field(name="Victoire", value=f"✨ Tu gagnes {xp_gain} XP !")
 
-                if mob_def:
-                    mob_type = mob_def.rarity.lower() if mob_def.rarity else "commun"
-                    is_boss = mob_type == "boss"
-                    
-                    xp_amount, explanation = calculate_xp_amount(
-                        player_level=char_data.level,
-                        mob_level=defender.VIT, # On utilise une approximation ou on stocke le lvl
-                        mob_type=mob_type,
-                        mob_name=mob_name,
-                        is_boss=is_boss,
-                        xp_next_level=char_data.xp_next
-                    )
+            await interaction.response.send_message(embed=embed)
 
-                    await add_xp(self.bot.db, interaction.user.id, xp_amount)
-                    
-                    gold_gain = random.randint(5, 15)
-                    char_data.gold += gold_gain
-                    await char_data.save_to_db(self.bot.db)
+            # Mort du joueur
+            if attacker.hp <= 0:
+                await combat_close(self.bot.db, target_id)
+                if isinstance(interaction.channel, discord.Thread):
+                    await interaction.channel.send("💀 Défait... Le combat s'arrête.")
+                    await interaction.channel.edit(archived=True, locked=True)
 
-                    reward_text = f"✨ **Victoire !**\n├ XP: +{xp_amount} ({explanation})\n└ Or: +{gold_gain}"
-                    embed.add_field(name="Récompenses", value=reward_text, inline=False)
-            except Exception as e:
-                logger.error(f"Erreur récompenses: {e}")
-
-        await interaction.response.send_message(embed=embed)
-
-        # Gestion de la mort du joueur
-        if player_dead:
-            await combat_close(self.bot.db, target_id)
-            if isinstance(interaction.channel, discord.Thread):
-                await interaction.channel.send("💀 Vous avez succombé. Le combat s'arrête.")
-                await interaction.channel.edit(archived=True, locked=True)
-
-    @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
-    async def atk_player(
+        @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
+        async def atk_player(
         self,
         interaction: discord.Interaction,
         target: discord.Member,

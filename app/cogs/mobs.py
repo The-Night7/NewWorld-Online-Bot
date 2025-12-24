@@ -408,7 +408,27 @@ class MobsCog(commands.Cog):
             )
             embed.color = discord.Color.dark_red()
 
-        await interaction.response.send_message(embed=embed)
+            # --- LOGIQUE DE RESPAWN ---
+            try:
+                spawn_channel_id = 1398379140456910928
+                spawn_channel = self.bot.get_channel(spawn_channel_id)
+
+                if spawn_channel:
+                    # Restaurer les PV et MP au max
+                    await self.bot.db.conn.execute(
+                        "UPDATE characters SET hp = hp_max, mp = mp_max WHERE user_id = ?",
+                        (int(interaction.user.id),)
+                    )
+                    await self.bot.db.conn.commit()
+
+                    await spawn_channel.send(
+                        f"✨ {interaction.user.mention} a réapparu dans la zone de spawn après sa défaite. Ses forces sont restaurées !"
+                    )
+            except Exception as respawn_err:
+                logger.error(f"Erreur lors du respawn: {respawn_err}")
+            # --------------------------
+
+            await interaction.response.send_message(embed=embed)
 
         # Fermeture du combat si le joueur est mort
         if player_dead:

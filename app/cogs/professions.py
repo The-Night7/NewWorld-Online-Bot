@@ -73,12 +73,9 @@ class ProfessionsCog(commands.Cog):
         embed = discord.Embed(color=discord.Color.green())
         
         if roll <= 10: # Échec critique sur le dé pur
-            embed.title = "❌ Échec de récolte"
-            embed.description = "Vous avez fouillé partout mais n'avez trouvé que de la poussière..."
-            embed.color = discord.Color.red()
+            await interaction.followup.send("❌ Vous n'avez rien trouvé d'intéressant.")
         else:
             # Sélection de l'item basé sur les chances dans le JSON
-            # On trie par chance ascendante pour la logique de sélection
             item_pool = sorted(available_items, key=lambda x: x['chance'])
             selected_item = item_pool[0]
             
@@ -94,14 +91,8 @@ class ProfessionsCog(commands.Cog):
             from ..character import add_item_to_inventory
             await add_item_to_inventory(self.bot.db, char.user_id, selected_item['id'], 1)
             
-            quality = self.get_quality(total)
-            action_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Herboristerie"
-            
-            embed.title = f"✨ {action_name} réussie !"
-            embed.description = f"Vous avez trouvé : **{selected_item['name']}**\nQualité estimée : {quality}"
-            embed.set_footer(text=f"Jet: {roll} + {bonus} bonus | Total: {total}")
-
-        await interaction.followup.send(embed=embed)
+            action_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Récolte"
+            await interaction.followup.send(f"✨ **{action_name}** : Vous avez obtenu **{selected_item['name']}** !")
 
     @app_commands.command(name="craft", description="Réaliser un craft (Forge, Alchimie, Renforcement, Enchantement)")
     @app_commands.describe(

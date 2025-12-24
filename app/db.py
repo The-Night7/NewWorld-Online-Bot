@@ -110,6 +110,14 @@ CREATE TABLE IF NOT EXISTS inventories (
   properties   TEXT,
   FOREIGN KEY(character_id) REFERENCES characters(user_id)
 );
+
+CREATE TABLE IF NOT EXISTS character_skills (
+  user_id INTEGER NOT NULL,
+  skill_id TEXT NOT NULL,
+  acquired_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, skill_id),
+  FOREIGN KEY(user_id) REFERENCES characters(user_id)
+);
 """
 
 class Database:

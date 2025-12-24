@@ -51,7 +51,7 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
             hp=float(row["hp"]),
             hp_max=float(row["hp_max"]),
             mp=float(row["mp"]),
-            mp_max=float(row["mp_max"]),
+            mp_max=float(row["mp"]),
             STR=float(row["STR"]),
             AGI=float(row["AGI"]),
             INT=float(row["INT"]),
@@ -71,7 +71,7 @@ async def fetch_player_entity(bot, user: discord.User | discord.Member) -> Runti
             hp=float(row["hp"]),
             hp_max=float(row["hp_max"]),
             mp=float(row["mp"]),
-            mp_max=float(row["mp_max"]),
+            mp_max=float(row["mp"]),
             STR=float(row["str"]),
             AGI=float(row["agi"]),
             INT=float(row["int_"]),
@@ -198,14 +198,12 @@ class MobsCog(commands.Cog):
     @app_commands.describe(
         mob_name='Nom exact, ex: "Lapin végétal#1"',
         attack_type="phys, magic, ranged",
-        perce_armure="Ignore partiellement la VIT (VIT/100)",
     )
     async def atk_mob(
         self,
         interaction: discord.Interaction,
         mob_name: str,
         attack_type: AttackType = "phys",
-        perce_armure: bool = False,
     ):
         if not await combat_is_active(self.bot.db, interaction.channel_id):
             await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
@@ -213,8 +211,18 @@ class MobsCog(commands.Cog):
 
         # reprendre ton /atk actuel, juste renommé pour éviter ambiguïtés
         try:
+            # Récupérer le personnage complet pour vérifier les skills
+            char_data = await get_character(self.bot.db, interaction.user.id)
+            if not char_data:
+                await interaction.response.send_message("Personnage introuvable.", ephemeral=True)
+                return
+                
             attacker = await fetch_player_entity(self.bot, interaction.user)
             
+            # --- Gestion du Passif Coup Perçant ---
+            perce_armure = "perce_defense" in char_data.skills
+            # --------------------------------------
+
             # --- Gestion du Mana (Coûts variables) ---
             mana_cost = 0
             if attack_type == "magic":
@@ -280,6 +288,9 @@ class MobsCog(commands.Cog):
         embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
         
         embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]), inline=False)
+        
+        if perce_armure:
+            embed.set_author(name="✨ Passif 'Coup Perçant' actif", icon_url=None)
         
         if riposte_result:
             embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)

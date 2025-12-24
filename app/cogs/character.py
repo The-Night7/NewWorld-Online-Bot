@@ -55,9 +55,40 @@ class CharacterCog(commands.Cog):
         # Avatar de l'utilisateur
         if interaction.user.avatar:
             embed.set_thumbnail(url=interaction.user.avatar.url)
-        
-        await interaction.followup.send(embed=embed)
     
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="skills", description="Liste vos compétences apprises")
+    async def list_skills(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        character = await get_or_create_character(self.bot.db, interaction.user.id, interaction.user.display_name)
+        
+        if not character.skills:
+            await interaction.followup.send("Vous n'avez encore aucune compétence.")
+            return
+
+        embed = discord.Embed(title=f"Compétences de {character.name}", color=discord.Color.purple())
+        skills_list = "\n".join([f"• {s.replace('_', ' ').capitalize()}" for s in character.skills])
+        embed.description = skills_list
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="learn_perce_armure", description="Apprendre 'Coup Perçant' (Coûte 5 points)")
+    async def learn_piercing(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        db = self.bot.db
+        char = await get_or_create_character(db, interaction.user.id, interaction.user.display_name)
+        
+        if "perce_defense" in char.skills:
+            return await interaction.followup.send("Vous possédez déjà cette compétence.")
+        
+        if char.skill_points < 5:
+            return await interaction.followup.send(f"Points insuffisants ({char.skill_points}/5).")
+
+        char.skill_points -= 5
+        await db.execute("INSERT INTO character_skills (user_id, skill_id) VALUES (?, ?)", (char.user_id, "perce_defense"))
+        await char.save_to_db(db)
+        await interaction.followup.send("✨ Vous avez appris le passif **Coup Perçant** !")
+
     @app_commands.command(name="inventory", description="Affiche votre inventaire")
     async def inventory(self, interaction: discord.Interaction):
         """Affiche l'inventaire du personnage"""

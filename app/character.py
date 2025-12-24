@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Tuple
 import json
 import logging
@@ -25,7 +25,8 @@ class Character:
     VIT: float
     skill_points: int
     gold: int
-    
+    skills: List[str] = field(default_factory=list)
+
     @classmethod
     async def from_db(cls, db, user_id: int) -> Optional[Character]:
         """Charge un personnage depuis la base de données"""
@@ -33,10 +34,17 @@ class Character:
             "SELECT * FROM characters WHERE user_id = ?",
             (user_id,)
         )
-        
+    
         if not row:
             return None
-            
+        
+        # Charger les compétences
+        skills_rows = await db.execute_fetchall(
+            "SELECT skill_id FROM character_skills WHERE user_id = ?",
+            (user_id,)
+        )
+        skills = [r['skill_id'] for r in skills_rows]
+        
         return cls(
             user_id=row['user_id'],
             name=row['name'],
@@ -53,9 +61,10 @@ class Character:
             DEX=float(row['DEX']),
             VIT=float(row['VIT']),
             skill_points=row['skill_points'],
-            gold=row['gold']
+            gold=row['gold'],
+            skills=skills
         )
-    
+
     async def save_to_db(self, db) -> None:
         """Sauvegarde le personnage dans la base de données"""
         await db.execute(

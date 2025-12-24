@@ -1,4 +1,3 @@
-
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -6,10 +5,36 @@ import random
 import math
 from ..character import get_character, add_item_to_inventory
 from ..dice import d100
+import json
+import os
+
+# Mapping des salons vers les types de ressources
+ZONE_PROFESSIONS = {
+    1398615884196610088: "harvesting.foret",    # forêt luxuriante
+    1398617728474153061: "harvesting.foret",    # forêt sombre
+    1398617842064035840: "mining.grotte",       # grotte rocheuse
+    1398617763093807184: "harvesting.plaines",  # grandes plaines
+    1398617871588003870: "fishing.lac",         # lac de crystal
+    1398626100615188530: "harvesting.hante",    # forêt hantée
+    1398626193254645820: "harvesting.hante",    # village hanté
+    1398626132403687504: "harvesting.hante",    # manoir hanté
+    1398632574276075580: "mining.grotte",       # sous-sol
+    1398191886589624421: "fishing.lac",         # donjon aquatique
+    1398626819296596070: "harvesting.hante",    # domaine du trépassé
+    1398193027893432361: "mining.grotte",       # donjon palier grotte
+}
 
 class ProfessionsCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.resources_data = self._load_resources()
+
+    def _load_resources(self):
+        path = os.path.join("app", "professions_items.json")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        return {}
 
     def get_quality(self, roll: int) -> str:
         if roll >= 100: return "✨ Qualité supérieure"
@@ -17,6 +42,66 @@ class ProfessionsCog(commands.Cog):
         if roll > 85: return "🌟 Bonne qualité"
         if roll >= 25: return "📦 Qualité standard"
         return "❌ Échec"
+
+    @app_commands.command(name="recolte", description="Récolter des ressources automatiquement selon le lieu")
+    async def recolte(self, interaction: discord.Interaction):
+        """Détecte le lieu et lance la récolte appropriée"""
+        await interaction.response.defer()
+        
+        channel_id = interaction.channel_id
+        if channel_id not in ZONE_PROFESSIONS:
+            return await interaction.followup.send("Il n'y a rien à récolter ici.", ephemeral=True)
+
+        zone_key = ZONE_PROFESSIONS[channel_id]
+        category, subcat = zone_key.split(".")
+        
+        # Récupération de la liste des items possibles
+        available_items = self.resources_data.get(category, {}).get(subcat, [])
+        if not available_items:
+            return await interaction.followup.send("Erreur: Table de loot vide pour cette zone.")
+
+        char = await get_character(self.bot.db, interaction.user.id)
+        if not char:
+            return await interaction.followup.send("Personnage introuvable. Utilisez /profile.")
+
+        # Calcul du jet (DEX pour tout, ou INT pour les zones hantées)
+        stat_val = char.INT if subcat == "hante" else char.DEX
+        bonus = math.floor(stat_val / 10)
+        roll = d100()
+        total = roll + bonus
+
+        embed = discord.Embed(color=discord.Color.green())
+        
+        if roll <= 10: # Échec critique sur le dé pur
+            embed.title = "❌ Échec de récolte"
+            embed.description = "Vous avez fouillé partout mais n'avez trouvé que de la poussière..."
+            embed.color = discord.Color.red()
+        else:
+            # Sélection de l'item basé sur les chances dans le JSON
+            # On trie par chance ascendante pour la logique de sélection
+            item_pool = sorted(available_items, key=lambda x: x['chance'])
+            selected_item = item_pool[0]
+            
+            rand_chance = random.randint(1, 100)
+            current_sum = 0
+            for item in item_pool:
+                current_sum += item['chance']
+                if rand_chance <= current_sum:
+                    selected_item = item
+                    break
+            
+            # Ajout à l'inventaire
+            from ..character import add_item_to_inventory
+            await add_item_to_inventory(self.bot.db, char.user_id, selected_item['id'], 1)
+            
+            quality = self.get_quality(total)
+            action_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Herboristerie"
+            
+            embed.title = f"✨ {action_name} réussie !"
+            embed.description = f"Vous avez trouvé : **{selected_item['name']}**\nQualité estimée : {quality}"
+            embed.set_footer(text=f"Jet: {roll} + {bonus} bonus | Total: {total}")
+
+        await interaction.followup.send(embed=embed)
 
     @app_commands.command(name="craft", description="Réaliser un craft (Forge, Alchimie, Renforcement, Enchantement)")
     @app_commands.describe(
@@ -50,78 +135,6 @@ class ProfessionsCog(commands.Cog):
         embed.add_field(name="Total", value=str(total), inline=True)
         embed.add_field(name="Résultat", value=f"**{quality}**", inline=False)
         
-        await interaction.followup.send(embed=embed)
-
-    @app_commands.command(name="recolte", description="Récolter des ressources selon le lieu")
-    @app_commands.choices(lieu=[
-        app_commands.Choice(name="Lac de Crystal (Coquillages)", value="lac_coquillages"),
-        app_commands.Choice(name="Lac de Crystal (Pêche)", value="lac_peche"),
-        app_commands.Choice(name="Lac de Crystal (Sirène - Rare)", value="lac_sirene"),
-        app_commands.Choice(name="Forêt (Plantes)", value="foret_plantes"),
-        app_commands.Choice(name="Grotte (Minage)", value="grotte_minage"),
-    ])
-    async def recolte(self, interaction: discord.Interaction, lieu: str):
-        await interaction.response.defer()
-        
-        # Ensure the database object is handled correctly. 
-        # If get_character is an async function, it must be awaited.
-        try:
-            char = await get_character(self.bot.db, interaction.user.id)
-        except Exception as e:
-            logger.error(f"Database error in recolte: {e}")
-            return await interaction.followup.send("Une erreur est survenue lors de la récupération de votre personnage.")
-
-        if not char:
-            return await interaction.followup.send("Personnage introuvable.")
-
-        embed = discord.Embed(title="🌿 Récolte de ressources", color=discord.Color.green())
-        result_text = ""
-
-        if lieu == "lac_coquillages":
-            # Étape A
-            if d100() >= 80:
-                # Étape B
-                roll_b = d100()
-                if roll_b <= 20:
-                    qty = random.randint(1, 20)
-                    result_text = f"🐚 Trouvé **{qty}x Coquillage rare** !"
-                else:
-                    qty = random.randint(80, 100)
-                    result_text = f"🐚 Trouvé **{qty}x Coquillage commun** !"
-            else:
-                result_text = "Désolé, vous n'avez rien trouvé dans le sable."
-
-        elif lieu == "lac_peche":
-            if d100() <= 30:
-                result_text = "🐟 Glouglou ! Vous avez pêché **1x Poisson-chat** !"
-            else:
-                result_text = "Le poisson a mangé l'appât et s'est enfui..."
-
-        elif lieu == "lac_sirene":
-            # Règle A : Seuil DEX
-            success_threshold = 98 if char.DEX >= 30 else 100
-            roll = d100()
-            if roll >= success_threshold:
-                result_text = "🧜‍♀️ Incroyable ! Vous avez trouvé le **Pendentif de la sirène amoureuse** !"
-            else:
-                result_text = "Rien d'inhabituel à la surface de l'eau."
-
-        elif lieu == "foret_plantes":
-            roll = d100()
-            if roll <= 50: result_text = "🌿 Récolté : **Plante médicinale de soin**"
-            elif roll <= 80: result_text = "🧪 Récolté : **Plante anti-poison**"
-            elif roll <= 97: result_text = "⚡ Récolté : **Plante anti-paralysie**"
-            else: result_text = "✨ Récolté : **Plante de la vie** (Anti-malédiction)"
-
-        elif lieu == "grotte_minage":
-            roll = d100()
-            if roll <= 30: result_text = "🪨 Miné : **Minerai de roche**"
-            elif roll <= 50: result_text = "🟠 Miné : **Minerai de cuivre**"
-            elif roll <= 80: result_text = "💎 Miné : **Pierre de mana**"
-            elif roll <= 97: result_text = "🔮 Miné : **Cristal aléatoire**"
-            else: result_text = "🌌 Miné : **Cristal épique** !"
-
-        embed.description = result_text
         await interaction.followup.send(embed=embed)
 
 async def setup(bot):

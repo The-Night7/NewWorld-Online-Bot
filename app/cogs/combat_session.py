@@ -111,7 +111,10 @@ class CombatSessionCog(commands.Cog):
             await thread.add_user(interaction.user)
 
             # AJOUT : Enregistrer le créateur comme participant au combat
-            await participants_add(self.bot.db, thread.id, interaction.user.id, added_by=interaction.user.id)
+            try:
+                await participants_add(self.bot.db, thread.id, interaction.user.id, added_by=interaction.user.id)
+            except Exception as e:
+                logger.error(f"Erreur lors de l'ajout du créateur {interaction.user.id}: {str(e)}")
 
             # Enregistrement du thread dans la base de données
             try:
@@ -125,7 +128,8 @@ class CombatSessionCog(commands.Cog):
 
             # Ajout des membres mentionnés au fil et au combat
             members_added = []
-            for user_id in ids:
+            for user_id in set(ids): # set() pour éviter les doublons
+                if user_id == interaction.user.id: continue # On s'est déjà ajouté
                 try:
                     member = await interaction.guild.fetch_member(user_id)
                     if member:
@@ -149,11 +153,9 @@ class CombatSessionCog(commands.Cog):
                 import random
 
                 mob_keys = ZONE_MONSTERS[channel.id]
-                # Pour les zones normales, on spawn 1 ou 2 mobs aléatoires. 
-                # Pour les donjons (ID spécifiques), on peut spawn le boss directement.
                 mobs_to_spawn = []
                 
-                if len(mob_keys) == 1: # Boss unique ou zone à un seul mob
+                if len(mob_keys) == 1:
                     mobs_to_spawn = mob_keys
                 else:
                     mobs_to_spawn = random.sample(mob_keys, k=random.randint(1, 2))
@@ -161,8 +163,8 @@ class CombatSessionCog(commands.Cog):
                 for m_key in mobs_to_spawn:
                     defn = REGISTRY.get(m_key)
                     if defn:
-                        # On prend le niveau min du mob ou 1 par défaut
                         level = defn.level_min or 1
+                        # CORRECTION : Utiliser thread.id pour le nom unique et l'insertion
                         m_name = await next_unique_mob_name(self.bot.db, thread.id, defn.display_name)
                         ent = spawn_entity(defn, level=level, instance_name=m_name)
                         await insert_mob(self.bot.db, thread.id, m_name, defn.key, level, ent, created_by=self.bot.user.id)

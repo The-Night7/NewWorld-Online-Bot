@@ -29,12 +29,11 @@ class Character:
     @classmethod
     async def from_db(cls, db, user_id: int) -> Optional[Character]:
         """Charge un personnage depuis la base de données"""
-        async with db.execute(
+        row = await db.execute_fetchone(
             "SELECT * FROM characters WHERE user_id = ?",
             (user_id,)
-        ) as cursor:
-            row = await cursor.fetchone()
-            
+        )
+        
         if not row:
             return None
             
@@ -183,28 +182,27 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
     if properties is None:
         properties = {}
     
-    # Vérifier si l'objet existe déjà dans l'inventaire
-    async with db.execute(
-        "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
-        (user_id, item_id)
-    ) as cursor:
-        existing_item = await cursor.fetchone()
+        # Vérifier si l'objet existe déjà dans l'inventaire
+        existing_item = await db.execute_fetchone(
+            "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
+            (user_id, item_id)
+        )
     
-    if existing_item:
-        # Mettre à jour la quantité
-        await db.execute(
-            "UPDATE inventories SET quantity = quantity + ? WHERE id = ?",
-            (quantity, existing_item['id'])
-        )
-    else:
-        # Ajouter un nouvel objet
-        await db.execute(
-            """
-            INSERT INTO inventories (character_id, item_id, quantity, equipped, properties)
-            VALUES (?, ?, ?, 0, ?)
-            """,
-            (user_id, item_id, quantity, json.dumps(properties))
-        )
+        if existing_item:
+            # Mettre à jour la quantité
+            await db.execute(
+                "UPDATE inventories SET quantity = quantity + ? WHERE id = ?",
+                (quantity, existing_item['id'])
+            )
+        else:
+            # Ajouter un nouvel objet
+            await db.execute(
+                """
+                INSERT INTO inventories (character_id, item_id, quantity, equipped, properties)
+                VALUES (?, ?, ?, 0, ?)
+                """,
+                (user_id, item_id, quantity, json.dumps(properties))
+            )
     
     await db.commit()
 

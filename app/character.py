@@ -113,7 +113,7 @@ async def create_character(db, user_id: int, name: str) -> Character:
         name=name,
         level=1,
         xp=0,
-        xp_next=100,  # XP nécessaire pour le niveau 2
+        xp_next=1100,
         hp=100.0,
         hp_max=100.0,
         mp=50.0,
@@ -156,34 +156,28 @@ async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int
     character = await get_character(db, user_id)
     if character is None:
         raise ValueError(f"Aucun personnage trouvé pour l'utilisateur {user_id}")
-    
-    old_level = character.level
+
     character.xp += xp_amount
-    
     levels_gained = 0
     leveled_up = False
-    
-    # Vérifier si le personnage a gagné un niveau
+
+    # Vérifier si le personnage a gagné un ou plusieurs niveaux
     while character.xp >= character.xp_next:
         character.xp -= character.xp_next
         character.level += 1
         levels_gained += 1
         leveled_up = True
-        
+
         # Augmenter les points de compétence
         character.skill_points += 3
-        
-        # Calculer l'XP nécessaire pour le prochain niveau (formule personnalisable)
-        character.xp_next = int(character.xp_next * 1.5)
-        
+
+        # Calculer l'XP nécessaire pour le prochain niveau L -> L+1
+        # Formule : 100 * L^2 + 1000 * L
+        L = character.level
+        character.xp_next = (100 * (L**2)) + (1000 * L)
+
         # Augmenter les statistiques de base avec le niveau
         character.hp_max += 10
-        character.mp_max += 5
-        character.hp = character.hp_max
-        character.mp = character.mp_max
-    
-    await character.save_to_db(db)
-    return character, leveled_up, levels_gained
 
 
 async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 1, properties: Dict[str, Any] = None) -> None:

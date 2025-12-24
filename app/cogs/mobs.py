@@ -21,13 +21,12 @@ from app.dice import d20
 from app.models import RuntimeEntity
 from app.rules import resolve_attack, AttackType, calculate_xp_amount
 from app.cogs.combat import fetch_player_entity, save_player_hp
-from app.combat_session import combat_is_active, combat_close
+from app.combat_session import combat_is_active, combat_close, participants_add, participants_list
 from app.character import get_character, add_xp, add_item_to_inventory
 from app.items import ITEM_REGISTRY, ItemDefinition
 import random
+import logging
 
-# Configuration du logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('bofuri.mobs')
 
 async def fetch_player_entity(bot, user: discord.User | discord.Member) -> RuntimeEntity:
@@ -205,251 +204,134 @@ class MobsCog(commands.Cog):
         mob_name: str,
         attack_type: AttackType = "phys",
     ):
-        if not await combat_is_active(self.bot.db, interaction.channel_id):
-            await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
+        # Utiliser interaction.channel.id pour supporter les threads
+        target_id = interaction.channel.id
+
+        if not await combat_is_active(self.bot.db, target_id):
+            await interaction.response.send_message("Aucun combat actif ici. Utilise /combat_start.", ephemeral=True)
             return
 
-        # reprendre ton /atk actuel, juste renommé pour éviter ambiguïtés
         try:
             # Récupérer le personnage complet pour vérifier les skills
             char_data = await get_character(self.bot.db, interaction.user.id)
             if not char_data:
                 await interaction.response.send_message("Personnage introuvable.", ephemeral=True)
                 return
-                
-            attacker = await fetch_player_entity(self.bot, interaction.user)
             
+            attacker = await fetch_player_entity(self.bot, interaction.user)
+        
             # --- Gestion du Passif Coup Perçant ---
             perce_armure = "perce_defense" in char_data.skills
             # --------------------------------------
 
-            # --- Gestion du Mana (Coûts variables) ---
-            mana_cost = 0
-            if attack_type == "magic":
-                # Pour l'instant, coût de base magie. 
-                # On pourra lier cela à des capacités spécifiques du compendium plus tard.
-                mana_cost = 10 
-            elif attack_type == "ranged":
-                mana_cost = 0  # Gratuit comme demandé
-            
+            # --- Gestion du Mana ---
+            mana_cost = 10 if attack_type == "magic" else 0
+        
             if attacker.mp < mana_cost:
                 await interaction.response.send_message(
                     f"❌ Mana insuffisant ! (Requis: {mana_cost}, Actuel: {attacker.mp:.0f})", 
                     ephemeral=True
                 )
                 return
-            
+        
             attacker.mp -= mana_cost
-            # ----------------------------------------
+            # -----------------------
 
-            defender = await fetch_mob_entity(self.bot.db, interaction.channel_id, mob_name)
+            defender = await fetch_mob_entity(self.bot.db, target_id, mob_name)
         except ValueError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
 
         ra = d20()
         rb = d20()
-        
+    
         # Persistance du mana
         await self.bot.db.conn.execute(
             "UPDATE characters SET mp = ? WHERE user_id = ?", 
             (float(attacker.mp), int(interaction.user.id))
         )
-        
+    
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
         # --- Riposte Automatique & Rage ---
         riposte_result = None
         if defender.hp > 0:
-            ma = d20()
-            mb = d20()
-            
-            # Si le mob est à < 50% HP, il gagne un bonus de +2 aux dégâts pour sa riposte
+            ma, mb = d20(), d20()
             hp_ratio = defender.hp / defender.hp_max
             is_enraged = hp_ratio <= 0.5
-            
-            # On simule la riposte
+        
             riposte_result = resolve_attack(defender, attacker, ma, mb, attack_type="phys")
-            
             if is_enraged:
                 riposte_result["effects"].insert(0, f"💢 **{defender.name}** est enragé et frappe plus fort !")
         # ----------------------------------
 
-        # persist
+        # Sauvegarde des PV
         await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-        await save_mob_hp(self.bot.db, interaction.channel_id, mob_name, defender.hp)
-        deleted = await cleanup_dead_mobs(self.bot.db, interaction.channel_id)
+        await save_mob_hp(self.bot.db, target_id, mob_name, defender.hp)
+        deleted = await cleanup_dead_mobs(self.bot.db, target_id)
 
-        # --- Vérification mort du joueur ---
         player_dead = attacker.hp <= 0
-        # ----------------------------------
 
         color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
         embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
-        
         embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]), inline=False)
-        
+    
         if perce_armure:
-            embed.set_author(name="✨ Passif 'Coup Perçant' actif", icon_url=None)
-        
+            embed.set_author(name="✨ Passif 'Coup Perçant' actif")
+    
         if riposte_result:
             embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
-        
-        # Affichage du statut final
-        status_text = f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f}"
-        if attacker.mp_max > 0:
-            status_text += f" | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}"
+    
+        status_text = f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f} | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}"
         embed.set_footer(text=status_text)
 
-        # Vérifier si le mob est mort (HP = 0) et attribuer de l'XP si c'est le cas
+        # --- Récompenses si Mob mort ---
         if defender.hp <= 0:
             try:
-                # 1. Calcul de l'XP (déjà présent mais on s'assure qu'il utilise le nouveau rules.py)
-                # Récupérer les informations du mob depuis le registre
-                mob_key = None
-                mob_level = None
-                rows = await list_mobs(self.bot.db, interaction.channel_id)
-                for row in rows:
-                    if row['mob_name'] == mob_name:
-                        mob_key = row['mob_key']
-                        mob_level = row['level']
+                # On recherche les infos du mob pour l'XP
+                mob_key, mob_level = None, 1
+                rows = await list_mobs(self.bot.db, target_id)
+                # Note: list_mobs renvoie les mobs AVANT le cleanup, ou on cherche dans le cache
+                # Pour faire simple, on va chercher dans le REGISTRY via le nom de base
+                base_name = mob_name.split('#')[0]
+                mob_def = None
+                for m in REGISTRY.all():
+                    if m.display_name == base_name:
+                        mob_def = m
                         break
 
-                if mob_key:
-                    mob_def = REGISTRY.get(mob_key)
-                    if mob_def:
-                        # Déterminer le type de mob (commun, rare, elite, boss)
-                        mob_type = "commun"
-                        is_boss = False
-                        is_event = False
-
-                        # Vérifier les tags pour déterminer le type
-                        if mob_def.tags:
-                            if "boss" in mob_def.tags:
-                                mob_type = "boss"
-                                is_boss = True
-                            elif "elite" in mob_def.tags:
-                                mob_type = "elite"
-                            elif "rare" in mob_def.tags:
-                                mob_type = "rare"
-
-                            if "event" in mob_def.tags:
-                                is_event = True
-
-                        # Récupérer le personnage du joueur
-                            try:
-                                character = await get_character(self.bot.db, interaction.user.id)
-                            except Exception as e:
-                                logger.error(f"Erreur lors de la récupération du personnage: {e}")
-                                character = None
-
-                            if character:
-                                # Calculer l'XP gagnée
-                                xp_amount, explanation = calculate_xp_amount(
-                                    player_level=character.level,
-                                    mob_level=mob_level,
-                                    mob_type=mob_type,
-                                    mob_name=mob_name,
-                                    is_boss=is_boss,
-                                    is_event=is_event,
-                                    xp_next_level=character.xp_next
-                                )
-
-                            # Ajouter l'XP au personnage
-                            if xp_amount > 0:
-                                character, leveled_up, levels_gained = await add_xp(self.bot.db, character.user_id, xp_amount)
-
-                                # Message d'XP
-                                xp_message = f"Vous avez gagné {xp_amount} XP! ({explanation})"
-                                if leveled_up:
-                                    xp_message += f"\n**NIVEAU UP!** Vous êtes maintenant niveau {character.level}!"
-                                    if levels_gained > 1:
-                                        xp_message += f" (+{levels_gained} niveaux)"
-                                    xp_message += f"\nPoints de compétence disponibles: {character.skill_points}"
-
-                            # 2. Système de LOOT Automatisé
-                            loot_received = []
-                            if mob_def.drops:
-                                for drop_name in mob_def.drops:
-                                    # On simule une chance de drop (ex: 40% pour les items communs, 10% pour les boss)
-                                    drop_chance = 0.15 if is_boss else 0.40
-                                    if random.random() < drop_chance:
-                                        # On cherche l'item dans le registre par son nom d'affichage
-                                        item_to_give = None
-                                        for item in ITEM_REGISTRY.all():
-                                            if item.name.lower() == drop_name.lower():
-                                                item_to_give = item
-                                                break
-
-                                        if item_to_give:
-                                            await add_item_to_inventory(self.bot.db, character.user_id, item_to_give.item_id, 1)
-                                            loot_received.append(f"**{item_to_give.name}**")
-                                        else:
-                                            # Si l'item n'existe pas encore dans ITEM_REGISTRY, on log l'erreur
-                                            logger.warning(f"Loot défini mais inexistant dans le registre: {drop_name}")
-
-                            # Bonus: Ajout d'un peu d'or
-                            gold_gain = random.randint(mob_level, mob_level * 5)
-                            character.gold += gold_gain
-                            await character.save_to_db(self.bot.db)
-
-                            # 3. Message de récompenses
-                            reward_text = f"✨ **Récompenses de victoire !**\n"
-                            reward_text += f"├ XP: +{xp_amount} ({explanation})\n"
-                            reward_text += f"├ Or: +{gold_gain} pièces\n"
-
-                            if loot_received:
-                                reward_text += f"└ Butin: {', '.join(loot_received)}"
-                            else:
-                                reward_text += f"└ Butin: Aucun objet trouvé"
-
-                            embed.add_field(name="Butin & Expérience", value=reward_text, inline=False)
-            except Exception as e:
-                logger.error(f"Erreur lors du traitement des récompenses: {str(e)}", exc_info=True)
-                embed.add_field(name="Erreur", value="Une erreur est survenue lors du calcul des récompenses.", inline=False)
-
-        if deleted:
-            embed.add_field(name="Info", value=f"{deleted} mob(s) mort(s) retiré(s) du salon.", inline=False)
-
-        if player_dead:
-            embed.add_field(
-                name="💀 Défaite", 
-                value=f"**{attacker.name}** a succombé au combat... Le combat prend fin.", 
-                inline=False
-            )
-            embed.color = discord.Color.dark_red()
-
-            # --- LOGIQUE DE RESPAWN ---
-            try:
-                spawn_channel_id = 1398379140456910928
-                spawn_channel = self.bot.get_channel(spawn_channel_id)
-
-                if spawn_channel:
-                    # Restaurer les PV et MP au max
-                    await self.bot.db.conn.execute(
-                        "UPDATE characters SET hp = hp_max, mp = mp_max WHERE user_id = ?",
-                        (int(interaction.user.id),)
+                if mob_def:
+                    mob_type = mob_def.rarity.lower() if mob_def.rarity else "commun"
+                    is_boss = mob_type == "boss"
+                    
+                    xp_amount, explanation = calculate_xp_amount(
+                        player_level=char_data.level,
+                        mob_level=defender.VIT, # On utilise une approximation ou on stocke le lvl
+                        mob_type=mob_type,
+                        mob_name=mob_name,
+                        is_boss=is_boss,
+                        xp_next_level=char_data.xp_next
                     )
-                    await self.bot.db.conn.commit()
 
-                    await spawn_channel.send(
-                        f"✨ {interaction.user.mention} a réapparu dans la zone de spawn après sa défaite. Ses forces sont restaurées !"
-                    )
-            except Exception as respawn_err:
-                logger.error(f"Erreur lors du respawn: {respawn_err}")
-            # --------------------------
+                    await add_xp(self.bot.db, interaction.user.id, xp_amount)
+                    
+                    gold_gain = random.randint(5, 15)
+                    char_data.gold += gold_gain
+                    await char_data.save_to_db(self.bot.db)
 
-            await interaction.response.send_message(embed=embed)
-
-        # Fermeture du combat si le joueur est mort
-        if player_dead:
-            try:
-                await combat_close(self.bot.db, interaction.channel_id)
-                if isinstance(interaction.channel, discord.Thread):
-                    await interaction.channel.send("Le joueur est mort. Le fil va être archivé.")
-                    await interaction.channel.edit(archived=True, locked=True)
+                    reward_text = f"✨ **Victoire !**\n├ XP: +{xp_amount} ({explanation})\n└ Or: +{gold_gain}"
+                    embed.add_field(name="Récompenses", value=reward_text, inline=False)
             except Exception as e:
-                logger.error(f"Erreur lors de la fermeture automatique du combat: {e}")
+                logger.error(f"Erreur récompenses: {e}")
+
+        await interaction.response.send_message(embed=embed)
+
+        # Gestion de la mort du joueur
+        if player_dead:
+            await combat_close(self.bot.db, target_id)
+            if isinstance(interaction.channel, discord.Thread):
+                await interaction.channel.send("💀 Vous avez succombé. Le combat s'arrête.")
+                await interaction.channel.edit(archived=True, locked=True)
 
     @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
     async def atk_player(
@@ -487,3 +369,55 @@ class MobsCog(commands.Cog):
         embed.add_field(name="Log", value="\n".join(result["effects"]) if result["effects"] else "—", inline=False)
 
         await interaction.response.send_message(embed=embed)
+        # Ajout du créateur au fil
+        await thread.add_user(interaction.user)
+
+        # FORCE : Enregistrer le créateur comme participant au combat en base de données
+        try:
+            await participants_add(self.bot.db, thread.id, interaction.user.id, added_by=interaction.user.id)
+        except Exception as e:
+            logger.error(f"Erreur lors de l'ajout du créateur {interaction.user.id} aux participants: {str(e)}")
+
+        # Enregistrement du thread dans la base de données
+        @app_commands.command(name="initiative", description="Affiche l'ordre de passage basé sur l'agilité")
+        async def initiative(self, interaction: discord.Interaction):
+            if not interaction.guild or not interaction.channel:
+                return
+
+            thread_id = interaction.channel.id
+            if not await combat_is_active(self.bot.db, thread_id):
+                await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
+                return
+
+            await interaction.response.defer()
+        
+            # 1. Récupérer les joueurs participants
+            user_ids = await participants_list(self.bot.db, thread_id)
+            # S'assurer que l'utilisateur actuel est dedans au cas où la DB ait raté l'étape
+            if interaction.user.id not in user_ids:
+                user_ids.append(interaction.user.id)
+
+            entities = []
+        
+            from app.cogs.combat import fetch_player_entity
+            for uid in user_ids:
+                try:
+                    ent = await fetch_player_entity(self.bot.db, uid)
+                    if ent:
+                        entities.append(ent)
+                except Exception as e:
+                    continue
+
+            # 2. Récupérer les mobs du salon (en utilisant thread_id)
+            from app.combat_mobs import list_mobs, fetch_mob_entity
+            mob_rows = await list_mobs(self.bot.db, thread_id)
+            for m in mob_rows:
+                try:
+                    ent = await fetch_mob_entity(self.bot.db, thread_id, m['mob_name'])
+                    if ent:
+                        entities.append(ent)
+                except Exception:
+                    continue
+
+            # 3. Trier par AGI (décroissant)
+            entities.sort(key=lambda x: x.AGI, reverse=True)

@@ -22,14 +22,19 @@ import logging
 
 # Table des rencontres par salon
 ZONE_MONSTERS = {
-    1398615884196610088: ["forest.lapin_vegetal", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "misc.reine_des_abeilles"],
-    1398617728474153061: ["forest_plains.louveteau_des_forets", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "forest_plains.loup_alpha"],
-    1398617842064035840: ["misc.golem"],
-    1398617763093807184: ["forest_plains.louveteau_des_forets", "hydra_dungeon.slime", "forest.coxiplooosion"],
-    1398626100615188530: ["ghost_zone.spectre", "ghost_zone.zombie"],
-    1398626193254645820: ["ghost_zone.zombie", "ghost_zone.spectre"],
-    1398626132403687504: ["ghost_zone.spectre"],
-    1398191886589624421: ["misc.poisson_tentaculaire"],
+    1398615884196610088: ["forest.lapin_vegetal", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "misc.reine_des_abeilles"],  # Forêt luxuriante
+    1398617728474153061: ["forest_plains.louveteau_des_forets", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "forest_plains.loup_alpha"],  # Forêt sombre
+    1398617842064035840: ["misc.golem", "rocky_crystal.taupe_de_cristal", "rocky_crystal.loup_veteran"],  # Grotte rocheuse
+    1398617763093807184: ["forest_plains.louveteau_des_forets", "hydra_dungeon.slime", "forest.coxiplooosion"],  # Grandes plaines
+    1398617871588003870: ["misc.poisson_tentaculaire"],  # Lac de Crystal
+    1398626100615188530: ["ghost_zone.spectre", "ghost_zone.zombie"],  # Forêt hantée
+    1398626193254645820: ["ghost_zone.zombie", "ghost_zone.spectre"],  # Village hanté
+    1398626132403687504: ["ghost_zone.spectre", "misc.zombie_du_manoir"],  # Manoir hanté
+    1398632574276075580: ["ghost_zone.zombie", "misc.roi_squelette"],  # Sous-sol
+    1398191886589624421: ["misc.poisson_tentaculaire", "hydra_dungeon.slime"],  # Donjon aquatique
+    1398192851774345407: ["hydra_dungeon.hydre_au_poison"],  # Donjon de l'hydre (Boss)
+    1398626819296596070: ["misc.spectre_de_la_mort", "misc.feu_follet"],  # Domaine du trépassé
+    1398193027893432361: ["crystal_cave.araignee_des_grottes", "misc.amethyste_le_sabre_maudit_devoreur"],  # Donjon de palier grotte luxuriante
 }
 
 class CombatSessionCog(commands.Cog):

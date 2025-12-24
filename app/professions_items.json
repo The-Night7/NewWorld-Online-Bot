@@ -1,0 +1,37 @@
+{
+  "harvesting": {
+    "foret": [
+      {"id": "material.herb.medicinal", "name": "Plante médicinale de soin", "rarity": "commun", "chance": 50},
+      {"id": "material.herb.antipoison", "name": "Plante anti-poison", "rarity": "commun", "chance": 30},
+      {"id": "material.herb.paralysis", "name": "Plante anti-paralysie", "rarity": "rare", "chance": 17},
+      {"id": "material.herb.life", "name": "Plante de la vie", "rarity": "epique", "chance": 3}
+    ],
+    "plaines": [
+      {"id": "material.herb.common", "name": "Herbe commune", "rarity": "commun", "chance": 70},
+      {"id": "material.flower.cotton", "name": "Fleur de coton", "rarity": "commun", "chance": 25},
+      {"id": "material.flower.gold", "name": "Fleur dorée", "rarity": "rare", "chance": 5}
+    ],
+    "hante": [
+      {"id": "material.ghost.essence", "name": "Essence spectrale", "rarity": "commun", "chance": 60},
+      {"id": "material.ghost.residue", "name": "Résidu d'ectoplasme", "rarity": "rare", "chance": 35},
+      {"id": "material.ghost.tear", "name": "Larme de trépassé", "rarity": "epique", "chance": 5}
+    ]
+  },
+  "mining": {
+    "grotte": [
+      {"id": "material.ore.rock", "name": "Minerai de roche", "rarity": "commun", "chance": 40},
+      {"id": "material.ore.copper", "name": "Minerai de cuivre", "rarity": "commun", "chance": 30},
+      {"id": "material.ore.iron", "name": "Minerai de fer", "rarity": "rare", "chance": 20},
+      {"id": "material.gem.mana", "name": "Pierre de mana", "rarity": "rare", "chance": 8},
+      {"id": "material.gem.crystal", "name": "Cristal épique", "rarity": "epique", "chance": 2}
+    ]
+  },
+  "fishing": {
+    "lac": [
+      {"id": "material.fish.catfish", "name": "Poisson-chat", "rarity": "commun", "chance": 60},
+      {"id": "material.fish.shell_common", "name": "Coquillage commun", "rarity": "commun", "chance": 30},
+      {"id": "material.fish.shell_rare", "name": "Coquillage rare", "rarity": "rare", "chance": 9},
+      {"id": "material.item.siren_pendant", "name": "Pendentif de la sirène", "rarity": "epique", "chance": 1}
+    ]
+  }
+}

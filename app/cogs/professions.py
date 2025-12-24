@@ -62,7 +62,15 @@ class ProfessionsCog(commands.Cog):
     ])
     async def recolte(self, interaction: discord.Interaction, lieu: str):
         await interaction.response.defer()
-        char = await get_character(self.bot.db, interaction.user.id)
+        
+        # Ensure the database object is handled correctly. 
+        # If get_character is an async function, it must be awaited.
+        try:
+            char = await get_character(self.bot.db, interaction.user.id)
+        except Exception as e:
+            logger.error(f"Database error in recolte: {e}")
+            return await interaction.followup.send("Une erreur est survenue lors de la récupération de votre personnage.")
+
         if not char:
             return await interaction.followup.send("Personnage introuvable.")
 

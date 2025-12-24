@@ -110,6 +110,9 @@ class CombatSessionCog(commands.Cog):
             # Ajout du créateur au fil
             await thread.add_user(interaction.user)
 
+            # AJOUT : Enregistrer le créateur comme participant au combat
+            await participants_add(self.bot.db, thread.id, interaction.user.id, added_by=interaction.user.id)
+
             # Enregistrement du thread dans la base de données
             try:
                 await combat_set_thread(self.bot.db, channel.id, thread.id, combat_id=combat_id)
@@ -271,17 +274,19 @@ class CombatSessionCog(commands.Cog):
 
             logger.info(f"Fermeture du combat dans le fil {thread_id} par {interaction.user.id}")
             
-            # On ajoute le log AVANT de fermer le combat en DB
+            # 1. Répondre à l'interaction immédiatement (avant l'archivage)
+            await interaction.response.send_message("Combat terminé. Le fil va être archivé.", ephemeral=False)
+
+            # 2. Log système et fermeture en base de données
             await log_add(self.bot.db, thread_id, "system", f"Combat terminé par {interaction.user}.")
             await combat_close(self.bot.db, thread_id)
 
+            # 3. Archivage du fil
             try:
-                await thread.send("Combat terminé. Thread va être archivé.")
                 await thread.edit(archived=True, locked=True)
             except Exception as e:
                 logger.error(f"Erreur lors de l'archivage du thread: {str(e)}", exc_info=True)
 
-            await interaction.response.send_message("Combat terminé.")
         except Exception as e:
             logger.error(f"Erreur dans /combat_end: {str(e)}", exc_info=True)
             if not interaction.response.is_done():
@@ -315,10 +320,12 @@ class CombatSessionCog(commands.Cog):
 
         # 2. Récupérer les mobs du salon
         from app.combat_mobs import list_mobs, fetch_mob_entity
-        mob_rows = await list_mobs(self.bot.db, interaction.channel_id)
+        # CORRECTION : Utiliser thread_id au lieu de interaction.channel_id
+        mob_rows = await list_mobs(self.bot.db, thread_id)
         for m in mob_rows:
             try:
-                ent = await fetch_mob_entity(self.bot.db, interaction.channel_id, m['mob_name'])
+                # CORRECTION : Utiliser thread_id ici aussi
+                ent = await fetch_mob_entity(self.bot.db, thread_id, m['mob_name'])
                 entities.append(ent)
             except Exception:
                 continue

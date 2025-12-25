@@ -183,24 +183,22 @@ class CombatSessionCog(commands.Cog):
             await interaction.response.send_message("Je n'ai pas les permissions nécessaires pour créer un fil de discussion.", ephemeral=True)
             # Annuler le combat créé dans la base de données
             if 'combat_id' in locals():
-                # Si le combat_id existe, utiliser cette méthode
-                await db.conn.execute(
+                await self.bot.db.conn.execute(
                     "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
                     (combat_id,),
                 )
-                await db.conn.commit()
+                await self.bot.db.conn.commit()
             return
         except Exception as e:
             logger.error(f"Erreur lors de la création du combat: {str(e)}", exc_info=True)
             await interaction.response.send_message("Une erreur est survenue lors de la création du combat.", ephemeral=True)
             # Annuler le combat créé dans la base de données
             if 'combat_id' in locals():
-                # Si le combat_id existe, utiliser cette méthode
-                await db.conn.execute(
+                await self.bot.db.conn.execute(
                     "UPDATE combats SET status = 'closed', closed_at = CURRENT_TIMESTAMP WHERE id = ?",
                     (combat_id,),
                 )
-                await db.conn.commit()
+                await self.bot.db.conn.commit()
             return
 
     @app_commands.command(name="combat_add", description="Ajoute un membre au combat actif et l'invite au fil")

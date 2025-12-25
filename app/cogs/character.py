@@ -40,8 +40,7 @@ class CharacterCog(commands.Cog):
         # Statistiques
         embed.add_field(name="HP", value=f"{int(character.hp)}/{int(character.hp_max)}", inline=True)
         embed.add_field(name="MP", value=f"{int(character.mp)}/{int(character.mp_max)}", inline=True)
-        embed.add_field(name="Points de compétence", value=str(character.skill_points), inline=True)
-        
+
         # Attributs
         stats = (
             f"**FOR**: {int(character.STR)}\n"

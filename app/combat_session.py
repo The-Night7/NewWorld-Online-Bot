@@ -130,27 +130,20 @@ async def combat_close(db, thread_id: int) -> None:
 
 
 async def participants_add(db, thread_id: int, user_id: int, added_by: int) -> None:
-    # Récupérer d'abord le combat_id associé au thread_id
+    logger = logging.getLogger('bofuri.combat')
     row = await db.execute_fetchone(
         "SELECT id, channel_id FROM combats WHERE thread_id = ? AND status = 'active'",
         (int(thread_id),),
     )
-
     if not row:
         raise CombatError("Aucun combat actif trouvé pour ce fil.")
 
     combat_id = row['id']
     channel_id = row['channel_id']
 
-    # Vérifier si la table a la colonne combat_id
-    has_combat_id_column = False
     try:
         table_info = await db.execute_fetchall("PRAGMA table_info(combat_participants)")
-        for column in table_info:
-            if column["name"] == "combat_id":
-                has_combat_id_column = True
-                break
-
+        has_combat_id_column = any(col["name"] == "combat_id" for col in table_info)
         if has_combat_id_column:
             await db.conn.execute(
                 """
@@ -158,10 +151,9 @@ async def participants_add(db, thread_id: int, user_id: int, added_by: int) -> N
                 VALUES(?, ?, ?, ?)
                 ON CONFLICT(combat_id, user_id) DO NOTHING
                 """,
-                (int(channel_id), int(user_id), int(added_by), combat_id),
+                (int(channel_id), int(user_id), int(added_by), int(combat_id)),
             )
         else:
-            # Utiliser l'ancienne structure sans combat_id
             await db.conn.execute(
                 """
                 INSERT INTO combat_participants(channel_id, user_id, added_by)
@@ -172,10 +164,9 @@ async def participants_add(db, thread_id: int, user_id: int, added_by: int) -> N
         )
 
         await db.conn.commit()
+
     except Exception as e:
-        logger = logging.getLogger('bofuri.combat')
-        logger.error(f"Erreur lors de l'ajout du participant: {str(e)}", exc_info=True)
-        # Essayer avec l'ancienne structure
+        logger.error(f"Erreur participants_add: {e}", exc_info=True)
         await db.conn.execute(
             """
             INSERT INTO combat_participants(channel_id, user_id, added_by)

@@ -396,3 +396,192 @@ Traceback (most recent call last):
     raise CommandInvokeError(self, e) from e
 discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
 
+2025-12-25 14:42:42,603 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 14:42:42,605 - discord.client - INFO - logging in using static token
+2025-12-25 14:42:43,134 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 14:42:43,153 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 14:42:43,156 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 14:42:43,159 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 14:42:43,160 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 14:42:43,162 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 14:42:43,164 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 14:42:43,165 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 14:42:43,171 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 14:42:43,172 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 14:42:43,177 - bofuri - INFO - Ajout des cogs...
+2025-12-25 14:42:43,195 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 14:42:43,433 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 14:42:43,892 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 127bf3d569db0f8e3484a5affb03b261).
+2025-12-25 14:42:52,942 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 59, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+
+2025-12-25 14:45:32,698 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 14:45:32,703 - discord.client - INFO - logging in using static token
+2025-12-25 14:45:33,289 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 14:45:33,506 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 14:45:33,508 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 14:45:33,508 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 14:45:33,509 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 14:45:33,510 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 14:45:33,510 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 14:45:33,511 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 14:45:33,513 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 14:45:33,513 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 14:45:33,519 - bofuri - INFO - Ajout des cogs...
+2025-12-25 14:45:33,529 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 14:45:33,774 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 14:45:34,301 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: dfe995c35ef7f61997ed0b93b2fb549e).
+2025-12-25 14:47:17,575 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 59, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+
+2025-12-25 19:16:03,807 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 19:16:03,818 - discord.client - INFO - logging in using static token
+2025-12-25 19:16:04,457 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 19:16:04,471 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 19:16:04,472 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 19:16:04,473 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 19:16:04,474 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 19:16:04,475 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 19:16:04,477 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 19:16:04,477 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 19:16:04,482 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 19:16:04,482 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 19:16:04,488 - bofuri - INFO - Ajout des cogs...
+2025-12-25 19:16:04,504 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 19:16:04,786 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 19:16:05,219 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 5c273891abd2c8a5e537bc38c58d5f06).
+2025-12-25 19:16:24,243 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 59, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+
+2025-12-25 19:20:46,784 - bofuri - ERROR - Erreur lors de l'exécution de la commande profile: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\character.py", line 28, in profile
+    character = await get_or_create_character(self.bot.db, user_id, interaction.user.display_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 141, in get_or_create_character
+    character = await get_character(db, user_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exception: IndexError: No item with that key
+
+2025-12-25 19:20:53,419 - bofuri - ERROR - Erreur lors de l'exécution de la commande profile: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\character.py", line 28, in profile
+    character = await get_or_create_character(self.bot.db, user_id, interaction.user.display_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 141, in get_or_create_character
+    character = await get_character(db, user_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exception: IndexError: No item with that key
+

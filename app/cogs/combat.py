@@ -181,8 +181,8 @@ class CombatCog(commands.Cog):
     ):
         try:
             try:
-                attacker = await fetch_player_entity(self.bot, interaction.user)
-                defender = await fetch_player_entity(self.bot, target)
+                attacker = await fetch_player_entity(self.bot.db, interaction.user.id)
+                defender = await fetch_player_entity(self.bot.db, target.id)
             except ValueError as e:
                 await interaction.response.send_message(str(e), ephemeral=True)
                 return
@@ -192,8 +192,8 @@ class CombatCog(commands.Cog):
             result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
             # Persist HP
-            await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-            await save_player_hp(self.bot, target.id, defender.hp)
+            await save_player_hp(self.bot.db, interaction.user.id, attacker.hp)
+            await save_player_hp(self.bot.db, target.id, defender.hp)
 
             color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
             embed = discord.Embed(title="⚔️ Résolution d'attaque", color=color)

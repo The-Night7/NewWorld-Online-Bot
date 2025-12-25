@@ -28,7 +28,7 @@ class Character:
     skills: List[str] = field(default_factory=list)
 
     @classmethod
-    async def from_db(cls, db, user_id: int) -> Optional[Character]:
+    async def from_db(cls, db, user_id: int) -> Optional["Character"]:
         """Charge un personnage depuis la base de données"""
         row = await db.execute_fetchone(
             "SELECT * FROM characters WHERE user_id = ?",
@@ -157,7 +157,7 @@ async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int
     if character is None:
         raise ValueError(f"Aucun personnage trouvé pour l'utilisateur {user_id}")
 
-    character.xp += xp_amount
+    character.xp += int(xp_amount)
     levels_gained = 0
     leveled_up = False
 
@@ -177,10 +177,12 @@ async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int
         character.xp_next = (100 * (L**2)) + (1000 * L)
 
         # Augmenter les statistiques de base avec le niveau
-        character.hp_max += 10
+        character.hp_max += 10.0
 
+    await character.save_to_db(db)
+    return character, leveled_up, levels_gained
 
-async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 1, properties: Dict[str, Any] = None) -> None:
+async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 1, properties: Dict[str, Any] | None = None) -> None:
     """Ajoute un objet à l'inventaire d'un personnage"""
     if properties is None:
         properties = {}
@@ -188,14 +190,14 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
         # Vérifier si l'objet existe déjà dans l'inventaire
         existing_item = await db.execute_fetchone(
             "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
-            (user_id, item_id)
+            (int(user_id), str(item_id))
         )
     
         if existing_item:
             # Mettre à jour la quantité
             await db.execute(
                 "UPDATE inventories SET quantity = quantity + ? WHERE id = ?",
-                (quantity, existing_item['id'])
+                (int(quantity), int(existing_item['id']))
             )
         else:
             # Ajouter un nouvel objet
@@ -204,7 +206,7 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
                 INSERT INTO inventories (character_id, item_id, quantity, equipped, properties)
                 VALUES (?, ?, ?, 0, ?)
                 """,
-                (user_id, item_id, quantity, json.dumps(properties))
+                (int(user_id), str(item_id), int(quantity), json.dumps(properties))
             )
     
     await db.commit()

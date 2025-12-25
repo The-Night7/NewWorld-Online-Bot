@@ -29,74 +29,6 @@ import logging
 
 logger = logging.getLogger('bofuri.mobs')
 
-async def fetch_player_entity(bot, user: discord.User | discord.Member) -> RuntimeEntity:
-    """
-    Récupère ou crée une entité de joueur pour le combat.
-    On passe 'bot' pour accéder à bot.db.
-    """
-    db = bot.db
-    user_id = user.id
-
-    # Correction: On utilise await directement au lieu de 'async with' sur l'appel de fonction
-    cursor = await db.conn.execute(
-        "SELECT * FROM characters WHERE user_id = ?",
-        (user_id,)
-    )
-    row = await cursor.fetchone()
-
-    if row:
-        return RuntimeEntity(
-            name=row["name"],
-            hp=float(row["hp"]),
-            hp_max=float(row["hp_max"]),
-            mp=float(row["mp"]),
-            mp_max=float(row["mp_max"]),
-            STR=float(row["STR"]),
-            AGI=float(row["AGI"]),
-            INT=float(row["INT"]),
-            DEX=float(row["DEX"]),
-            VIT=float(row["VIT"])
-        )
-
-    cursor = await db.conn.execute(
-        "SELECT * FROM players WHERE user_id = ?",
-        (user_id,)
-    )
-    row = await cursor.fetchone()
-
-    if row:
-        return RuntimeEntity(
-            name=row["name"],
-            hp=float(row["hp"]),
-            hp_max=float(row["hp_max"]),
-            mp=float(row["mp"]),
-            mp_max=float(row["mp_max"]),
-            STR=float(row["str"]),
-            AGI=float(row["agi"]),
-            INT=float(row["int_"]),
-            DEX=float(row["dex"]),
-            VIT=float(row["vit"])
-        )
-    return None
-
-async def save_player_hp(bot, user_id: int, hp: float) -> None:
-    """
-    Sauvegarde les HP d'un joueur après un combat.
-    """
-    db = bot.db
-    # Mettre à jour la table characters
-    await db.conn.execute(
-        "UPDATE characters SET hp = ? WHERE user_id = ?",
-        (float(hp), int(user_id))
-    )
-    await db.conn.commit()
-
-    # Pour la compatibilité, mettre également à jour l'ancienne table players
-    await db.conn.execute(
-        "UPDATE players SET hp = ? WHERE user_id = ?",
-        (float(hp), int(user_id))
-    )
-    await db.conn.commit()
 
 class MobsCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -176,75 +108,99 @@ class MobsCog(commands.Cog):
         rows = await list_mobs(self.bot.db, thread_id)
         if not rows:
             return await interaction.followup.send("Aucun mob dans ce fil.", ephemeral=True)
-            lines = [
-                f"- **{r['mob_name']}** — `{r['mob_key']}` lvl {r['level']} — PV {float(r['hp']):.2f}/{float(r['hp_max']):.2f}"
-                for r in rows
-            ]
+        lines = [
+            f"- **{r['mob_name']}** — `{r['mob_key']}` lvl {r['level']} — PV {float(r['hp']):.2f}/{float(r['hp_max']):.2f}"
+            for r in rows
+        ]
         await interaction.followup.send("## Mobs du fil\n" + "\n".join(lines))
 
     @app_commands.command(name="atk_mob", description="Attaque un mob (par nom unique) dans ce fil")
     @app_commands.describe(mob_name='Nom exact, ex: "Lapin végétal#1"', attack_type="phys, magic, ranged")
     async def atk_mob(self, interaction: discord.Interaction, mob_name: str, attack_type: AttackType = "phys"):
+        # Toujours defer: l'attaque fait DB + calculs
+        await interaction.response.defer(ephemeral=False)
+
         thread = self._require_thread(interaction)
         if not thread:
-            return await interaction.response.send_message("Utilise cette commande **dans le fil de combat**.", ephemeral=True)
+            return await interaction.followup.send("Utilise cette commande **dans le fil de combat**.", ephemeral=True)
 
         thread_id = thread.id
         if not await combat_is_active(self.bot.db, thread_id):
-            return await interaction.response.send_message("Aucun combat actif ici. Utilise /combat_start.", ephemeral=True)
+            return await interaction.followup.send("Aucun combat actif ici. Utilise /combat_start.", ephemeral=True)
+
         char_data = await get_character(self.bot.db, interaction.user.id)
         if not char_data:
-            return await interaction.response.send_message("Personnage introuvable. Utilise /profile.", ephemeral=True)
-        attacker = await fetch_player_entity(self.bot, interaction.user)
-        defender = await fetch_mob_entity(self.bot.db, thread_id, mob_name)
+            return await interaction.followup.send("Personnage introuvable. Utilise /profile.", ephemeral=True)
 
-        perce_armure = "perce_defense" in char_data.skills
+        attacker = await fetch_player_entity(self.bot.db,
+                                             interaction.user.id)  # <- version unique depuis app.cogs.combat
+        defender = await fetch_mob_entity(self.bot.db, thread_id, mob_name)
+        if not defender:
+            return await interaction.followup.send(f"Mob introuvable: **{mob_name}**. Utilise `/mob_list`.",
+                                                   ephemeral=True)
+
+        perce_armure = "perce_defense" in getattr(char_data, "skills", [])
         mana_cost = 10 if attack_type == "magic" else 0
+
         if attacker.mp < mana_cost:
-            return await interaction.response.send_message(
+            return await interaction.followup.send(
                 f"Mana insuffisant (requis {mana_cost}, actuel {attacker.mp:.0f}).",
-                        ephemeral=True
-                    )
-        attacker.mp -= mana_cost
-        await self.bot.db.conn.execute(
-            "UPDATE characters SET mp = ? WHERE user_id = ?",
-            (float(attacker.mp), int(interaction.user.id))
+                ephemeral=True
             )
-        await self.bot.db.conn.commit()
+
+        # Dépenser MP si besoin
+        if mana_cost:
+            attacker.mp -= mana_cost
+            await self.bot.db.conn.execute(
+                "UPDATE characters SET mp = ? WHERE user_id = ?",
+                (float(attacker.mp), int(interaction.user.id))
+            )
+            await self.bot.db.conn.commit()
 
         ra, rb = d20(), d20()
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-        # riposte
+        # Riposte si le mob est encore vivant
         riposte_result = None
         if defender.hp > 0:
             riposte_result = resolve_attack(defender, attacker, d20(), d20(), attack_type="phys")
 
-        await save_player_hp(self.bot, interaction.user.id, attacker.hp)
+        # Persist HP
+        await save_player_hp(self.bot.db, interaction.user.id, attacker.hp)
         await save_mob_hp(self.bot.db, thread_id, mob_name, defender.hp)
         await cleanup_dead_mobs(self.bot.db, thread_id)
 
-        embed = discord.Embed(title="⚔️ Échange de Combat", color=discord.Color.red() if result["hit"] else discord.Color.dark_gray())
+        # Embed (toujours envoyé)
+        embed = discord.Embed(
+            title="⚔️ Échange de Combat",
+            color=discord.Color.red() if result["hit"] else discord.Color.dark_gray()
+        )
         embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]) or "—", inline=False)
+
         if riposte_result:
-            embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]) or "—", inline=False)
+            embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]) or "—",
+                            inline=False)
 
-        embed.set_footer(text=f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f} | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
+        embed.add_field(name="État du mob", value=f"PV: {defender.hp:.0f}/{defender.hp_max:.0f}", inline=False)
+        embed.set_footer(
+            text=f"Toi — PV: {attacker.hp:.0f}/{attacker.hp_max:.0f} | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
 
-        # Récompenses XP
+        # Récompenses XP si mob mort
         if defender.hp <= 0:
             xp_gain = 25
             await add_xp(self.bot.db, interaction.user.id, xp_gain)
-            embed.add_field(name="Victoire", value=f"✨ Tu gagnes {xp_gain} XP !")
+            embed.add_field(name="Victoire", value=f"✨ Tu gagnes {xp_gain} XP !", inline=False)
 
-            await interaction.response.send_message(embed=embed)
+        await interaction.followup.send(embed=embed)
 
-        # Mort du joueur
+        # Mort du joueur -> fin combat
         if attacker.hp <= 0:
             await combat_close(self.bot.db, thread_id)
-            if isinstance(interaction.channel, discord.Thread):
-                await interaction.channel.send("💀 Défait... Le combat s'arrête.")
-                await interaction.channel.edit(archived=True, locked=True)
+            try:
+                await thread.send("💀 Défait... Le combat s'arrête.")
+                await thread.edit(archived=True, locked=True)
+            except Exception:
+                pass
 
     @app_commands.command(name="skill_mob", description="Utilise une compétence active sur un mob (dans ce fil)")
     @app_commands.describe(mob_name="Nom exact du monstre", skill_id="ID de la compétence (ex: boule_de_feu, slash...)")

@@ -1,0 +1,398 @@
+2025-12-24 23:28:15,526 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-24 23:28:15,532 - discord.client - INFO - logging in using static token
+2025-12-24 23:28:16,184 - bofuri - INFO - Configuration du bot en cours...
+2025-12-24 23:28:16,200 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-24 23:28:16,202 - bofuri.db - INFO - Table players créée avec succès
+2025-12-24 23:28:16,202 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-24 23:28:16,203 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-24 23:28:16,204 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-24 23:28:16,204 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-24 23:28:16,205 - bofuri - INFO - Initialisation des objets de base...
+2025-12-24 23:28:16,206 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-24 23:28:16,207 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-24 23:28:16,210 - bofuri - INFO - Ajout des cogs...
+2025-12-24 23:28:16,221 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-24 23:28:16,450 - bofuri - INFO - Bot configuré avec succès!
+2025-12-24 23:28:16,914 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: a7685a00a15a8108e8f9dbeebcd70eb0).
+2025-12-24 23:28:55,403 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-24 23:28:55,408 - bofuri.combat - INFO - Combat ID 1 créé avec succès dans le salon 1398617728474153061
+2025-12-24 23:28:56,099 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-24 23:29:04,411 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453514811840135220
+2025-12-24 23:29:04,412 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB45B0>
+2025-12-24 23:29:04,413 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:29:19,724 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453514811840135220
+2025-12-24 23:29:19,745 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB7310>
+2025-12-24 23:29:19,757 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:29:47,546 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-24 23:29:47,553 - bofuri.combat - INFO - Combat ID 2 créé avec succès dans le salon 1398617728474153061
+2025-12-24 23:29:48,461 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-24 23:30:25,633 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453515030996975839
+2025-12-24 23:30:25,634 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB4490>
+2025-12-24 23:30:25,634 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:31:25,196 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453515030996975839
+2025-12-24 23:31:25,197 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB4430>
+2025-12-24 23:31:25,197 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:31:37,147 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453515030996975839
+2025-12-24 23:31:37,149 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB4430>
+2025-12-24 23:31:37,149 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:32:11,746 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453515030996975839
+2025-12-24 23:32:11,748 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB44C0>
+2025-12-24 23:32:11,749 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:33:02,484 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453515030996975839
+2025-12-24 23:33:02,485 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252FB5D80>
+2025-12-24 23:33:02,486 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:39:23,457 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453515030996975839
+2025-12-24 23:39:23,460 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252F65D80>
+2025-12-24 23:39:23,463 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:39:23,466 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453515030996975839 par 484850911622070284
+2025-12-24 23:39:23,885 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453515030996975839
+2025-12-24 23:39:23,887 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x0000029252F676A0>
+2025-12-24 23:39:23,887 - bofuri.combat - INFO - Fermeture du combat ID 2 dans le fil 1453515030996975839 (salon 1398617728474153061)
+2025-12-24 23:39:23,891 - bofuri.combat - INFO - Combat ID 2 fermé avec succès
+2025-12-24 23:39:34,785 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453514811840135220
+2025-12-24 23:39:34,787 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000029252F67730>
+2025-12-24 23:39:34,788 - bofuri.combat - INFO - Combat actif: True
+2025-12-24 23:39:34,788 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453514811840135220 par 484850911622070284
+2025-12-24 23:39:35,075 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453514811840135220
+2025-12-24 23:39:35,077 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x0000029252F65B70>
+2025-12-24 23:39:35,077 - bofuri.combat - INFO - Fermeture du combat ID 1 dans le fil 1453514811840135220 (salon 1398617728474153061)
+2025-12-24 23:39:35,081 - bofuri.combat - INFO - Combat ID 1 fermé avec succès
+2025-12-24 23:39:41,873 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453509808325132379
+2025-12-24 23:39:41,874 - bofuri.combat - INFO - Résultat de la requête: None
+2025-12-24 23:39:41,875 - bofuri.combat - INFO - Combat actif: False
+2025-12-25 01:23:26,827 - bofuri - ERROR - Erreur lors de l'exécution de la commande inventory: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\character.py", line 99, in inventory
+    inventory_items = await get_inventory(self.bot.db, user_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 215, in get_inventory
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM inventories WHERE character_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 872, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'inventory' raised an exception: TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+2025-12-25 01:26:55,678 - bofuri - ERROR - Erreur lors de l'exécution de la commande inventory: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\character.py", line 99, in inventory
+    inventory_items = await get_inventory(self.bot.db, user_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 215, in get_inventory
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM inventories WHERE character_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 872, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'inventory' raised an exception: TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+2025-12-25 01:27:12,208 - bofuri - ERROR - Erreur lors de l'exécution de la commande inventory: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\character.py", line 99, in inventory
+    inventory_items = await get_inventory(self.bot.db, user_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 215, in get_inventory
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM inventories WHERE character_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 872, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'inventory' raised an exception: TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+2025-12-25 02:13:49,759 - bofuri - ERROR - Erreur lors de l'exécution de la commande inventory: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\character.py", line 99, in inventory
+    inventory_items = await get_inventory(self.bot.db, user_id)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 215, in get_inventory
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM inventories WHERE character_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 872, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'inventory' raised an exception: TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+
+2025-12-25 03:02:12,249 - discord.gateway - INFO - Shard ID None has successfully RESUMED session a7685a00a15a8108e8f9dbeebcd70eb0.
+2025-12-25 11:59:53,308 - discord.gateway - WARNING - Shard ID None has stopped responding to the gateway. Closing and restarting.
+2025-12-25 11:59:54,327 - discord.gateway - INFO - Shard ID None session has been invalidated.
+2025-12-25 12:00:00,009 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: c19cc052dd67cf0f7a768d1d1d9eb60f).
+2025-12-25 12:46:17,977 - discord.client - ERROR - Attempting a reconnect in 0.22s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-d.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-25 12:46:20,679 - discord.gateway - INFO - Shard ID None session has been invalidated.
+2025-12-25 12:46:26,352 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: d23d481ab79eb18c4ec73f8f3a98db1f).
+2025-12-25 12:50:54,080 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 58, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+
+2025-12-25 13:46:48,632 - discord.gateway - INFO - Shard ID None has successfully RESUMED session d23d481ab79eb18c4ec73f8f3a98db1f.
+2025-12-25 14:11:35,630 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 58, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+
+2025-12-25 14:38:28,491 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 14:38:28,495 - discord.client - INFO - logging in using static token
+2025-12-25 14:38:29,076 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 14:38:29,101 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 14:38:29,102 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 14:38:29,102 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 14:38:29,103 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 14:38:29,104 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 14:38:29,104 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 14:38:29,105 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 14:38:29,107 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 14:38:29,107 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 14:38:29,116 - bofuri - INFO - Ajout des cogs...
+2025-12-25 14:38:29,140 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 14:38:29,379 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 14:38:29,871 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 8f70d3ea0161c8caf9b69a171df6b68b).
+2025-12-25 14:38:45,824 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 58, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+
+2025-12-25 14:39:53,098 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 14:39:53,103 - discord.client - INFO - logging in using static token
+2025-12-25 14:39:53,784 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 14:39:53,807 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 14:39:53,808 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 14:39:53,809 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 14:39:53,811 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 14:39:53,812 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 14:39:53,815 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 14:39:53,815 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 14:39:53,819 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 14:39:53,819 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 14:39:53,824 - bofuri - INFO - Ajout des cogs...
+2025-12-25 14:39:53,836 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 14:39:54,066 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 14:39:54,673 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: e1b3b249b2900756662267cdb1208540).
+2025-12-25 14:40:02,967 - bofuri - ERROR - Erreur lors de l'exécution de la commande recolte: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\professions.py", line 58, in recolte
+    char = await get_character(self.bot.db, interaction.user.id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 136, in get_character
+    return await Character.from_db(db, user_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\character.py", line 63, in from_db
+    skill_points=row['skill_points'],
+                 ~~~^^^^^^^^^^^^^^^^
+IndexError: No item with that key
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'recolte' raised an exception: IndexError: No item with that key
+

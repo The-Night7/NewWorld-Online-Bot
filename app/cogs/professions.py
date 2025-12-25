@@ -91,14 +91,22 @@ class ProfessionsCog(commands.Cog):
 
             rand_chance = random.randint(1, 100)
             current_sum = 0
-            selected_item = item_pool[0] # Default to first item
+            selected_item = None
             
             for item in item_pool:
                 current_sum += item.get('chance', 0)
                 if rand_chance <= current_sum:
                     selected_item = item
                     break
+                
+            # Fallback if sum logic fails or rand_chance is high
+            if not selected_item:
+                selected_item = item_pool[-1]
             
+            # Safety check for required keys
+            if 'id' not in selected_item or 'name' not in selected_item:
+                return await interaction.followup.send("❌ Erreur : L'objet trouvé est corrompu.")
+
             # Ajout à l'inventaire
             from ..character import add_item_to_inventory
             await add_item_to_inventory(self.bot.db, char.user_id, selected_item['id'], 1)

@@ -49,11 +49,12 @@ class ProfessionsCog(commands.Cog):
         await interaction.response.defer()
         
         channel_id = interaction.channel_id
-        if channel_id not in ZONE_PROFESSIONS:
-            return await interaction.followup.send("Il n'y a rien à récolter ici.", ephemeral=True)
+        zone_key = ZONE_PROFESSIONS.get(channel_id)
+        
+        if not zone_key or "." not in zone_key:
+            return await interaction.followup.send("Il n'y a rien à récolter ici ou la zone est mal configurée (si t'es pas con c'est @nightofkarma qui est conne, si tu l'es et que tu la ping c'est warn).", ephemeral=True)
 
-        zone_key = ZONE_PROFESSIONS[channel_id]
-        category, subcat = zone_key.split(".")
+        category, subcat = zone_key.split(".", 1)
         
         char = await get_character(self.bot.db, interaction.user.id)
         if not char:

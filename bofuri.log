@@ -677,3 +677,79 @@ discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exce
 2025-12-25 19:57:39,101 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x0000026E6EB8BA60>
 2025-12-25 19:57:39,101 - bofuri.combat - INFO - Fermeture du combat ID 2 dans le fil 1453823607984750774 (salon 1398617728474153061)
 2025-12-25 19:57:39,108 - bofuri.combat - INFO - Combat ID 2 fermé avec succès
+2025-12-25 19:59:15,513 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 19:59:15,514 - discord.client - INFO - logging in using static token
+2025-12-25 19:59:16,196 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 19:59:16,200 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 19:59:16,201 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 19:59:16,203 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 19:59:16,204 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 19:59:16,205 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 19:59:16,205 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 19:59:16,205 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 19:59:16,207 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 19:59:16,207 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 19:59:16,211 - bofuri - INFO - Ajout des cogs...
+2025-12-25 19:59:16,215 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 19:59:16,420 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 19:59:16,931 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 6e20d078370d00c8515f47a061f14c4c).
+2025-12-25 19:59:30,622 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 19:59:30,630 - bofuri.combat - INFO - Combat ID 3 créé avec succès dans le salon 1398617728474153061
+2025-12-25 19:59:31,175 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-25 20:00:00,480 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453824500876447938
+2025-12-25 20:00:00,481 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000012F3D751E70>
+2025-12-25 20:00:00,482 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:02:08,581 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453824500876447938
+2025-12-25 20:02:08,582 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000012F3D751E10>
+2025-12-25 20:02:08,583 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:02:08,610 - bofuri - ERROR - Erreur lors de l'exécution de la commande mob_list: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\mobs.py", line 183, in mob_list
+    await interaction.followup.send("## Mobs du fil\n" + "\n".join(lines))
+                                                                   ^^^^^
+UnboundLocalError: cannot access local variable 'lines' where it is not associated with a value
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'mob_list' raised an exception: UnboundLocalError: cannot access local variable 'lines' where it is not associated with a value
+
+2025-12-25 20:04:06,027 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 20:04:06,029 - discord.client - INFO - logging in using static token
+2025-12-25 20:04:07,125 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 20:04:07,132 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 20:04:07,132 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 20:04:07,133 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 20:04:07,134 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 20:04:07,135 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 20:04:07,135 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 20:04:07,136 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 20:04:07,138 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 20:04:07,138 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 20:04:07,142 - bofuri - INFO - Ajout des cogs...
+2025-12-25 20:04:07,151 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 20:04:08,685 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 20:04:09,477 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 2f513241839ed831e8c4af8ea66ce164).
+2025-12-25 20:04:11,099 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453824500876447938
+2025-12-25 20:04:11,100 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002E2EAD78670>
+2025-12-25 20:04:11,101 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:04:11,101 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453824500876447938 par 484850911622070284
+2025-12-25 20:04:11,476 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453824500876447938
+2025-12-25 20:04:11,477 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x000002E2EAD78340>
+2025-12-25 20:04:11,477 - bofuri.combat - INFO - Fermeture du combat ID 3 dans le fil 1453824500876447938 (salon 1398617728474153061)
+2025-12-25 20:04:11,482 - bofuri.combat - INFO - Combat ID 3 fermé avec succès
+2025-12-25 20:04:19,988 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 20:04:19,995 - bofuri.combat - INFO - Combat ID 4 créé avec succès dans le salon 1398617728474153061
+2025-12-25 20:04:20,775 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-25 20:04:29,513 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453825714976718983
+2025-12-25 20:04:29,514 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002E2EAD79BA0>
+2025-12-25 20:04:29,514 - bofuri.combat - INFO - Combat actif: True

@@ -356,45 +356,75 @@ class CombatSessionCog(commands.Cog):
         if not interaction.guild or not interaction.channel:
             return
 
-        thread_id = interaction.channel.id
-        if not await combat_is_active(self.bot.db, thread_id):
-            await interaction.response.send_message("Aucun combat actif ici.", ephemeral=True)
-            return
+        # 1) Déterminer le thread de combat cible
+        if isinstance(interaction.channel, discord.Thread):
+            thread = interaction.channel
+            thread_id = thread.id
+            if not await combat_is_active(self.bot.db, thread_id):
+                await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
+                return
+        else:
+            # Commande lancée dans un salon texte => retrouver le thread actif
+            threads = await self._get_active_threads(interaction.channel)  # type: ignore
+            if not threads:
+                await interaction.response.send_message("Aucun fil de combat actif trouvé pour ce salon.",
+                                                        ephemeral=True)
+                return
+            if len(threads) > 1:
+                thread_options = "\n".join([f"{i + 1}. {t.name} ({t.mention})" for i, t in enumerate(threads)])
+                await interaction.response.send_message(
+                    "Plusieurs combats actifs trouvés. Lance `/initiative` directement dans le fil concerné :\n"
+                    f"{thread_options}",
+                    ephemeral=True
+                )
+                return
+
+            thread = threads[0]
+            thread_id = thread.id
 
         await interaction.response.defer()
 
-        # 1. Récupérer les joueurs
-        user_ids = await participants_list(self.bot.db, thread_id)
+        # 2) Récupérer le groupe (participants DB) + sécurité via membres du thread
+        user_ids = set(await participants_list(self.bot.db, thread_id))
 
-        # Sécurité : Si le créateur n'est pas dans la liste DB, on l'ajoute pour l'affichage
-        if interaction.user.id not in user_ids:
-            user_ids.append(interaction.user.id)
+        # sécurité: inclure l'auteur
+        user_ids.add(interaction.user.id)
 
+        # 3) Construire les entités joueurs
         entities = []
         from app.cogs.combat import fetch_player_entity
+
         for uid in user_ids:
             try:
-                ent = await fetch_player_entity(self.bot.db, uid)
-                if ent: entities.append(ent)
-            except Exception: continue
+                ent = await fetch_player_entity(self.bot.db, int(uid))
+                if ent:
+                    entities.append(ent)
+            except Exception:
+                continue
 
-        # 2. Récupérer les mobs
+        # 4) Ajouter les mobs
         from app.combat_mobs import list_mobs, fetch_mob_entity
         mob_rows = await list_mobs(self.bot.db, thread_id)
         for m in mob_rows:
             try:
-                ent = await fetch_mob_entity(self.bot.db, thread_id, m['mob_name'])
-                if ent: entities.append(ent)
-            except Exception: continue
+                ent = await fetch_mob_entity(self.bot.db, thread_id, m["mob_name"])
+                if ent:
+                    entities.append(ent)
+            except Exception:
+                continue
 
-        # 3. Tri
+        # 5) Trier par AGI
         entities.sort(key=lambda x: x.AGI, reverse=True)
 
         embed = discord.Embed(title="⚔️ Ordre d'Initiative", color=discord.Color.gold())
-        lines = []
-        for i, ent in enumerate(entities):
-            emoji = "👤" if "Joueur" in ent.name or any(u == ent.name for u in [interaction.user.display_name]) else "👹"
-            lines.append(f"{i+1}. {emoji} **{ent.name}** — AGI: `{ent.AGI:.0f}`")
+        if not entities:
+            embed.description = "Personne en combat."
+            await interaction.followup.send(embed=embed)
+            return
 
-        embed.description = "\n".join(lines) if lines else "Personne en combat."
+        lines = []
+        for i, ent in enumerate(entities, start=1):
+            lines.append(f"{i}. **{ent.name}** — AGI: `{ent.AGI:.0f}`")
+
+        embed.description = "\n".join(lines)
         await interaction.followup.send(embed=embed)

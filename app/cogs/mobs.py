@@ -299,10 +299,10 @@ class MobsCog(commands.Cog):
             if not interaction.response.is_done():
                 await interaction.response.send_message("Une erreur est survenue lors du combat.", ephemeral=True)
 
-        @app_commands.command(name="skill_mob", description="Utilise une compétence sur un mob")
+        @app_commands.command(name="skill_mob", description="Utilise une compétence active sur un mob")
         @app_commands.describe(
             mob_name='Nom exact du monstre',
-            skill_id="ID de la compétence (ex: boule_de_feu, slash...)"
+            skill_id="ID de la compétence (ex: boule_de_feu, slash, triple_slash...)"
         )
         async def skill_mob(self, interaction: discord.Interaction, mob_name: str, skill_id: str):
             try:
@@ -312,38 +312,40 @@ class MobsCog(commands.Cog):
 
                 char_data = await get_character(self.bot.db, interaction.user.id)
                 if not char_data or skill_id not in char_data.skills:
-                    return await interaction.response.send_message(f"Vous ne maîtrisez pas la compétence `{skill_id}`.", ephemeral=True)
+                    return await interaction.response.send_message(f"Vous ne maîtrisez pas la compétence active `{skill_id}`.", ephemeral=True)
+
+                # Sécurité : On empêche d'utiliser un passif comme une compétence active
+                PASSIVE_SKILLS = ["perce_defense", "defense_absolue", "tueur_de_giant"]
+                if skill_id in PASSIVE_SKILLS:
+                    return await interaction.response.send_message(f" `{skill_id}` est un passif, il s'applique automatiquement à vos attaques !", ephemeral=True)
 
                 attacker = await fetch_player_entity(self.bot, interaction.user)
                 defender = await fetch_mob_entity(self.bot.db, target_id, mob_name)
 
-                # Configuration simplifiée des skills (V1)
-                # On pourrait déplacer cela dans rules.py ou un fichier data plus tard
+                # Configuration des skills actifs
                 SKILL_DATA = {
-                    "boule_de_feu": {"cost": 10, "type": "magic", "mult": 1.5, "desc": "lance une boule de feu brûlante sur"},
-                    "boule_empoisonnée": {"cost": 10, "type": "magic", "mult": 1.2, "desc": "projette une sphère toxique vers"},
-                    "slash": {"cost": 5, "type": "phys", "mult": 1.3, "desc": "exécute un Slash tranchant sur"},
-                    "perce_defense": {"cost": 15, "type": "phys", "mult": 1.0, "desc": "perce l'armure de", "perce": True},
+                    "boule_de_feu": {"cost": 10, "type": "magic", "mult": 1.5, "desc": "lance une boule de feu sur"},
+                    "boule_empoisonnée": {"cost": 10, "type": "magic", "mult": 1.2, "desc": "lance une boule de poison sur"},
+                    "slash": {"cost": 5, "type": "phys", "mult": 1.3, "desc": "exécute un Slash sur"},
+                    "double_slash": {"cost": 12, "type": "phys", "mult": 2.0, "desc": "assène un Double Slash sur"},
                 }
 
-                skill = SKILL_DATA.get(skill_id, {"cost": 10, "type": "phys", "mult": 1.1, "desc": "utilise un skill sur"})
+                skill = SKILL_DATA.get(skill_id, {"cost": 10, "type": "phys", "mult": 1.1, "desc": "utilise une technique sur"})
                 
                 if attacker.mp < skill["cost"]:
                     return await interaction.response.send_message(f"Mana insuffisant ({attacker.mp:.0f}/{skill['cost']})", ephemeral=True)
 
-                # Consommation Mana
+                # Application automatique du passif perce_defense même sur les skills
+                perce_armure = "perce_defense" in char_data.skills
+
                 attacker.mp -= skill["cost"]
                 await self.bot.db.conn.execute("UPDATE characters SET mp = ? WHERE user_id = ?", (float(attacker.mp), interaction.user.id))
 
                 ra, rb = d20(), d20()
-                result = resolve_attack(
-                    attacker, defender, ra, rb, 
-                    attack_type=skill["type"], 
-                    perce_armure=skill.get("perce", False)
-                )
+                result = resolve_attack(attacker, defender, ra, rb, attack_type=skill["type"], perce_armure=perce_armure)
 
-                # Application du multiplicateur de skill si touché
                 if result["hit"]:
+                    # Application du multiplicateur de dégâts du skill
                     extra_dmg = result["raw"]["damage"] * (skill["mult"] - 1)
                     defender.hp = max(0.0, defender.hp - extra_dmg)
                     result["raw"]["damage"] += extra_dmg
@@ -363,9 +365,9 @@ class MobsCog(commands.Cog):
                 embed.add_field(name="Action", value="\n".join(result["effects"]), inline=False)
                 if riposte_result:
                     embed.add_field(name=f"🔄 Contre de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
-                
+
                 embed.set_footer(text=f"MP restant: {attacker.mp:.0f} | PV: {attacker.hp:.0f}")
-                
+
                 if defender.hp <= 0:
                     await add_xp(self.bot.db, interaction.user.id, 30)
                     embed.add_field(name="Victoire", value="✨ Monstre vaincu ! +30 XP")

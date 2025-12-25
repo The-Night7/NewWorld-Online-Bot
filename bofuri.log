@@ -585,3 +585,45 @@ Traceback (most recent call last):
     raise CommandInvokeError(self, e) from e
 discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exception: IndexError: No item with that key
 
+2025-12-25 19:29:36,561 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 19:29:36,563 - discord.client - INFO - logging in using static token
+2025-12-25 19:29:37,166 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 19:29:37,169 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 19:29:37,170 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 19:29:37,171 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 19:29:37,172 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 19:29:37,173 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 19:29:37,174 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 19:29:37,175 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 19:29:37,178 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 19:29:37,178 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 19:29:37,183 - bofuri - INFO - Ajout des cogs...
+2025-12-25 19:32:40,089 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 19:32:40,091 - discord.client - INFO - logging in using static token
+2025-12-25 19:32:40,602 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 19:32:40,605 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 19:32:40,606 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 19:32:40,606 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 19:32:40,607 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 19:32:40,608 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 19:32:40,609 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 19:32:40,610 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 19:32:40,612 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 19:32:40,613 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 19:32:40,619 - bofuri - INFO - Ajout des cogs...
+2025-12-25 19:36:41,841 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 19:36:41,842 - discord.client - INFO - logging in using static token
+2025-12-25 19:36:42,398 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 19:36:42,401 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 19:36:42,402 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 19:36:42,403 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 19:36:42,404 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 19:36:42,405 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 19:36:42,406 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 19:36:42,406 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 19:36:42,408 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 19:36:42,409 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 19:36:42,412 - bofuri - INFO - Ajout des cogs...
+2025-12-25 19:36:42,421 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 19:36:42,731 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 19:36:43,391 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: fc696496d0533baa143dfb77bf423cf0).

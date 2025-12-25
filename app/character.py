@@ -121,6 +121,12 @@ async def get_character(db, user_id: int) -> Optional[Character]:
     """Retrieve a character from the database."""
     return await Character.from_db(db, user_id)
 
+async def get_or_create_character(db, user_id: int, name: str) -> Character:
+    """Récupère un personnage ou en crée un nouveau s'il n'existe pas."""
+    character = await get_character(db, user_id)
+    if character is None:
+        character = await create_character(db, user_id, name)
+    return character
 
 async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int]:
     """
@@ -156,6 +162,35 @@ async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int
     return character, leveled_up, levels_gained
 
 
+@dataclass
+class InventoryItem:
+    id: int
+    character_id: int
+    item_id: str
+    quantity: int
+    equipped: bool
+    properties: Dict[str, Any]
+
+    @classmethod
+    def from_db_row(cls, row) -> "InventoryItem":
+        return cls(
+            id=row["id"],
+            character_id=row["character_id"],
+            item_id=row["item_id"],
+            quantity=row["quantity"],
+            equipped=bool(row["equipped"]),
+            properties=json.loads(row["properties"]) if row["properties"] else {},
+    )
+
+
+async def get_inventory(db, user_id: int) -> List[InventoryItem]:
+    rows = await db.execute_fetchall(
+        "SELECT * FROM inventories WHERE character_id = ? ORDER BY id",
+        (int(user_id),)
+        )
+    return [InventoryItem.from_db_row(r) for r in rows]
+
+
 async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 1, properties: Dict[str, Any] | None = None) -> None:
     if properties is None:
         properties = {}
@@ -163,7 +198,7 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
     existing_item = await db.execute_fetchone(
         "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
         (int(user_id), str(item_id))
-    )
+        )
 
     if existing_item:
         await db.execute(
@@ -179,5 +214,59 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
             (int(user_id), str(item_id), int(quantity), json.dumps(properties))
         )
 
+    await db.commit()
+
+
+async def remove_item_from_inventory(db, user_id: int, item_id: str, quantity: int = 1) -> bool:
+    row = await db.execute_fetchone(
+        "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
+        (int(user_id), str(item_id))
+    )
+    if not row:
+        return False
+
+    current_qty = int(row["quantity"])
+    inv_id = int(row["id"])
+
+    if current_qty <= int(quantity):
+        await db.execute("DELETE FROM inventories WHERE id = ?", (inv_id,))
+    else:
+        await db.execute(
+            "UPDATE inventories SET quantity = quantity - ? WHERE id = ?",
+            (int(quantity), inv_id)
+        )
+
+    await db.commit()
+    return True
+
+
+async def equip_item(db, user_id: int, item_id: str) -> bool:
+    row = await db.execute_fetchone(
+        "SELECT id FROM inventories WHERE character_id = ? AND item_id = ? AND quantity > 0",
+        (int(user_id), str(item_id))
+    )
+    if not row:
+        return False
+
+    await db.execute(
+        "UPDATE inventories SET equipped = 1 WHERE id = ?",
+        (int(row["id"]),)
+    )
+    await db.commit()
+    return True
+
+
+async def unequip_item(db, user_id: int, item_id: str) -> bool:
+    row = await db.execute_fetchone(
+        "SELECT id FROM inventories WHERE character_id = ? AND item_id = ? AND equipped = 1",
+        (int(user_id), str(item_id))
+    )
+    if not row:
+        return False
+
+    await db.execute(
+        "UPDATE inventories SET equipped = 0 WHERE id = ?",
+        (int(row["id"]),)
+    )
     await db.commit()
     return True

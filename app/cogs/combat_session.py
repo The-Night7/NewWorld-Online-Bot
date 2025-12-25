@@ -188,24 +188,44 @@ class CombatSessionCog(commands.Cog):
                 from app.combat_mobs import next_unique_mob_name, insert_mob
                 import random
 
-                mob_keys = ZONE_MONSTERS[channel.id]
-                mobs_to_spawn = []
+                # Niveau basé sur la moyenne du groupe (participants déjà ajoutés)
+                party_avg_level = await compute_party_average_level(self.bot.db, thread.id)
 
+                mob_keys = ZONE_MONSTERS[channel.id]
                 if len(mob_keys) == 1:
                     mobs_to_spawn = mob_keys
                 else:
                     mobs_to_spawn = random.sample(mob_keys, k=random.randint(1, 2))
 
-                party_avg_level = await compute_party_average_level(self.bot.db, thread.id)
-
                 for m_key in mobs_to_spawn:
                     defn = REGISTRY.get(m_key)
-                    if defn:
-                        level = _clamp_level(party_avg_level, defn.level_min, defn.level_max)
-                        m_name = await next_unique_mob_name(self.bot.db, thread.id, defn.display_name)
-                        ent = spawn_entity(defn, level=level, instance_name=m_name)
-                        await insert_mob(self.bot.db, thread.id, m_name, defn.key, level, ent, created_by=self.bot.user.id)
-                        await thread.send(f"⚠️ Un sauvage **{m_name}** (Lvl {level}) apparaît !")
+                    if not defn:
+                        continue
+
+                    mob_level = _clamp_level(
+                        party_avg_level,
+                        getattr(defn, "level_min", None),
+                        getattr(defn, "level_max", None),
+                    )
+
+                    m_name = await next_unique_mob_name(self.bot.db, thread.id, defn.display_name)
+                    ent = spawn_entity(defn, level=mob_level, instance_name=m_name)
+
+                    await insert_mob(
+                        self.bot.db,
+                        thread.id,
+                        m_name,
+                        defn.key,
+                        mob_level,
+                        ent,
+                        created_by=self.bot.user.id,
+                    )
+
+                    lvl_info = f"Lvl {mob_level}"
+                    if getattr(defn, "level_max", None) is not None and party_avg_level > int(defn.level_max):
+                        lvl_info += f" (cap max {defn.level_max})"
+
+                    await thread.send(f"⚠️ Un sauvage **{m_name}** ({lvl_info}) apparaît !")
             # ------------------------
 
             # Ajout du log

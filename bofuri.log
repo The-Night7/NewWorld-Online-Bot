@@ -627,3 +627,53 @@ discord.app_commands.errors.CommandInvokeError: Command 'profile' raised an exce
 2025-12-25 19:36:42,421 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
 2025-12-25 19:36:42,731 - bofuri - INFO - Bot configuré avec succès!
 2025-12-25 19:36:43,391 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: fc696496d0533baa143dfb77bf423cf0).
+2025-12-25 19:40:21,020 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 19:40:21,030 - bofuri.combat - INFO - Combat ID 1 créé avec succès dans le salon 1398617728474153061
+2025-12-25 19:40:21,714 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-25 19:40:36,308 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453819679230660618
+2025-12-25 19:40:36,309 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000001B1A705C910>
+2025-12-25 19:40:36,309 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 19:41:00,331 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453819679230660618
+2025-12-25 19:41:00,332 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000001B1A705F400>
+2025-12-25 19:41:00,333 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 19:55:32,194 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 19:55:32,195 - discord.client - INFO - logging in using static token
+2025-12-25 19:55:32,741 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 19:55:32,744 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 19:55:32,745 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 19:55:32,746 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 19:55:32,747 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 19:55:32,748 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 19:55:32,749 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 19:55:32,750 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 19:55:32,754 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 19:55:32,754 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 19:55:32,759 - bofuri - INFO - Ajout des cogs...
+2025-12-25 19:55:32,767 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 19:55:32,992 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 19:55:33,448 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: a9075889d6e2145ed103a86528ca0be6).
+2025-12-25 19:55:40,594 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453819679230660618
+2025-12-25 19:55:40,596 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000026E6D55C0A0>
+2025-12-25 19:55:40,596 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 19:55:40,596 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453819679230660618 par 484850911622070284
+2025-12-25 19:55:40,895 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453819679230660618
+2025-12-25 19:55:40,896 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x0000026E6B5045B0>
+2025-12-25 19:55:40,897 - bofuri.combat - INFO - Fermeture du combat ID 1 dans le fil 1453819679230660618 (salon 1398617728474153061)
+2025-12-25 19:55:40,902 - bofuri.combat - INFO - Combat ID 1 fermé avec succès
+2025-12-25 19:55:57,596 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 19:55:57,605 - bofuri.combat - INFO - Combat ID 2 créé avec succès dans le salon 1398617728474153061
+2025-12-25 19:55:58,401 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-25 19:56:14,390 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453823607984750774
+2025-12-25 19:56:14,391 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000026E6EB8ACE0>
+2025-12-25 19:56:14,391 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 19:56:31,895 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453823607984750774
+2025-12-25 19:56:31,896 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000026E6EB8B1F0>
+2025-12-25 19:56:31,896 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 19:57:38,557 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453823607984750774
+2025-12-25 19:57:38,558 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000026E6EB89D20>
+2025-12-25 19:57:38,558 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 19:57:38,559 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453823607984750774 par 484850911622070284
+2025-12-25 19:57:39,099 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453823607984750774
+2025-12-25 19:57:39,101 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x0000026E6EB8BA60>
+2025-12-25 19:57:39,101 - bofuri.combat - INFO - Fermeture du combat ID 2 dans le fil 1453823607984750774 (salon 1398617728474153061)
+2025-12-25 19:57:39,108 - bofuri.combat - INFO - Combat ID 2 fermé avec succès

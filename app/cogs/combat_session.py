@@ -4,6 +4,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
+from app.cogs.combat import fetch_player_entity
+
 from app import db
 from app.combat_session import (
     CombatError,
@@ -392,15 +394,18 @@ class CombatSessionCog(commands.Cog):
 
         # 3) Construire les entités joueurs
         entities = []
-        from app.cogs.combat import fetch_player_entity
+
+        log = logging.getLogger("bofuri.initiative")
 
         for uid in user_ids:
             try:
                 ent = await fetch_player_entity(self.bot.db, int(uid))
                 if ent:
                     entities.append(ent)
-            except Exception:
-                continue
+                else:
+                    log.warning(f"fetch_player_entity -> None pour user_id={uid}")
+            except Exception as e:
+                log.exception(f"fetch_player_entity crash pour user_id={uid}: {e}")
 
         # 4) Ajouter les mobs
         from app.combat_mobs import list_mobs, fetch_mob_entity

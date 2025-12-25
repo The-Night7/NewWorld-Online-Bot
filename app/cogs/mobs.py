@@ -204,64 +204,65 @@ class MobsCog(commands.Cog):
         mob_name: str,
         attack_type: AttackType = "phys",
     ):
-        # Utilisation de l'ID du salon/fil actuel
-        target_id = interaction.channel_id
-
-        if not await combat_is_active(self.bot.db, target_id):
-            await interaction.response.send_message("Aucun combat actif ici. Utilise /combat_start.", ephemeral=True)
-            return
-
         try:
-            # Récupérer le personnage complet pour vérifier les skills
-            char_data = await get_character(self.bot.db, interaction.user.id)
-            if not char_data:
-                await interaction.response.send_message("Personnage introuvable.", ephemeral=True)
+            # Utilisation de l'ID du salon/fil actuel
+            target_id = interaction.channel_id
+
+            if not await combat_is_active(self.bot.db, target_id):
+                await interaction.response.send_message("Aucun combat actif ici. Utilise /combat_start.", ephemeral=True)
                 return
-            
-            attacker = await fetch_player_entity(self.bot, interaction.user)
-        
-            # --- Gestion du Passif Coup Perçant ---
-            perce_armure = "perce_defense" in char_data.skills
-            # --------------------------------------
 
-            # --- Gestion du Mana ---
-            mana_cost = 10 if attack_type == "magic" else 0
-        
-            if attacker.mp < mana_cost:
-                await interaction.response.send_message(
-                    f"❌ Mana insuffisant ! (Requis: {mana_cost}, Actuel: {attacker.mp:.0f})", 
-                    ephemeral=True
-                )
+            try:
+                # Récupérer le personnage complet pour vérifier les skills
+                char_data = await get_character(self.bot.db, interaction.user.id)
+                if not char_data:
+                    await interaction.response.send_message("Personnage introuvable.", ephemeral=True)
+                    return
+
+                attacker = await fetch_player_entity(self.bot, interaction.user)
+
+                # --- Gestion du Passif Coup Perçant ---
+                perce_armure = "perce_defense" in char_data.skills
+                # --------------------------------------
+
+                # --- Gestion du Mana ---
+                mana_cost = 10 if attack_type == "magic" else 0
+
+                if attacker.mp < mana_cost:
+                    await interaction.response.send_message(
+                        f"❌ Mana insuffisant ! (Requis: {mana_cost}, Actuel: {attacker.mp:.0f})",
+                        ephemeral=True
+                    )
+                    return
+
+                attacker.mp -= mana_cost
+                # -----------------------
+
+                defender = await fetch_mob_entity(self.bot.db, target_id, mob_name)
+            except ValueError as e:
+                await interaction.response.send_message(str(e), ephemeral=True)
                 return
-        
-            attacker.mp -= mana_cost
-            # -----------------------
 
-            defender = await fetch_mob_entity(self.bot.db, target_id, mob_name)
-        except ValueError as e:
-            await interaction.response.send_message(str(e), ephemeral=True)
-            return
+            ra, rb = d20(), d20()
 
-        ra, rb = d20(), d20()
-    
-        # Persistance du mana
-        await self.bot.db.conn.execute(
-            "UPDATE characters SET mp = ? WHERE user_id = ?", 
-            (float(attacker.mp), int(interaction.user.id))
-        )
-    
-        result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
+            # Persistance du mana
+            await self.bot.db.conn.execute(
+                "UPDATE characters SET mp = ? WHERE user_id = ?",
+                (float(attacker.mp), int(interaction.user.id))
+            )
 
-        # --- Riposte Automatique ---
-        riposte_result = None
-        if defender.hp > 0:
-            ma, mb = d20(), d20()
-            hp_ratio = defender.hp / defender.hp_max
-            is_enraged = hp_ratio <= 0.5
-        
-            riposte_result = resolve_attack(defender, attacker, ma, mb, attack_type="phys")
-            if is_enraged:
-                riposte_result["effects"].insert(0, f"💢 **{defender.name}** est enragé !")
+            result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
+
+            # --- Riposte Automatique ---
+            riposte_result = None
+            if defender.hp > 0:
+                ma, mb = d20(), d20()
+                hp_ratio = defender.hp / defender.hp_max
+                is_enraged = hp_ratio <= 0.5
+
+                riposte_result = resolve_attack(defender, attacker, ma, mb, attack_type="phys")
+                if is_enraged:
+                    riposte_result["effects"].insert(0, f"💢 **{defender.name}** est enragé !")
             # ---------------------------
 
             # Sauvegarde
@@ -272,15 +273,15 @@ class MobsCog(commands.Cog):
             color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
             embed = discord.Embed(title="⚔️ Échange de Combat", color=color)
             embed.add_field(name=f"▶️ Ton action ({attack_type})", value="\n".join(result["effects"]), inline=False)
-    
+
             if riposte_result:
                 embed.add_field(name=f"🔄 Riposte de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
-    
+
             embed.set_footer(text=f"PV: {attacker.hp:.0f}/{attacker.hp_max:.0f} | MP: {attacker.mp:.0f}/{attacker.mp_max:.0f}")
 
-            # Récompenses XP simplifiées
+            # Récompenses XP
             if defender.hp <= 0:
-                xp_gain = 25 # Valeur par défaut
+                xp_gain = 25
                 await add_xp(self.bot.db, interaction.user.id, xp_gain)
                 embed.add_field(name="Victoire", value=f"✨ Tu gagnes {xp_gain} XP !")
 
@@ -293,91 +294,43 @@ class MobsCog(commands.Cog):
                     await interaction.channel.send("💀 Défait... Le combat s'arrête.")
                     await interaction.channel.edit(archived=True, locked=True)
 
-        @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
-        async def atk_player(
-        self,
-        interaction: discord.Interaction,
-        target: discord.Member,
-        attack_type: AttackType = "phys",
-        perce_armure: bool = False,
-    ):
-        if not await combat_is_active(self.bot.db, interaction.channel_id):
-            await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
-            return
-
-        # reprend ton /atk actuel, juste renommé pour éviter ambiguïtés
-        try:
-            attacker = await fetch_player_entity(self.bot, interaction.user)
-            defender = await fetch_player_entity(self.bot, target)
-        except ValueError as e:
-            await interaction.response.send_message(str(e), ephemeral=True)
-            return
-
-        ra = d20()
-        rb = d20()
-        result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
-
-        await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-        await save_player_hp(self.bot, target.id, defender.hp)
-
-        color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
-        embed = discord.Embed(title="⚔️ Attaque sur joueur", color=color)
-        embed.add_field(name="Cible", value=target.mention, inline=True)
-        embed.add_field(name="Type", value=str(attack_type), inline=True)
-        embed.add_field(name="Perce-armure", value="Oui" if perce_armure else "Non", inline=True)
-        embed.add_field(name="Toucher A vs D", value=f'{result["hit_a"]:.2f} vs {result["hit_b"]:.2f}', inline=False)
-        embed.add_field(name="Log", value="\n".join(result["effects"]) if result["effects"] else "—", inline=False)
-
-        await interaction.response.send_message(embed=embed)
-        # Ajout du créateur au fil
-        await thread.add_user(interaction.user)
-
-        # FORCE : Enregistrer le créateur comme participant au combat en base de données
-        try:
-            await participants_add(self.bot.db, thread.id, interaction.user.id, added_by=interaction.user.id)
         except Exception as e:
-            logger.error(f"Erreur lors de l'ajout du créateur {interaction.user.id} aux participants: {str(e)}")
+            logger.error(f"Erreur dans atk_mob: {e}", exc_info=True)
+            if not interaction.response.is_done():
+                await interaction.response.send_message("Une erreur est survenue lors du combat.", ephemeral=True)
 
-        # Enregistrement du thread dans la base de données
-        @app_commands.command(name="initiative", description="Affiche l'ordre de passage basé sur l'agilité")
-        async def initiative(self, interaction: discord.Interaction):
-            if not interaction.guild or not interaction.channel:
+    @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
+    async def atk_player(
+            self,
+            interaction: discord.Interaction,
+            target: discord.Member,
+            attack_type: AttackType = "phys",
+            perce_armure: bool = False,
+        ):
+            if not await combat_is_active(self.bot.db, interaction.channel_id):
+                await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
                 return
 
-            thread_id = interaction.channel.id
-            if not await combat_is_active(self.bot.db, thread_id):
-                await interaction.response.send_message("Aucun combat actif dans ce fil.", ephemeral=True)
+            try:
+                attacker = await fetch_player_entity(self.bot, interaction.user)
+                defender = await fetch_player_entity(self.bot, target)
+            except ValueError as e:
+                await interaction.response.send_message(str(e), ephemeral=True)
                 return
 
-            await interaction.response.defer()
-        
-            # 1. Récupérer les joueurs participants
-            user_ids = await participants_list(self.bot.db, thread_id)
-            # S'assurer que l'utilisateur actuel est dedans au cas où la DB ait raté l'étape
-            if interaction.user.id not in user_ids:
-                user_ids.append(interaction.user.id)
+            ra = d20()
+            rb = d20()
+            result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-            entities = []
-        
-            from app.cogs.combat import fetch_player_entity
-            for uid in user_ids:
-                try:
-                    ent = await fetch_player_entity(self.bot.db, uid)
-                    if ent:
-                        entities.append(ent)
-                except Exception as e:
-                    continue
+            await save_player_hp(self.bot, interaction.user.id, attacker.hp)
+            await save_player_hp(self.bot, target.id, defender.hp)
 
-            # 2. Récupérer les mobs du salon (en utilisant thread_id)
-            from app.combat_mobs import list_mobs, fetch_mob_entity
-            mob_rows = await list_mobs(self.bot.db, thread_id)
-            for m in mob_rows:
-                try:
-                    ent = await fetch_mob_entity(self.bot.db, thread_id, m['mob_name'])
-                    if ent:
-                        entities.append(ent)
-                except Exception:
-                    continue
+            color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
+            embed = discord.Embed(title="⚔️ Attaque sur joueur", color=color)
+            embed.add_field(name="Cible", value=target.mention, inline=True)
+            embed.add_field(name="Type", value=str(attack_type), inline=True)
+            embed.add_field(name="Perce-armure", value="Oui" if perce_armure else "Non", inline=True)
+            embed.add_field(name="Toucher A vs D", value=f'{result["hit_a"]:.2f} vs {result["hit_b"]:.2f}', inline=False)
+            embed.add_field(name="Log", value="\n".join(result["effects"]) if result["effects"] else "—", inline=False)
 
-            # 3. Trier par AGI (décroissant)
-            entities.sort(key=lambda x: x.AGI, reverse=True)
+            await interaction.response.send_message(embed=embed)

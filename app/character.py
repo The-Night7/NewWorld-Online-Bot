@@ -180,7 +180,7 @@ class InventoryItem:
             quantity=row["quantity"],
             equipped=bool(row["equipped"]),
             properties=json.loads(row["properties"]) if row["properties"] else {},
-    )
+            )
 
 
 async def get_inventory(db, user_id: int) -> List[InventoryItem]:

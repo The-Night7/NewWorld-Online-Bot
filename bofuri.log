@@ -753,3 +753,234 @@ discord.app_commands.errors.CommandInvokeError: Command 'mob_list' raised an exc
 2025-12-25 20:04:29,513 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453825714976718983
 2025-12-25 20:04:29,514 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002E2EAD79BA0>
 2025-12-25 20:04:29,514 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:10:36,500 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 20:10:36,501 - discord.client - INFO - logging in using static token
+2025-12-25 20:10:37,064 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 20:10:37,073 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 20:10:37,074 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 20:10:37,075 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 20:10:37,075 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 20:10:37,076 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 20:10:37,077 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 20:10:37,077 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 20:10:37,080 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 20:10:37,080 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 20:10:37,086 - bofuri - INFO - Ajout des cogs...
+2025-12-25 20:10:37,093 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 20:10:37,375 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 20:10:37,851 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: d859b172b6ce400a12b716e8744ced01).
+2025-12-25 20:10:43,130 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453825714976718983
+2025-12-25 20:10:43,134 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002A736E286A0>
+2025-12-25 20:10:43,135 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:10:43,543 - bofuri.initiative - ERROR - fetch_player_entity crash pour user_id=197791547255816193: 'coroutine' object does not support the asynchronous context manager protocol
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 402, in initiative
+    ent = await fetch_player_entity(self.bot.db, int(uid))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 17, in fetch_player_entity
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM characters WHERE user_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+2025-12-25 20:10:43,546 - bofuri.initiative - ERROR - fetch_player_entity crash pour user_id=860810726985302036: 'coroutine' object does not support the asynchronous context manager protocol
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 402, in initiative
+    ent = await fetch_player_entity(self.bot.db, int(uid))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 17, in fetch_player_entity
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM characters WHERE user_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+2025-12-25 20:10:43,547 - bofuri.initiative - ERROR - fetch_player_entity crash pour user_id=484850911622070284: 'coroutine' object does not support the asynchronous context manager protocol
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 402, in initiative
+    ent = await fetch_player_entity(self.bot.db, int(uid))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 17, in fetch_player_entity
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM characters WHERE user_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+2025-12-25 20:10:50,681 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453825714976718983
+2025-12-25 20:10:50,682 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002A736E29FC0>
+2025-12-25 20:10:50,682 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:10:50,682 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453825714976718983 par 484850911622070284
+2025-12-25 20:10:50,986 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453825714976718983
+2025-12-25 20:10:50,987 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x000002A736E2A9E0>
+2025-12-25 20:10:50,987 - bofuri.combat - INFO - Fermeture du combat ID 4 dans le fil 1453825714976718983 (salon 1398617728474153061)
+2025-12-25 20:10:50,993 - bofuri.combat - INFO - Combat ID 4 fermé avec succès
+2025-12-25 20:10:58,492 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 20:10:58,501 - bofuri.combat - INFO - Combat ID 5 créé avec succès dans le salon 1398617728474153061
+2025-12-25 20:10:59,406 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-25 20:11:08,397 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453827385882312850
+2025-12-25 20:11:08,398 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002A736E2BA90>
+2025-12-25 20:11:08,398 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:11:08,403 - bofuri - ERROR - Erreur lors de l'exécution de la commande mob_list: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\mobs.py", line 183, in mob_list
+    await interaction.followup.send("## Mobs du fil\n" + "\n".join(lines))
+                                                                   ^^^^^
+UnboundLocalError: cannot access local variable 'lines' where it is not associated with a value
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'mob_list' raised an exception: UnboundLocalError: cannot access local variable 'lines' where it is not associated with a value
+
+2025-12-25 20:11:12,601 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453827385882312850
+2025-12-25 20:11:12,604 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000002A736E2B9D0>
+2025-12-25 20:11:12,605 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:11:12,892 - bofuri.initiative - ERROR - fetch_player_entity crash pour user_id=197791547255816193: 'coroutine' object does not support the asynchronous context manager protocol
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 402, in initiative
+    ent = await fetch_player_entity(self.bot.db, int(uid))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 17, in fetch_player_entity
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM characters WHERE user_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+2025-12-25 20:11:12,894 - bofuri.initiative - ERROR - fetch_player_entity crash pour user_id=860810726985302036: 'coroutine' object does not support the asynchronous context manager protocol
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 402, in initiative
+    ent = await fetch_player_entity(self.bot.db, int(uid))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 17, in fetch_player_entity
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM characters WHERE user_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+2025-12-25 20:11:12,895 - bofuri.initiative - ERROR - fetch_player_entity crash pour user_id=484850911622070284: 'coroutine' object does not support the asynchronous context manager protocol
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 402, in initiative
+    ent = await fetch_player_entity(self.bot.db, int(uid))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 17, in fetch_player_entity
+    async with db.execute(
+               ~~~~~~~~~~^
+        "SELECT * FROM characters WHERE user_id = ?",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (user_id,)
+        ^^^^^^^^^^
+    ) as cursor:
+    ^
+TypeError: 'coroutine' object does not support the asynchronous context manager protocol
+2025-12-25 20:16:59,756 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 20:16:59,758 - discord.client - INFO - logging in using static token
+2025-12-25 20:17:00,379 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 20:17:00,382 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 20:17:00,383 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 20:17:00,384 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 20:17:00,385 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 20:17:00,386 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 20:17:00,387 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 20:17:00,388 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 20:17:00,390 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 20:17:00,391 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 20:17:00,395 - bofuri - INFO - Ajout des cogs...
+2025-12-25 20:17:00,399 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 20:17:00,744 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 20:17:01,312 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: f3b4199791230d0c2ec5cb0fa32e2936).
+2025-12-25 20:17:07,928 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453827385882312850
+2025-12-25 20:17:07,930 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000001D3661206A0>
+2025-12-25 20:17:07,930 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:17:22,346 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453827385882312850
+2025-12-25 20:17:22,348 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000001D3661203A0>
+2025-12-25 20:17:22,350 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 20:17:22,351 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453827385882312850 par 484850911622070284
+2025-12-25 20:17:22,683 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453827385882312850
+2025-12-25 20:17:22,684 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x000001D366120EE0>
+2025-12-25 20:17:22,685 - bofuri.combat - INFO - Fermeture du combat ID 5 dans le fil 1453827385882312850 (salon 1398617728474153061)
+2025-12-25 20:17:22,689 - bofuri.combat - INFO - Combat ID 5 fermé avec succès
+2025-12-25 20:17:38,463 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 20:17:38,470 - bofuri.combat - INFO - Combat ID 6 créé avec succès dans le salon 1398617728474153061
+2025-12-25 20:17:39,712 - bofuri - ERROR - Erreur ajout créateur: Aucun combat actif trouvé pour ce fil.
+2025-12-25 20:17:41,625 - bofuri.combat - ERROR - Erreur lors de la création du combat: 404 Not Found (error code: 10062): Unknown interaction
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 237, in combat_start
+    await interaction.response.send_message(f"Combat créé! Fil: {thread.mention}", ephemeral=False)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+    ...<6 lines>...
+    )
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-12-25 20:17:41,883 - bofuri - ERROR - Erreur lors de l'exécution de la commande combat_start: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 237, in combat_start
+    await interaction.response.send_message(f"Combat créé! Fil: {thread.mention}", ephemeral=False)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+    ...<6 lines>...
+    )
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 253, in combat_start
+    await interaction.response.send_message("Une erreur est survenue lors de la création du combat.", ephemeral=True)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\interactions.py", line 855, in send_message
+    await adapter.create_interaction_response(
+    ...<6 lines>...
+    )
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'combat_start' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+2025-12-25 20:17:42,067 - bofuri - ERROR - Impossible d'envoyer un message d'erreur à l'utilisateur
+2025-12-25 20:17:51,671 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453829064224805068
+2025-12-25 20:17:51,675 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x000001D365EAEB30>
+2025-12-25 20:17:51,675 - bofuri.combat - INFO - Combat actif: True

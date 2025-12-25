@@ -13,47 +13,47 @@ async def fetch_player_entity(db, user_id: int) -> RuntimeEntity:
     """
     Récupère ou crée une entité de joueur pour le combat
     """
-    # Essayer d'abord de récupérer depuis la nouvelle table characters
-    async with db.execute(
+
+    # --- Nouvelle table characters ---
+    async with (await db.execute(
         "SELECT * FROM characters WHERE user_id = ?",
         (user_id,)
-    ) as cursor:
+    )) as cursor:
         row = await cursor.fetchone()
 
     if row:
-        # Utiliser les données de la table characters
         return RuntimeEntity(
-            name=row['name'],
-            hp=float(row['hp']),
-            hp_max=float(row['hp_max']),
-            mp=float(row['mp']),
-            mp_max=float(row['mp_max']),
-            STR=float(row['STR']),
-            AGI=float(row['AGI']),
-            INT=float(row['INT']),
-            DEX=float(row['DEX']),
-            VIT=float(row['VIT']),
+            name=row["name"],
+            hp=float(row["hp"]),
+            hp_max=float(row["hp_max"]),
+            mp=float(row["mp"]),
+            mp_max=float(row["mp_max"]),
+            STR=float(row["STR"]),
+            AGI=float(row["AGI"]),
+            INT=float(row["INT"]),
+            DEX=float(row["DEX"]),
+            VIT=float(row["VIT"]),
         )
 
-    # Fallback: essayer l'ancienne table players
-    async with db.execute(
+    # --- Ancienne table players (fallback) ---
+    async with (await db.execute(
         "SELECT * FROM players WHERE user_id = ?",
         (user_id,)
-    ) as cursor:
+    )) as cursor:
         row = await cursor.fetchone()
 
     if row:
         return RuntimeEntity(
-            name=row['name'],
-            hp=float(row['hp']),
-            hp_max=float(row['hp_max']),
-            mp=float(row['mp']),
-            mp_max=float(row['mp_max']),
-            STR=float(row['str']),
-            AGI=float(row['agi']),
-            INT=float(row['int_']),
-            DEX=float(row['dex']),
-            VIT=float(row['vit']),
+            name=row["name"],
+            hp=float(row["hp"]),
+            hp_max=float(row["hp_max"]),
+            mp=float(row["mp"]),
+            mp_max=float(row["mp_max"]),
+            STR=float(row["str"]),
+            AGI=float(row["agi"]),
+            INT=float(row["int_"]),
+            DEX=float(row["dex"]),
+            VIT=float(row["vit"]),
         )
 
     # Si aucune donnée n'est trouvée, créer un personnage par défaut
@@ -83,14 +83,14 @@ async def save_player_hp(db, user_id: int, hp: float) -> None:
         "UPDATE characters SET hp = ? WHERE user_id = ?",
         (hp, user_id)
     )
-    await db.commit()
+    await db.conn.commit()
 
     # Pour la compatibilité, mettre également à jour l'ancienne table players
     await db.execute(
         "UPDATE players SET hp = ? WHERE user_id = ?",
         (hp, user_id)
     )
-    await db.commit()
+    await db.conn.commit()
 
 
 class CombatCog(commands.Cog):

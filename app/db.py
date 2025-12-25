@@ -97,7 +97,6 @@ CREATE TABLE IF NOT EXISTS characters (
   INT          REAL NOT NULL,
   DEX          REAL NOT NULL,
   VIT          REAL NOT NULL,
-  skill_points INTEGER DEFAULT 0,
   gold         INTEGER DEFAULT 0
 );
 

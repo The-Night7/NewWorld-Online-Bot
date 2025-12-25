@@ -299,14 +299,92 @@ class MobsCog(commands.Cog):
             if not interaction.response.is_done():
                 await interaction.response.send_message("Une erreur est survenue lors du combat.", ephemeral=True)
 
-    @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
-    async def atk_player(
-            self,
-            interaction: discord.Interaction,
-            target: discord.Member,
-            attack_type: AttackType = "phys",
-            perce_armure: bool = False,
-        ):
+        @app_commands.command(name="skill_mob", description="Utilise une compétence sur un mob")
+        @app_commands.describe(
+            mob_name='Nom exact du monstre',
+            skill_id="ID de la compétence (ex: boule_de_feu, slash...)"
+        )
+        async def skill_mob(self, interaction: discord.Interaction, mob_name: str, skill_id: str):
+            try:
+                target_id = interaction.channel_id
+                if not await combat_is_active(self.bot.db, target_id):
+                    return await interaction.response.send_message("Aucun combat actif ici.", ephemeral=True)
+
+                char_data = await get_character(self.bot.db, interaction.user.id)
+                if not char_data or skill_id not in char_data.skills:
+                    return await interaction.response.send_message(f"Vous ne maîtrisez pas la compétence `{skill_id}`.", ephemeral=True)
+
+                attacker = await fetch_player_entity(self.bot, interaction.user)
+                defender = await fetch_mob_entity(self.bot.db, target_id, mob_name)
+
+                # Configuration simplifiée des skills (V1)
+                # On pourrait déplacer cela dans rules.py ou un fichier data plus tard
+                SKILL_DATA = {
+                    "boule_de_feu": {"cost": 10, "type": "magic", "mult": 1.5, "desc": "lance une boule de feu brûlante sur"},
+                    "boule_empoisonnée": {"cost": 10, "type": "magic", "mult": 1.2, "desc": "projette une sphère toxique vers"},
+                    "slash": {"cost": 5, "type": "phys", "mult": 1.3, "desc": "exécute un Slash tranchant sur"},
+                    "perce_defense": {"cost": 15, "type": "phys", "mult": 1.0, "desc": "perce l'armure de", "perce": True},
+                }
+
+                skill = SKILL_DATA.get(skill_id, {"cost": 10, "type": "phys", "mult": 1.1, "desc": "utilise un skill sur"})
+                
+                if attacker.mp < skill["cost"]:
+                    return await interaction.response.send_message(f"Mana insuffisant ({attacker.mp:.0f}/{skill['cost']})", ephemeral=True)
+
+                # Consommation Mana
+                attacker.mp -= skill["cost"]
+                await self.bot.db.conn.execute("UPDATE characters SET mp = ? WHERE user_id = ?", (float(attacker.mp), interaction.user.id))
+
+                ra, rb = d20(), d20()
+                result = resolve_attack(
+                    attacker, defender, ra, rb, 
+                    attack_type=skill["type"], 
+                    perce_armure=skill.get("perce", False)
+                )
+
+                # Application du multiplicateur de skill si touché
+                if result["hit"]:
+                    extra_dmg = result["raw"]["damage"] * (skill["mult"] - 1)
+                    defender.hp = max(0.0, defender.hp - extra_dmg)
+                    result["raw"]["damage"] += extra_dmg
+                    result["effects"][0] = f"✨ **{attacker.name}** {skill['desc']} **{defender.name}** et inflige **{result['raw']['damage']:.2f}** dégâts !"
+
+                # Riposte auto
+                riposte_result = None
+                if defender.hp > 0:
+                    riposte_result = resolve_attack(defender, attacker, d20(), d20(), attack_type="phys")
+
+                # Sauvegarde & Affichage
+                await save_player_hp(self.bot, interaction.user.id, attacker.hp)
+                await save_mob_hp(self.bot.db, target_id, mob_name, defender.hp)
+                await cleanup_dead_mobs(self.bot.db, target_id)
+
+                embed = discord.Embed(title=f"💫 Compétence : {skill_id.replace('_', ' ').capitalize()}", color=discord.Color.purple())
+                embed.add_field(name="Action", value="\n".join(result["effects"]), inline=False)
+                if riposte_result:
+                    embed.add_field(name=f"🔄 Contre de {defender.name}", value="\n".join(riposte_result["effects"]), inline=False)
+                
+                embed.set_footer(text=f"MP restant: {attacker.mp:.0f} | PV: {attacker.hp:.0f}")
+                
+                if defender.hp <= 0:
+                    await add_xp(self.bot.db, interaction.user.id, 30)
+                    embed.add_field(name="Victoire", value="✨ Monstre vaincu ! +30 XP")
+
+                await interaction.response.send_message(embed=embed)
+
+            except Exception as e:
+                logger.error(f"Erreur skill_mob: {e}", exc_info=True)
+                if not interaction.response.is_done():
+                    await interaction.response.send_message("Erreur lors de l'utilisation du skill.", ephemeral=True)
+
+        @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
+        async def atk_player(
+                self,
+                interaction: discord.Interaction,
+                target: discord.Member,
+                attack_type: AttackType = "phys",
+                perce_armure: bool = False,
+            ):
             if not await combat_is_active(self.bot.db, interaction.channel_id):
                 await interaction.response.send_message("Aucun combat actif dans ce salon. Utilise /combat_start.", ephemeral=True)
                 return

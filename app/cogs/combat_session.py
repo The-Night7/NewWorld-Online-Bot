@@ -20,6 +20,40 @@ from app.combat_session import (
 
 import logging
 
+# Utility functions
+def _clamp_level(value: int, level_min: int | None, level_max: int | None) -> int:
+    v = int(value)
+    if level_min is not None:
+        v = max(v, int(level_min))
+    else:
+        v = max(v, 1)
+    if level_max is not None:
+        v = min(v, int(level_max))
+    return v
+
+
+async def compute_party_average_level(db, thread_id: int) -> int:
+    """
+    Calcule la moyenne des niveaux des participants du combat (dans ce thread).
+    Fallback à 1 si aucun niveau n'est trouvé.
+    """
+    user_ids = await participants_list(db, thread_id)
+    if not user_ids:
+        return 1
+
+    levels: list[int] = []
+    for uid in user_ids:
+        row = await db.execute_fetchone("SELECT level FROM characters WHERE user_id = ?", (int(uid),))
+        if row and row["level"] is not None:
+            levels.append(int(row["level"]))
+
+    if not levels:
+        return 1
+
+    avg = sum(levels) / len(levels)
+    return max(1, int(round(avg)))
+
+
 # Table des rencontres par salon
 ZONE_MONSTERS = {
     1398615884196610088: ["forest.lapin_vegetal", "forest.bee_me_me_bee", "forest.spider_eyes", "hydra_dungeon.chenille_ortifleur", "misc.reine_des_abeilles"],  # Forêt luxuriante
@@ -70,6 +104,7 @@ class CombatSessionCog(commands.Cog):
                     pass
 
         return threads
+
     @app_commands.command(name="combat_start", description="Démarre un combat dans ce salon et ouvre un fil privé")
     @app_commands.describe(members="Membres à inclure dans le combat (en plus de toi)")
     async def combat_start(self, interaction: discord.Interaction, members: str = ""):
@@ -128,8 +163,9 @@ class CombatSessionCog(commands.Cog):
 
             # Ajout des membres mentionnés au fil et au combat
             members_added = []
-            for user_id in set(ids): # set() pour éviter les doublons
-                if user_id == interaction.user.id: continue # On s'est déjà ajouté
+            for user_id in set(ids):  # set() pour éviter les doublons
+                if user_id == interaction.user.id:
+                    continue  # On s'est déjà ajouté
                 try:
                     member = await interaction.guild.fetch_member(user_id)
                     if member:
@@ -154,17 +190,18 @@ class CombatSessionCog(commands.Cog):
 
                 mob_keys = ZONE_MONSTERS[channel.id]
                 mobs_to_spawn = []
-                
+
                 if len(mob_keys) == 1:
                     mobs_to_spawn = mob_keys
                 else:
                     mobs_to_spawn = random.sample(mob_keys, k=random.randint(1, 2))
 
+                party_avg_level = await compute_party_average_level(self.bot.db, thread.id)
+
                 for m_key in mobs_to_spawn:
                     defn = REGISTRY.get(m_key)
                     if defn:
-                        level = defn.level_min or 1
-                        # CORRECTION : Utiliser thread.id pour le nom unique et l'insertion
+                        level = _clamp_level(party_avg_level, defn.level_min, defn.level_max)
                         m_name = await next_unique_mob_name(self.bot.db, thread.id, defn.display_name)
                         ent = spawn_entity(defn, level=level, instance_name=m_name)
                         await insert_mob(self.bot.db, thread.id, m_name, defn.key, level, ent, created_by=self.bot.user.id)
@@ -273,7 +310,7 @@ class CombatSessionCog(commands.Cog):
                 thread_id = thread.id
 
             logger.info(f"Fermeture du combat dans le fil {thread_id} par {interaction.user.id}")
-            
+
             # 1. Répondre à l'interaction immédiatement (avant l'archivage)
             await interaction.response.send_message("Combat terminé. Le fil va être archivé.", ephemeral=False)
 
@@ -305,10 +342,10 @@ class CombatSessionCog(commands.Cog):
             return
 
         await interaction.response.defer()
-        
+
         # 1. Récupérer les joueurs
         user_ids = await participants_list(self.bot.db, thread_id)
-        
+
         # Sécurité : Si le créateur n'est pas dans la liste DB, on l'ajoute pour l'affichage
         if interaction.user.id not in user_ids:
             user_ids.append(interaction.user.id)
@@ -338,6 +375,6 @@ class CombatSessionCog(commands.Cog):
         for i, ent in enumerate(entities):
             emoji = "👤" if "Joueur" in ent.name or any(u == ent.name for u in [interaction.user.display_name]) else "👹"
             lines.append(f"{i+1}. {emoji} **{ent.name}** — AGI: `{ent.AGI:.0f}`")
-        
+
         embed.description = "\n".join(lines) if lines else "Personne en combat."
         await interaction.followup.send(embed=embed)

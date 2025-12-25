@@ -84,13 +84,17 @@ class ProfessionsCog(commands.Cog):
             await interaction.followup.send("❌ Vous n'avez rien trouvé d'intéressant.")
         else:
             # Sélection de l'item basé sur les chances dans le JSON
-            item_pool = sorted(available_items, key=lambda x: x['chance'])
-            selected_item = item_pool[0]
+            item_pool = sorted(available_items, key=lambda x: x.get('chance', 0))
             
+            if not item_pool:
+                return await interaction.followup.send("❌ Aucun objet n'est disponible dans cette zone actuellement.")
+
             rand_chance = random.randint(1, 100)
             current_sum = 0
+            selected_item = item_pool[0] # Default to first item
+            
             for item in item_pool:
-                current_sum += item['chance']
+                current_sum += item.get('chance', 0)
                 if rand_chance <= current_sum:
                     selected_item = item
                     break

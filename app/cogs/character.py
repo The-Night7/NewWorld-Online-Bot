@@ -9,7 +9,7 @@ from typing import Optional, List
 from ..character import (
     Character, get_or_create_character, add_xp,
     add_item_to_inventory, get_inventory, remove_item_from_inventory,
-    equip_item, unequip_item
+    equip_item, unequip_item, InventoryItem
 )
 from ..items import ITEM_REGISTRY, ItemDefinition
 

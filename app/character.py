@@ -154,4 +154,30 @@ async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int
 
     await character.save_to_db(db)
     return character, leveled_up, levels_gained
+
+
+async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 1, properties: Dict[str, Any] | None = None) -> None:
+    if properties is None:
+        properties = {}
+
+    existing_item = await db.execute_fetchone(
+        "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
+        (int(user_id), str(item_id))
+    )
+
+    if existing_item:
+        await db.execute(
+            "UPDATE inventories SET quantity = quantity + ? WHERE id = ?",
+            (int(quantity), int(existing_item["id"]))
+        )
+    else:
+        await db.execute(
+            """
+            INSERT INTO inventories (character_id, item_id, quantity, equipped, properties)
+            VALUES (?, ?, ?, 0, ?)
+            """,
+            (int(user_id), str(item_id), int(quantity), json.dumps(properties))
+        )
+
+    await db.commit()
     return True

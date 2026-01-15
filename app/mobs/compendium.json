@@ -4,7 +4,7 @@
       "name": "Lapin végétal",
       "palier": "Palier 1",
       "level_range": "1-5",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt",
       "drops": [
         "Plante médicinale",
@@ -42,7 +42,7 @@
       "name": "BEE ME ME BEE",
       "palier": "Palier 1",
       "level_range": "1-10",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt",
       "drops": [
         "Ailes de Bee",
@@ -83,7 +83,7 @@
       "name": "Reine des abeilles",
       "palier": "Palier 1",
       "level_range": "10",
-      "rarity": "Boss",
+      "rarity": "miniboss",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -111,7 +111,7 @@
       "name": "Spider-eyes",
       "palier": "Palier 1",
       "level_range": "1-10",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt",
       "drops": [
         "Œuf d'araignée",
@@ -152,7 +152,7 @@
       "name": "Chenille ortifleur",
       "palier": "Palier 1",
       "level_range": "1-10",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Donjon de l'Hydre",
       "drops": [
         "Pétale d'ortifleur",
@@ -202,7 +202,7 @@
       "name": "Louveteau des forêts",
       "palier": "Palier 1",
       "level_range": "3-10",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt & Plaine",
       "drops": [
         "Peau de loup",
@@ -243,7 +243,7 @@
       "name": "Loup Alpha",
       "palier": "Palier 1",
       "level_range": "10-15",
-      "rarity": "Boss",
+      "rarity": "miniboss",
       "zone": "Forêt & Plaine",
       "drops": [
         "Griffe d'Alpha",
@@ -284,7 +284,7 @@
       "name": "Clown de la forêt",
       "palier": "Palier 1",
       "level_range": "10-15",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt",
       "drops": [
         "Costumes clown",
@@ -322,7 +322,7 @@
       "name": "Coxiplooosion",
       "palier": "Palier 1",
       "level_range": "10-15",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt",
       "drops": [
         "Charbon",
@@ -363,7 +363,7 @@
       "name": "Slime",
       "palier": "Palier 1",
       "level_range": "5-10",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Donjon de l'Hydre",
       "drops": [
         "Gelée premium",
@@ -416,7 +416,7 @@
       "name": "Hydre au poison",
       "palier": "Palier 1",
       "level_range": "15",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Donjon de l'Hydre",
       "drops": [
         "Écailles de l'hydre",
@@ -445,7 +445,7 @@
       "name": "Poisson tentaculaire",
       "palier": "Palier 1",
       "level_range": "10",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -473,7 +473,7 @@
       "name": "Zombie",
       "palier": "Palier 1",
       "level_range": "12-20",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Zone Fantôme",
       "drops": [
         "Crâne maudit",
@@ -511,7 +511,7 @@
       "name": "Spectre",
       "palier": "Palier 1",
       "level_range": "12-20",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Zone Fantôme",
       "drops": [
         "Essence spectrale",
@@ -552,7 +552,7 @@
       "name": "Sanglier enragé",
       "palier": "Palier 1",
       "level_range": "20",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Donjon de l'Arbre Honey",
       "drops": [
         "Défense de sanglier",
@@ -580,7 +580,7 @@
       "name": "Ours en colère",
       "palier": "Palier 1",
       "level_range": "20",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Donjon de l'Arbre Honey",
       "drops": [
         "Patte d'ours",
@@ -606,7 +606,7 @@
       "name": "Roi de la nature: Cerf de vie",
       "palier": "Palier 1",
       "level_range": null,
-      "rarity": "Boss",
+      "rarity": "boss",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -635,7 +635,7 @@
       "name": "Grand Clown à massue",
       "palier": "Palier 2",
       "level_range": "20",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Event Secret",
       "drops": [
         "Massue légendaire",
@@ -663,7 +663,7 @@
       "name": "Phénix de glace",
       "palier": "Palier 2",
       "level_range": "25",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -716,7 +716,7 @@
       "name": "Tréant",
       "palier": "Palier 2",
       "level_range": "20-25",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt Palier 2",
       "drops": [
         "Écorce renforcée",
@@ -754,7 +754,7 @@
       "name": "Louveteau enragé",
       "palier": "Palier 2",
       "level_range": "20-25",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Palier 2",
       "drops": [
         "Peau d'alpha junior",
@@ -795,7 +795,7 @@
       "name": "Golem",
       "palier": "Palier 2",
       "level_range": "5-25",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Divers",
       "drops": [
         "Noyau de golem",
@@ -833,7 +833,7 @@
       "name": "Roi squelette",
       "palier": "Palier 2",
       "level_range": "25",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Donjon Secret (après 4 morts)",
       "drops": [
         "Couronne du roi squelette",
@@ -863,7 +863,7 @@
       "name": "Chevalier démoniaque",
       "palier": "Palier 2",
       "level_range": "25",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Zone corrompue",
       "drops": null,
       "abilities": [
@@ -893,7 +893,7 @@
       "name": "Gardien du 3ème palier: Terongor",
       "palier": "Palier 2",
       "level_range": null,
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Passage Palier 3",
       "drops": [
         "Clé du 3ème palier",
@@ -920,7 +920,7 @@
       "name": "Roi mécanique",
       "palier": "Palier 3",
       "level_range": "30",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Zone mécanique",
       "drops": null,
       "abilities": [
@@ -949,7 +949,7 @@
       "name": "Loup vétéran",
       "palier": "Palier 3",
       "level_range": "30-35",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Zone rocheuse & Grotte cristal",
       "drops": [
         "Peau légendaire",
@@ -987,7 +987,7 @@
       "name": "Taupe de cristal",
       "palier": "Palier 3",
       "level_range": "30-35",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Zone rocheuse & Grotte cristal",
       "drops": [
         "Cristal pur",
@@ -1025,7 +1025,7 @@
       "name": "Gardien du 4ème palier: Garde-Lave Oursobot",
       "palier": "Palier 3",
       "level_range": "40",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -1054,7 +1054,7 @@
       "name": "Clown du crépuscule",
       "palier": "Palier 4",
       "level_range": "40-45",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt du crépuscule",
       "drops": [
         "Cape du crépuscule",
@@ -1092,7 +1092,7 @@
       "name": "Ours en colère",
       "palier": "Palier 4",
       "level_range": "40-45",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt du crépuscule",
       "drops": [
         "Griffe titanesque",
@@ -1130,7 +1130,7 @@
       "name": "Ourson Min Min",
       "palier": "Palier 4",
       "level_range": "40-45",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt du crépuscule",
       "drops": [
         "Patte mignonne",
@@ -1168,7 +1168,7 @@
       "name": "Chenille ortifleur",
       "palier": "Palier 4",
       "level_range": "40-45",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Grotte cristalline",
       "drops": [
         "Cocon cristallisé",
@@ -1206,7 +1206,7 @@
       "name": "Cactus",
       "palier": "Palier 4",
       "level_range": "40-45",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Grotte cristalline",
       "drops": [
         "Noyau de cactus",
@@ -1247,7 +1247,7 @@
       "name": "Araignée des grottes",
       "palier": "Palier 4",
       "level_range": "40-45",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Grotte cristalline",
       "drops": [
         "Toile cristalline",
@@ -1288,7 +1288,7 @@
       "name": "Améthyste, le sabre maudit dévoreur",
       "palier": "Palier 4",
       "level_range": "45",
-      "rarity": "Boss",
+      "rarity": "boss",
       "zone": "Grotte cristalline (Quête unique)",
       "drops": [
         "Fragment d'Améthyste",
@@ -1317,7 +1317,7 @@
       "name": "Méduse volante",
       "palier": "Palier 4",
       "level_range": "45-50",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt du crépuscule & Montagne du soleil couchant",
       "drops": [
         "Membrane ailée",
@@ -1381,7 +1381,7 @@
       "name": "Reine des abeilles enragée",
       "palier": "Palier 4",
       "level_range": "50",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Event",
       "drops": [
         "Miel royal enragé",
@@ -1434,7 +1434,7 @@
       "name": "Ryuja le maître de la tour",
       "palier": "Palier 4",
       "level_range": "50",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -1462,7 +1462,7 @@
       "name": "Gardienne du 5ème palier: Kyubi masqué au chakra bleu",
       "palier": "Palier 4",
       "level_range": "50",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Passage Palier 5",
       "drops": [
         "Clé du 5ème palier",
@@ -1491,7 +1491,7 @@
       "name": "Apôtre du dieu céleste",
       "palier": "Palier 4",
       "level_range": "50",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Désert foudroyant",
       "drops": [
         "Lance céleste",
@@ -1521,7 +1521,7 @@
       "name": "Clown du ciel",
       "palier": "Palier 5",
       "level_range": "50-55",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Plaines nuageuses",
       "drops": [
         "Chapeau volant",
@@ -1559,7 +1559,7 @@
       "name": "Gardienne du 6ème palier: Nuage-médusé",
       "palier": "Palier 5",
       "level_range": "55",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Passage Palier 6",
       "drops": [
         "Clé du 6ème palier",
@@ -1588,7 +1588,7 @@
       "name": "Spectre de la mort",
       "palier": "Palier 6",
       "level_range": "55-60",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt spectrale",
       "drops": [
         "Essence de mort",
@@ -1626,7 +1626,7 @@
       "name": "Fantôme des flammes bleues",
       "palier": "Palier 6",
       "level_range": "55-60",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Manoir de l'ouest",
       "drops": [
         "Cœur de flamme",
@@ -1664,7 +1664,7 @@
       "name": "Zombie du manoir",
       "palier": "Palier 6",
       "level_range": "55-60",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Manoir de l'ouest & Forêt spectrale",
       "drops": [
         "Os maudit",
@@ -1702,7 +1702,7 @@
       "name": "Feu follet",
       "palier": "Palier 6",
       "level_range": "55-60",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Cimetière",
       "drops": [
         "Lanterne du cimetière",
@@ -1740,7 +1740,7 @@
       "name": "Dragon de la terre",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -1769,7 +1769,7 @@
       "name": "Bibliothèque",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Event",
       "drops": [
         "Livre ancien",
@@ -1785,7 +1785,7 @@
       "name": "Élémentaire de lave/glace",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Event",
       "drops": null,
       "abilities": [
@@ -1813,7 +1813,7 @@
       "name": "Tortue géante de la mer antique",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Event",
       "drops": [
         "Carapace antique",
@@ -1842,7 +1842,7 @@
       "name": "Guerrier squelette géant",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": "Event",
       "drops": [
         "Épée géante maudite",
@@ -1871,7 +1871,7 @@
       "name": "Liche de l'ancien monde",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Boss",
+      "rarity": "boss",
       "zone": "Event",
       "drops": [
         "Bâton de liche",
@@ -1900,7 +1900,7 @@
       "name": "Dino-pic de glace",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -1928,7 +1928,7 @@
       "name": "Caméléon de la forêt argenté géant",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -1956,7 +1956,7 @@
       "name": "Tour akashique des rois",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -1971,7 +1971,7 @@
       "name": "Élu déchu par les ténèbres",
       "palier": "Palier 6",
       "level_range": "60",
-      "rarity": "Élite",
+      "rarity": "elite",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -2000,7 +2000,7 @@
       "name": "Grand tréant",
       "palier": "Palier 6",
       "level_range": "25-60",
-      "rarity": null,
+      "rarity": "normal",
       "zone": "Forêt Palier 6",
       "drops": [
         "Bois légendaire",
@@ -2039,7 +2039,7 @@
       "name": "Légende des stats:",
       "palier": "Palier 6",
       "level_range": null,
-      "rarity": null,
+      "rarity": "normal",
       "zone": null,
       "drops": null,
       "abilities": [
@@ -2055,7 +2055,7 @@
       "name": "Symboles:",
       "palier": "Palier 6",
       "level_range": null,
-      "rarity": null,
+      "rarity": "normal",
       "zone": null,
       "drops": null,
       "abilities": null,
@@ -2065,7 +2065,7 @@
       "name": "Types de zones:",
       "palier": "Palier 6",
       "level_range": null,
-      "rarity": null,
+      "rarity": "normal",
       "zone": null,
       "drops": null,
       "abilities": null,

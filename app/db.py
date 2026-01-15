@@ -37,8 +37,10 @@ CREATE TABLE IF NOT EXISTS combat_participants (
   user_id     INTEGER NOT NULL,
   added_by    INTEGER NOT NULL,
   added_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (channel_id, user_id)
+  combat_id   INTEGER NOT NULL,
+  PRIMARY KEY (combat_id, user_id)
 );
+
 
 CREATE TABLE IF NOT EXISTS combat_logs (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,

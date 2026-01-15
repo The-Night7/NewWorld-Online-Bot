@@ -1052,3 +1052,731 @@ discord.app_commands.errors.CommandInvokeError: Command 'mob_list' raised an exc
 2025-12-25 20:54:03,813 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453838041696305345
 2025-12-25 20:54:03,814 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000012FDD8C2950>
 2025-12-25 20:54:03,814 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:00:19,917 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 21:00:19,919 - discord.client - INFO - logging in using static token
+2025-12-25 21:00:20,582 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 21:00:20,586 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 21:00:20,587 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 21:00:20,588 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 21:00:20,589 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 21:00:20,589 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 21:00:20,590 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 21:00:20,591 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 21:00:20,593 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 21:00:20,594 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 21:00:20,597 - bofuri - INFO - Ajout des cogs...
+2025-12-25 21:00:20,601 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 21:00:22,585 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 21:00:23,028 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: f2fc0e00b4781845ef553795b32bee4c).
+2025-12-25 21:00:44,349 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453838041696305345
+2025-12-25 21:00:44,352 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B66B944F0>
+2025-12-25 21:00:44,354 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:01:09,859 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453838041696305345
+2025-12-25 21:01:09,860 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B664FBC10>
+2025-12-25 21:01:09,860 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:01:32,419 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453838041696305345
+2025-12-25 21:01:32,421 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B66B94EB0>
+2025-12-25 21:01:32,421 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:01:52,706 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453838041696305345
+2025-12-25 21:01:52,715 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B66B96C20>
+2025-12-25 21:01:52,716 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:01:59,784 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453838041696305345
+2025-12-25 21:01:59,785 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B66B972B0>
+2025-12-25 21:01:59,785 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:01:59,786 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453838041696305345 par 484850911622070284
+2025-12-25 21:01:59,796 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453838041696305345
+2025-12-25 21:01:59,798 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x0000024B66B97130>
+2025-12-25 21:01:59,798 - bofuri.combat - INFO - Fermeture du combat ID 7 dans le fil 1453838041696305345 (salon 1398617728474153061)
+2025-12-25 21:01:59,804 - bofuri.combat - INFO - Combat ID 7 fermé avec succès
+2025-12-25 21:02:08,417 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 21:02:08,461 - bofuri.combat - INFO - Combat ID 8 créé avec succès dans le salon 1398617728474153061
+2025-12-25 21:02:23,798 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453840262664294513
+2025-12-25 21:02:23,800 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B66B5C940>
+2025-12-25 21:02:23,801 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:02:33,159 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453840262664294513
+2025-12-25 21:02:33,161 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x0000024B66B97790>
+2025-12-25 21:02:33,161 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:13:59,498 - discord.client - WARNING - PyNaCl is not installed, voice will NOT be supported
+2025-12-25 21:13:59,500 - discord.client - INFO - logging in using static token
+2025-12-25 21:14:01,468 - bofuri - INFO - Configuration du bot en cours...
+2025-12-25 21:14:01,474 - bofuri.db - INFO - Base de données initialisée avec succès
+2025-12-25 21:14:01,475 - bofuri.db - INFO - Table players créée avec succès
+2025-12-25 21:14:01,476 - bofuri.db - INFO - Table combats créée avec succès
+2025-12-25 21:14:01,477 - bofuri.db - INFO - Table combat_participants créée avec succès
+2025-12-25 21:14:01,478 - bofuri.db - INFO - Table combat_logs créée avec succès
+2025-12-25 21:14:01,479 - bofuri.db - INFO - Table combat_mobs créée avec succès
+2025-12-25 21:14:01,480 - bofuri - INFO - Initialisation des objets de base...
+2025-12-25 21:14:01,483 - bofuri.items - INFO - Initialisé 6 objets de base
+2025-12-25 21:14:01,483 - bofuri - INFO - Découverte et enregistrement des mobs...
+2025-12-25 21:14:01,488 - bofuri - INFO - Ajout des cogs...
+2025-12-25 21:14:01,494 - bofuri - INFO - Synchronisation des commandes pour la guild 1364736698059063296...
+2025-12-25 21:14:01,756 - bofuri - INFO - Bot configuré avec succès!
+2025-12-25 21:14:02,314 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: d719aa0329a5a97a99874a105dc725f2).
+2025-12-25 21:14:08,846 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 21:14:08,858 - bofuri.combat - INFO - Combat ID 9 créé avec succès dans le salon 1398617728474153061
+2025-12-25 21:14:24,708 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453843284140232724
+2025-12-25 21:14:24,710 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241CA0E16C0>
+2025-12-25 21:14:24,710 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:14:30,729 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453843284140232724
+2025-12-25 21:14:30,730 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241CA0E0640>
+2025-12-25 21:14:30,730 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:14:30,730 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453843284140232724 par 484850911622070284
+2025-12-25 21:14:30,738 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453843284140232724
+2025-12-25 21:14:30,739 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x00000241CA0E0460>
+2025-12-25 21:14:30,739 - bofuri.combat - INFO - Fermeture du combat ID 9 dans le fil 1453843284140232724 (salon 1398617728474153061)
+2025-12-25 21:14:30,745 - bofuri.combat - INFO - Combat ID 9 fermé avec succès
+2025-12-25 21:23:08,557 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 21:23:08,564 - bofuri.combat - INFO - Combat ID 10 créé avec succès dans le salon 1398617728474153061
+2025-12-25 21:23:11,585 - bofuri.combat - ERROR - Erreur lors de la création du combat: 404 Not Found (error code: 10008): Unknown Message
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 295, in combat_start
+    await interaction.followup.send(f"Combat créé! Fil: {thread.mention}", ephemeral=False)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 1843, in send
+    data = await adapter.execute_webhook(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10008): Unknown Message
+2025-12-25 21:23:11,841 - bofuri - ERROR - Erreur lors de l'exécution de la commande combat_start: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 295, in combat_start
+    await interaction.followup.send(f"Combat créé! Fil: {thread.mention}", ephemeral=False)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 1843, in send
+    data = await adapter.execute_webhook(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10008): Unknown Message
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat_session.py", line 317, in combat_start
+    await interaction.followup.send(
+        "Une erreur est survenue lors de la création du combat.", ephemeral=True
+    )
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 1843, in send
+    data = await adapter.execute_webhook(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\webhook\async_.py", line 221, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10008): Unknown Message
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'combat_start' raised an exception: NotFound: 404 Not Found (error code: 10008): Unknown Message
+
+2025-12-25 21:23:12,038 - bofuri - ERROR - Impossible d'envoyer un message d'erreur à l'utilisateur
+2025-12-25 21:23:24,175 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453845547982262312
+2025-12-25 21:23:24,176 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241C9B26290>
+2025-12-25 21:23:24,176 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:23:29,073 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453845547982262312
+2025-12-25 21:23:29,074 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241CA0E18D0>
+2025-12-25 21:23:29,074 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:23:29,075 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453845547982262312 par 484850911622070284
+2025-12-25 21:23:29,083 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453845547982262312
+2025-12-25 21:23:29,084 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x00000241CA0E2200>
+2025-12-25 21:23:29,085 - bofuri.combat - INFO - Fermeture du combat ID 10 dans le fil 1453845547982262312 (salon 1398617728474153061)
+2025-12-25 21:23:29,090 - bofuri.combat - INFO - Combat ID 10 fermé avec succès
+2025-12-25 21:23:40,877 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 21:23:40,885 - bofuri.combat - INFO - Combat ID 11 créé avec succès dans le salon 1398617728474153061
+2025-12-25 21:23:58,634 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453845683235721411
+2025-12-25 21:23:58,635 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241CA0E1E70>
+2025-12-25 21:23:58,636 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:24:07,286 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453845683235721411
+2025-12-25 21:24:07,288 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241CA0E3370>
+2025-12-25 21:24:07,289 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:24:07,289 - bofuri.combat - INFO - Fermeture du combat dans le fil 1453845683235721411 par 484850911622070284
+2025-12-25 21:24:07,298 - bofuri.combat - INFO - Tentative de fermeture du combat dans le fil 1453845683235721411
+2025-12-25 21:24:07,300 - bofuri.combat - INFO - Résultat de la requête pour trouver le combat actif: <sqlite3.Row object at 0x00000241CA0E3370>
+2025-12-25 21:24:07,300 - bofuri.combat - INFO - Fermeture du combat ID 11 dans le fil 1453845683235721411 (salon 1398617728474153061)
+2025-12-25 21:24:07,306 - bofuri.combat - INFO - Combat ID 11 fermé avec succès
+2025-12-25 21:26:56,327 - bofuri.combat - INFO - Tentative de création de combat dans le salon 1398617728474153061 par 484850911622070284
+2025-12-25 21:26:56,330 - bofuri.combat - INFO - Combat ID 12 créé avec succès dans le salon 1398617728474153061
+2025-12-25 21:27:29,967 - bofuri.combat - INFO - Vérification du combat actif dans le fil 1453846503096586333
+2025-12-25 21:27:29,969 - bofuri.combat - INFO - Résultat de la requête: <sqlite3.Row object at 0x00000241CA0A7EE0>
+2025-12-25 21:27:29,970 - bofuri.combat - INFO - Combat actif: True
+2025-12-25 21:27:29,979 - bofuri - ERROR - Erreur lors de l'exécution de la commande skill_mob: Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 857, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\mobs.py", line 226, in skill_mob
+    attacker = await fetch_player_entity(self.bot, interaction.user)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\PycharmProjects\NewWorld-Online-Bot\app\cogs\combat.py", line 18, in fetch_player_entity
+    async with (await db.execute(
+                      ^^^^^^^^^^
+AttributeError: 'BofuriBot' object has no attribute 'execute'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\tree.py", line 1310, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 883, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\app_commands\commands.py", line 876, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'skill_mob' raised an exception: AttributeError: 'BofuriBot' object has no attribute 'execute'
+
+2025-12-26 02:11:14,467 - discord.gateway - WARNING - Shard ID None has stopped responding to the gateway. Closing and restarting.
+2025-12-26 02:11:15,835 - discord.gateway - INFO - Shard ID None session has been invalidated.
+2025-12-26 02:11:22,709 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: 71c108cc18106bf0caccfbf7c68b7200).
+2025-12-26 10:18:01,232 - discord.client - ERROR - Attempting a reconnect in 0.39s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 10:18:06,052 - discord.client - ERROR - Attempting a reconnect in 0.09s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 10:18:08,511 - discord.client - ERROR - Attempting a reconnect in 3.16s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 11:16:05,156 - discord.client - ERROR - Attempting a reconnect in 0.70s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 11:16:06,029 - discord.client - ERROR - Attempting a reconnect in 1.53s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 11:16:08,148 - discord.client - ERROR - Attempting a reconnect in 7.59s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 19:13:36,930 - discord.client - ERROR - Attempting a reconnect in 0.15s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 506, in wait_for
+    async with timeouts.timeout(timeout):
+               ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\timeouts.py", line 116, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+2025-12-26 19:13:39,191 - discord.client - ERROR - Attempting a reconnect in 3.15s
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1512, in _create_direct_connection
+    hosts = await self._resolve_host(host, port, traces=traces)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1128, in _resolve_host
+    return await asyncio.shield(resolved_host_task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1159, in _resolve_host_with_throttle
+    addrs = await self._resolver.resolve(host, port, family=self._family)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\resolver.py", line 40, in resolve
+    infos = await self._loop.getaddrinfo(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 933, in getaddrinfo
+    return await self.run_in_executor(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, getaddr_func, host, port, family, type, proto, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\client.py", line 664, in connect
+    self.ws = await asyncio.wait_for(coro, timeout=60.0)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\gateway.py", line 374, in from_client
+    socket = await client.http.ws_connect(str(url))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\discord\http.py", line 550, in ws_connect
+    return await self.__session.ws_connect(url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1061, in _ws_connect
+    resp = await self.request(
+           ^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 770, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 725, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        req, traces=traces, timeout=real_timeout
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 622, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1189, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\myria.MYRIAM_BENSAID\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\connector.py", line 1518, in _create_direct_connection
+    raise ClientConnectorDNSError(req.connection_key, exc) from exc
+aiohttp.client_exceptions.ClientConnectorDNSError: Cannot connect to host gateway-us-east1-b.discord.gg:443 ssl:default [getaddrinfo failed]
+2025-12-26 19:14:15,684 - discord.gateway - INFO - Shard ID None session has been invalidated.
+2025-12-26 19:14:21,713 - discord.gateway - INFO - Shard ID None has connected to Gateway (Session ID: a65d7b3dedf30c7cb3c2cb4c59340809).

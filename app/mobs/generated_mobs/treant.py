@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Tréant',
         level_min=20,
         level_max=25,
-        rarity=None,
+        rarity='normal',
         zone='Forêt Palier 2',
         drops=['Écorce renforcée', 'Racine éternelle'],
         abilities=None,

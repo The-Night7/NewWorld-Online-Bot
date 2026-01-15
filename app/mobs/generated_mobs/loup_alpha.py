@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Loup Alpha',
         level_min=10,
         level_max=15,
-        rarity='Boss',
+        rarity='miniboss',
         zone='Forêt & Plaine',
         drops=["Griffe d'Alpha", "Perle d'âme de loup"],
         abilities=['Hurlement du chef de meute:  Invoque 3-5 louveteaux (Lvl 10-15 selon nombre ennemis)', 'Hurlement du chef de meute:  Invoque 3-5 louveteaux (Lvl 10-15 selon nombre ennemis)'],

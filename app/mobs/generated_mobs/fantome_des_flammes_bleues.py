@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Fantôme des flammes bleues',
         level_min=55,
         level_max=60,
-        rarity=None,
+        rarity='normal',
         zone="Manoir de l'ouest",
         drops=['Cœur de flamme', 'Lanterne maudite'],
         abilities=None,

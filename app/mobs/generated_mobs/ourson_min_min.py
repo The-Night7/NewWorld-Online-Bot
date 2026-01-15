@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Ourson Min Min',
         level_min=40,
         level_max=45,
-        rarity=None,
+        rarity='normal',
         zone='Forêt du crépuscule',
         drops=['Patte mignonne', 'Ruban Min Min'],
         abilities=None,

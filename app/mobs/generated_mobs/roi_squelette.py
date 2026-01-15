@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Roi squelette',
         level_min=25,
         level_max=25,
-        rarity='Élite',
+        rarity='elite',
         zone='Donjon Secret (après 4 morts)',
         drops=['Couronne du roi squelette', 'Sceptre maudit', 'Âme royale'],
         abilities=['Hurlement des morts:  Malédiction -20% gain de stats si touché', 'Condition apparition:  Être mort 4 fois'],

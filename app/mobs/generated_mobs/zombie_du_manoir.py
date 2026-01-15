@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Zombie du manoir',
         level_min=55,
         level_max=60,
-        rarity=None,
+        rarity='normal',
         zone="Manoir de l'ouest & Forêt spectrale",
         drops=['Os maudit', 'Relique du manoir'],
         abilities=None,

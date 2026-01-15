@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Spectre de la mort',
         level_min=55,
         level_max=60,
-        rarity=None,
+        rarity='normal',
         zone='Forêt spectrale',
         drops=['Essence de mort', 'Couronne spectrale'],
         abilities=None,

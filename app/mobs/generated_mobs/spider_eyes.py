@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Spider-eyes',
         level_min=1,
         level_max=10,
-        rarity=None,
+        rarity='normal',
         zone='Forêt',
         drops=["Œuf d'araignée", 'Poussière toxique'],
         abilities=['Toile gluante:  Immobilise 2 tours', 'Toile gluante:  Immobilise 2 tours'],

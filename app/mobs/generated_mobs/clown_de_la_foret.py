@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Clown de la forêt',
         level_min=10,
         level_max=15,
-        rarity=None,
+        rarity='normal',
         zone='Forêt',
         drops=['Costumes clown', 'Roue de folie'],
         abilities=None,

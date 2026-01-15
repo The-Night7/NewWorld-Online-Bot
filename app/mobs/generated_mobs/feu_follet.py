@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Feu follet',
         level_min=55,
         level_max=60,
-        rarity=None,
+        rarity='normal',
         zone='Cimetière',
         drops=['Lanterne du cimetière', 'Âme errante'],
         abilities=None,

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Louveteau enragé',
         level_min=20,
         level_max=25,
-        rarity=None,
+        rarity='normal',
         zone='Palier 2',
         drops=["Peau d'alpha junior", 'Dent acérée'],
         abilities=['Hurlement de la meute:  Invoque 1+ loups selon roll 20', 'Hurlement de la meute:  Invoque 1+ loups selon roll 20'],

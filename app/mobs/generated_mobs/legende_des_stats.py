@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Légende des stats:',
         level_min=None,
         level_max=None,
-        rarity=None,
+        rarity='normal',
         zone=None,
         drops=None,
         abilities=['STR (Strength):  Force physique - Augmente dégâts physiques', "AGI (Agility):  Agilité - Vitesse d'action et esquive", 'INT (Intelligence):  Intelligence - Puissance magique', 'DEX (Dexterity):  Dextérité - Précision et critique', 'VIT (Vitality):  Vitalité - Résistance et défense'],

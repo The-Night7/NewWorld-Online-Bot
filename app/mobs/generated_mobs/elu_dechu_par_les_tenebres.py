@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Élu déchu par les ténèbres',
         level_min=60,
         level_max=60,
-        rarity='Élite',
+        rarity='elite',
         zone=None,
         drops=None,
         abilities=['Phase 1: ', 'Lame sacrée purificatrice:  Dégâts lumière élevés', 'Note:  Invulnérable sauf zone rose', 'Drop (Phase 1):  Fragment de lumière, Armure déchue', 'Phase 2 (à 50% HP): '],

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Apôtre du dieu céleste',
         level_min=50,
         level_max=50,
-        rarity='Élite',
+        rarity='elite',
         zone='Désert foudroyant',
         drops=['Lance céleste', "Ailes d'apôtre", 'Fragment divin'],
         abilities=['Attaque foudroyante:  2000', 'Fissure du vent:  Fend sol nuageux en 2'],

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Reine des abeilles enragée',
         level_min=50,
         level_max=50,
-        rarity='Élite',
+        rarity='elite',
         zone='Event',
         drops=['Miel royal enragé', 'Dard légendaire', 'Couronne de la reine'],
         abilities=None,

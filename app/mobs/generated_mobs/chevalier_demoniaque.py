@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Chevalier démoniaque',
         level_min=25,
         level_max=25,
-        rarity='Élite',
+        rarity='elite',
         zone='Zone corrompue',
         drops=None,
         abilities=['Phase 1: ', 'Lien maudit:  Immobilise + Empêche fuite/skills offensifs ou déplacement', 'Drop (Phase 1):  Armure démoniaque, Chaînes maudites', 'Phase 2 (à 50% HP): ', 'Goinfrerie:  Enferme victime dans ventre + Poison gastrique (dégâts durée)', 'Drop (Phase 2):  Épée démoniaque, Cœur corrompu'],

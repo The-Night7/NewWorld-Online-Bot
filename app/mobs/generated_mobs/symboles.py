@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Symboles:',
         level_min=None,
         level_max=None,
-        rarity=None,
+        rarity='normal',
         zone=None,
         drops=None,
         abilities=None,

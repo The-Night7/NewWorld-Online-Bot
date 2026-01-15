@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Chenille ortifleur',
         level_min=40,
         level_max=45,
-        rarity=None,
+        rarity='normal',
         zone='Grotte cristalline',
         drops=['Cocon cristallisé', 'Essence florale'],
         abilities=None,

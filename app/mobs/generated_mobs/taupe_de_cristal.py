@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Taupe de cristal',
         level_min=30,
         level_max=35,
-        rarity=None,
+        rarity='normal',
         zone='Zone rocheuse & Grotte cristal',
         drops=['Cristal pur', 'Noyau de cristal'],
         abilities=None,

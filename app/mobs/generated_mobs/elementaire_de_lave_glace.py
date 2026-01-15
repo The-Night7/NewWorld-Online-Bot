@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Élémentaire de lave/glace',
         level_min=60,
         level_max=60,
-        rarity='Élite',
+        rarity='elite',
         zone='Event',
         drops=None,
         abilities=['Phase 1: ', 'Drop (Phase 1):  Cristal de lave, Glace éternelle', 'Phase 2: ', 'Drop (Phase 2):  Noyau élémentaire, Essence duale'],

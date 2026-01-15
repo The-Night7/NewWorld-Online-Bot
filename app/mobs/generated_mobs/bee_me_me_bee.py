@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='BEE ME ME BEE',
         level_min=1,
         level_max=10,
-        rarity=None,
+        rarity='normal',
         zone='Forêt',
         drops=['Ailes de Bee', 'Pollen amélioré'],
         abilities=['Crachat de poison:  5/tour', 'Crachat de poison:  15/tour'],

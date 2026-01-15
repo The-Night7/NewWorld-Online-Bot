@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Ours en colère',
         level_min=40,
         level_max=45,
-        rarity=None,
+        rarity='normal',
         zone='Forêt du crépuscule',
         drops=['Griffe titanesque', "Cœur d'ours"],
         abilities=None,

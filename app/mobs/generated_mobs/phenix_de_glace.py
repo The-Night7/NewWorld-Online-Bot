@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Phénix de glace',
         level_min=25,
         level_max=25,
-        rarity='Élite',
+        rarity='elite',
         zone=None,
         drops=None,
         abilities=['Phase 1: '],

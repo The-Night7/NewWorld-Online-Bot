@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Méduse volante',
         level_min=45,
         level_max=50,
-        rarity=None,
+        rarity='normal',
         zone='Forêt du crépuscule & Montagne du soleil couchant',
         drops=['Membrane ailée', 'Essence aérienne'],
         abilities=None,

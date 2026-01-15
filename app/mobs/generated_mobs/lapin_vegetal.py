@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Lapin végétal',
         level_min=1,
         level_max=5,
-        rarity=None,
+        rarity='normal',
         zone='Forêt',
         drops=['Plante médicinale', 'Bois renforcé'],
         abilities=None,

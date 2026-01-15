@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Horde de tréant',
         level_min=50,
         level_max=50,
-        rarity='Event',
+        rarity='event',
         zone='Event',
         drops=['Bois ancien massif', 'Racine entrelacée'],
         abilities=None,

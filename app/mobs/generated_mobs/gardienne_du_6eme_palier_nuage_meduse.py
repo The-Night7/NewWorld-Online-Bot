@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Gardienne du 6ème palier: Nuage-médusé',
         level_min=55,
         level_max=55,
-        rarity='Élite',
+        rarity='elite',
         zone='Passage Palier 6',
         drops=['Clé du 6ème palier', 'Tentacule nuageux', 'Perle céleste'],
         abilities=['Coup de tentacule:  1000 x6'],

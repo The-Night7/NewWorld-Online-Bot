@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Gardien du 3ème palier: Terongor',
         level_min=25,
         level_max=25,
-        rarity='Élite',
+        rarity='elite',
         zone='Passage Palier 3',
         drops=['Clé du 3ème palier', 'Fragment de gardien', 'Armure de Terongor'],
         abilities=None,

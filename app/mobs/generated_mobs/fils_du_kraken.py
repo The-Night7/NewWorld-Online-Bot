@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Fils du Kraken',
         level_min=25,
         level_max=25,
-        rarity='Event',
+        rarity='event',
         zone='Event',
         drops=['Tentacule du Kraken', 'Encre abyssale'],
         abilities=['Frappe tentaculaire:  150'],

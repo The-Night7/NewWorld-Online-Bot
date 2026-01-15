@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Slime',
         level_min=5,
         level_max=12,
-        rarity='Élite',
+        rarity='elite',
         zone="Donjon de l'Hydre",
         drops=['Gelée premium', 'Essence de slime'],
         abilities=['Mucus gluant:  Immobilise + 20% dégâts subis (cumulable)', 'Mucus gluant:  Immobilise + 20% dégâts subis (cumulable)'],

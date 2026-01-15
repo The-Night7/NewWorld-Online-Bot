@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Loup vétéran',
         level_min=30,
         level_max=35,
-        rarity=None,
+        rarity='normal',
         zone='Zone rocheuse & Grotte cristal',
         drops=['Peau légendaire', 'Griffes de cristal'],
         abilities=None,

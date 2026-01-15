@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Gardienne du 5ème palier: Kyubi masqué au chakra bleu',
         level_min=50,
         level_max=50,
-        rarity='Élite',
+        rarity='elite',
         zone='Passage Palier 5',
         drops=['Clé du 5ème palier', 'Masque de Kyubi', 'Queue de chakra'],
         abilities=['Flammes des 9 queues:  400/boule + Chance moyenne brûlure'],

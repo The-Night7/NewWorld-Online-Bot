@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Sanglier enragé',
         level_min=20,
         level_max=20,
-        rarity='Élite',
+        rarity='elite',
         zone="Donjon de l'Arbre Honey",
         drops=['Défense de sanglier', 'Fourrure épaisse'],
         abilities=['Charge enragée:  110'],

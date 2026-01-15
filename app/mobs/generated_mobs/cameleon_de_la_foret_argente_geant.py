@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Caméléon de la forêt argenté géant',
         level_min=60,
         level_max=60,
-        rarity='Élite',
+        rarity='elite',
         zone=None,
         drops=None,
         abilities=["- Camouflage de l'ombre: Invisibilité", '- Langue somnifère: Endort cible', '- Drop: Peau de caméléon, Langue magique, Œil argenté', '- Zone: Event'],

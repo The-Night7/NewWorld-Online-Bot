@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Roi mécanique',
         level_min=30,
         level_max=30,
-        rarity='Élite',
+        rarity='elite',
         zone='Zone mécanique',
         drops=None,
         abilities=['Phase 1: ', 'Drop (Phase 1):  Pièces mécaniques, Circuit magique', 'Phase 2 (à 50% HP): ', 'Obtention skill:  "Dieu mécanique" (pour vainqueur)', 'Drop (Phase 2):  Cœur mécanique, Blueprint légendaire, Core du roi'],

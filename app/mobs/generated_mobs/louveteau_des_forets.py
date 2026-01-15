@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Louveteau des forêts',
         level_min=3,
         level_max=10,
-        rarity=None,
+        rarity='normal',
         zone='Forêt & Plaine',
         drops=['Peau de loup', 'Dent de loup'],
         abilities=['Hurlement de la meute:  Roll 20, obtenir 15+ invoque 1-5 louveteaux', 'Hurlement de la meute:  Roll 20, obtenir 15+ invoque 1-5 louveteaux'],

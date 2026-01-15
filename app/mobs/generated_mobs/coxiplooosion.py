@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Coxiplooosion',
         level_min=10,
         level_max=15,
-        rarity=None,
+        rarity='normal',
         zone='Forêt',
         drops=['Charbon', 'Bouchon enflammé'],
         abilities=['Explosion (à la mort):  50', 'Explosion (à la mort):  80'],

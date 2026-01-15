@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Grand tréant',
         level_min=25,
         level_max=60,
-        rarity=None,
+        rarity='normal',
         zone='Forêt Palier 6',
         drops=['Bois légendaire', "Cœur d'arbre ancien", 'Sève éternelle'],
         abilities=None,

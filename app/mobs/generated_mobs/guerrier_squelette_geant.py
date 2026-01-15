@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Guerrier squelette géant',
         level_min=60,
         level_max=60,
-        rarity='Élite',
+        rarity='elite',
         zone='Event',
         drops=['Épée géante maudite', 'Armure de squelette', 'Crâne colossal'],
         abilities=["Coup d'épée:  3000"],

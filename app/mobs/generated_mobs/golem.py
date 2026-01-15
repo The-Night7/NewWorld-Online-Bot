@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Golem',
         level_min=5,
         level_max=25,
-        rarity=None,
+        rarity='normal',
         zone='Divers',
         drops=['Noyau de golem', 'Minerai rare'],
         abilities=None,

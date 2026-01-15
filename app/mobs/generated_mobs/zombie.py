@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Zombie',
         level_min=12,
         level_max=20,
-        rarity=None,
+        rarity='normal',
         zone='Zone Fantôme',
         drops=['Crâne maudit', 'Essence nécrotique'],
         abilities=None,

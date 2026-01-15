@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Bibliothèque',
         level_min=60,
         level_max=60,
-        rarity='Élite',
+        rarity='elite',
         zone='Event',
         drops=['Livre ancien', 'Parchemin de connaissance', 'Clé de bibliothèque'],
         abilities=['Vole-skill:  Vole temporairement compétences adversaire'],

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Clown du ciel',
         level_min=50,
         level_max=55,
-        rarity=None,
+        rarity='normal',
         zone='Plaines nuageuses',
         drops=['Chapeau volant', 'Carte du ciel'],
         abilities=None,

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Araignée des grottes',
         level_min=40,
         level_max=45,
-        rarity=None,
+        rarity='normal',
         zone='Grotte cristalline',
         drops=['Toile cristalline', "Œufs d'araignée rare"],
         abilities=['Entoilement de poison:  Immobilise + Poison +5% + Statuts "immobile" & "empoisonné"', 'Entoilement de poison:  Immobilise + Poison +5% + Statuts "immobile" & "empoisonné"'],

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Cactus',
         level_min=40,
         level_max=45,
-        rarity=None,
+        rarity='normal',
         zone='Grotte cristalline',
         drops=['Noyau de cactus', 'Sève toxique'],
         abilities=['Passif:  Zone poison (dégâts environnementaux/tour)', 'Passif:  Zone poison (dégâts environnementaux/tour)'],

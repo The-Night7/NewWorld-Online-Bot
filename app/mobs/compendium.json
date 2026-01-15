@@ -688,7 +688,7 @@
       "name": "Fils du Kraken",
       "palier": "Palier 2",
       "level_range": "25",
-      "rarity": "Event",
+      "rarity": "event",
       "zone": "Event",
       "drops": [
         "Tentacule du Kraken",
@@ -1355,7 +1355,7 @@
       "name": "Horde de tréant",
       "palier": "Palier 4",
       "level_range": "50",
-      "rarity": "Event",
+      "rarity": "event",
       "zone": "Event",
       "drops": [
         "Bois ancien massif",
@@ -1408,7 +1408,7 @@
       "name": "Spider barrage",
       "palier": "Palier 4",
       "level_range": "50",
-      "rarity": "Event",
+      "rarity": "event",
       "zone": "Event",
       "drops": [
         "Toile de barrage",

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Tortue géante de la mer antique',
         level_min=60,
         level_max=60,
-        rarity='Élite',
+        rarity='elite',
         zone='Event',
         drops=['Carapace antique', 'Perle de mer', 'Écaille légendaire'],
         abilities=['Carapace:  Immunité dégâts sur carapace'],

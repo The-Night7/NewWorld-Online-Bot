@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Clown du crépuscule',
         level_min=40,
         level_max=45,
-        rarity=None,
+        rarity='normal',
         zone='Forêt du crépuscule',
         drops=['Cape du crépuscule', 'Carte joker'],
         abilities=None,

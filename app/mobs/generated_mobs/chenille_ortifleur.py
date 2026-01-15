@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Chenille ortifleur',
         level_min=1,
         level_max=12,
-        rarity='Élite',
+        rarity='elite',
         zone="Donjon de l'Hydre",
         drops=["Pétale d'ortifleur", 'Poudre apaisante'],
         abilities=None,

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Spectre',
         level_min=12,
         level_max=20,
-        rarity=None,
+        rarity='normal',
         zone='Zone Fantôme',
         drops=['Essence spectrale', 'Voile maudit'],
         abilities=['Toucher maudit:  Malédiction -10% stats (cumulable)', 'Toucher maudit:  Malédiction -10% stats (cumulable)'],

@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Améthyste, le sabre maudit dévoreur',
         level_min=45,
         level_max=45,
-        rarity='Boss',
+        rarity='boss',
         zone='Grotte cristalline (Quête unique)',
         drops=["Fragment d'Améthyste", 'Lame maudite', 'Âme du shogun'],
         abilities=['Quête:  "La lame maudite du shogun d\'edo"'],

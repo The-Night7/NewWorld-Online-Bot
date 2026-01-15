@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name='Types de zones:',
         level_min=None,
         level_max=None,
-        rarity=None,
+        rarity='normal',
         zone=None,
         drops=None,
         abilities=None,

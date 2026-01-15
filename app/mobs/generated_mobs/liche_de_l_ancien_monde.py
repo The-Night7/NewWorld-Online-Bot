@@ -8,7 +8,7 @@ REGISTRY.register(
         display_name="Liche de l'ancien monde",
         level_min=60,
         level_max=60,
-        rarity='Boss',
+        rarity='boss',
         zone='Event',
         drops=['Bâton de liche', 'Grimoire ancien', 'Phylactère'],
         abilities=['Invocation:  Armée de monstres (sauf boss/rares)'],

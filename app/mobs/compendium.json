@@ -3192,6 +3192,22 @@
       "cost_mp": null,
       "condition": "Mage feu + Dompter phénix",
       "palier": "Palier 6"
+    },
+    "joallier": {
+      "name": "Joallier",
+      "category": "🛠️ Skills Métiers & Craft",
+      "description": "Permet de trouver des minerais rares, facilitant la création de bijoux.",
+      "cost_mp": "Passif",
+      "condition": "Non spécifié",
+      "palier": "Palier 1"
+    },
+    "joallier_expert": {
+      "name": "Joallier expert",
+      "category": "🛠️ Skills Métiers & Craft",
+      "description": "La confection d'objets de type bijoux peut monter jusqu'au niveau \"épique\". Augmente les chances d'obtenir des bonus sur bagues, colliers & bijoux.",
+      "cost_mp": "Passif",
+      "condition": "Avoir \"Joallier\"",
+      "palier": "Palier 1"
     }
   }
 }

@@ -88,12 +88,14 @@ CREATE TABLE IF NOT EXISTS characters (
   mp           REAL,
   mp_max       REAL,
   xp           INTEGER DEFAULT 0,
+  xp_next      INTEGER,
   level        INTEGER DEFAULT 1,
   STR          REAL DEFAULT 0,
   AGI          REAL DEFAULT 0,
   INT          REAL DEFAULT 0,
   DEX          REAL DEFAULT 0,
   VIT          REAL DEFAULT 0,
+  gold         INTEGER DEFAULT 0,
   stat_points  INTEGER DEFAULT 100
 );
 

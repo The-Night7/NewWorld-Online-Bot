@@ -49,6 +49,9 @@ class Character:
         )
         skills = [r["skill_id"] for r in skills_rows]
 
+        # Utiliser l'accès par clé avec une vérification pour stat_points
+        stat_points = row["stat_points"] if "stat_points" in row.keys() else 0
+
         return cls(
             user_id=row["user_id"],
             name=row["name"],
@@ -65,7 +68,7 @@ class Character:
             dex=float(row["DEX"]),
             vit=float(row["VIT"]),
             gold=row["gold"],
-            stat_points=row.get("stat_points", 0),
+            stat_points=stat_points,
             skills=skills,
         )
 

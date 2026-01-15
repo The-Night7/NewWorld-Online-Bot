@@ -37,6 +37,9 @@ class CharacterCog(commands.Cog):
         embed.add_field(name="XP", value=f"{character.xp}/{character.xp_next}", inline=True)
         embed.add_field(name="Or", value=str(character.gold), inline=True)
         
+        # Points de statistiques disponibles
+        embed.add_field(name="Points à attribuer", value=f"**{character.stat_points}**", inline=False)
+        
         # Statistiques
         embed.add_field(name="HP", value=f"{int(character.hp)}/{int(character.hp_max)}", inline=True)
         embed.add_field(name="MP", value=f"{int(character.mp)}/{int(character.mp_max)}", inline=True)
@@ -278,6 +281,68 @@ class CharacterCog(commands.Cog):
             return
         
         await interaction.followup.send(f"Vous avez déséquipé {item_def.name}.")
+    
+    @app_commands.command(name="assign", description="Attribuer des points de caractéristiques")
+    @app_commands.describe(stat="La stat à augmenter", amount="Nombre de points à dépenser")
+    @app_commands.choices(stat=[
+        app_commands.Choice(name="Force (STR)", value="STR"),
+        app_commands.Choice(name="Agilité (AGI)", value="AGI"),
+        app_commands.Choice(name="Intelligence (INT)", value="INT"),
+        app_commands.Choice(name="Dextérité (DEX)", value="DEX"),
+        app_commands.Choice(name="Vitalité (VIT)", value="VIT")
+    ])
+    async def assign_stats(self, interaction: discord.Interaction, stat: str, amount: int):
+        """Attribue des points de caractéristiques"""
+        await interaction.response.defer()
+        
+        if amount <= 0:
+            await interaction.followup.send("Le montant doit être positif.")
+            return
+        
+        user_id = interaction.user.id
+        character = await get_or_create_character(self.bot.db, user_id, interaction.user.display_name)
+        
+        if character.stat_points < amount:
+            await interaction.followup.send(f"Pas assez de points. Vous en avez {character.stat_points}.")
+            return
+        
+        # Mise à jour de la stat
+        current_val = getattr(character, stat)
+        setattr(character, stat, current_val + amount)
+        character.stat_points -= amount
+        
+        # Sauvegarde
+        await character.save_to_db(self.bot.db)
+        
+        await interaction.followup.send(f"✅ Vous avez ajouté {amount} points en {stat}. Points restants : {character.stat_points}")
+    
+    @app_commands.command(name="admin_set", description="ADMIN: Modifier directement les stats d'un joueur")
+    @app_commands.describe(
+        target="L'utilisateur dont vous voulez modifier les stats",
+        stat="La stat à modifier",
+        value="La nouvelle valeur"
+    )
+    @app_commands.default_permissions(administrator=True)
+    async def admin_set_stat(self, interaction: discord.Interaction, target: discord.User, stat: str, value: float):
+        """Permet de définir n'importe quelle valeur (HP, MP, STR, Points, XP, etc.)"""
+        await interaction.response.defer()
+        
+        valid_stats = ["hp", "hp_max", "mp", "mp_max", "xp", "level", "STR", "AGI", "INT", "DEX", "VIT", "stat_points", "gold"]
+        stat = stat.upper() if stat.lower() in ["str", "agi", "int", "dex", "vit"] else stat.lower()
+        
+        if stat not in valid_stats:
+            await interaction.followup.send(f"Stat invalide. Choix: {', '.join(valid_stats)}")
+            return
+        
+        character = await get_or_create_character(self.bot.db, target.id, target.display_name)
+        
+        # Modifier la stat
+        setattr(character, stat, value)
+        
+        # Sauvegarder les modifications
+        await character.save_to_db(self.bot.db)
+        
+        await interaction.followup.send(f"✅ ADMIN: {stat} de {target.display_name} défini à {value}.")
 
 
 async def setup(bot):

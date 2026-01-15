@@ -82,20 +82,19 @@ CREATE TABLE IF NOT EXISTS items (
 
 CREATE TABLE IF NOT EXISTS characters (
   user_id      INTEGER PRIMARY KEY,
-  name         TEXT NOT NULL,
-  level        INTEGER DEFAULT 1,
+  name         TEXT,
+  hp           REAL,
+  hp_max       REAL,
+  mp           REAL,
+  mp_max       REAL,
   xp           INTEGER DEFAULT 0,
-  xp_next      INTEGER DEFAULT 100,
-  hp           REAL NOT NULL,
-  hp_max       REAL NOT NULL,
-  mp           REAL NOT NULL,
-  mp_max       REAL NOT NULL,
-  STR          REAL NOT NULL,
-  AGI          REAL NOT NULL,
-  INT          REAL NOT NULL,
-  DEX          REAL NOT NULL,
-  VIT          REAL NOT NULL,
-  gold         INTEGER DEFAULT 0
+  level        INTEGER DEFAULT 1,
+  STR          REAL DEFAULT 0,
+  AGI          REAL DEFAULT 0,
+  INT          REAL DEFAULT 0,
+  DEX          REAL DEFAULT 0,
+  VIT          REAL DEFAULT 0,
+  stat_points  INTEGER DEFAULT 100
 );
 
 CREATE TABLE IF NOT EXISTS inventories (

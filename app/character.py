@@ -1,4 +1,4 @@
-# app/character.py (VERSION SANS skill_points)
+# app/character.py (VERSION AVEC stat_points)
 
 from __future__ import annotations
 
@@ -12,22 +12,25 @@ logger = logging.getLogger('bofuri.character')
 
 @dataclass
 class Character:
-    user_id: int
-    name: str
-    level: int
-    xp: int
-    xp_next: int
-    hp: float
-    hp_max: float
-    mp: float
-    mp_max: float
-    STR: float
-    AGI: float
-    INT: float
-    DEX: float
-    VIT: float
-    gold: int
-    skills: List[str] = field(default_factory=list)
+    def __init__(self, user_id, name, level, xp, xp_next, hp, hp_max, mp, mp_max,
+                 str_, agi, int_, dex, vit, gold=0, stat_points=0, skills=None):
+        self.user_id = user_id
+        self.name = name
+        self.level = level
+        self.xp = xp
+        self.xp_next = xp_next
+        self.hp = hp
+        self.hp_max = hp_max
+        self.mp = mp
+        self.mp_max = mp_max
+        self.STR = str_  # Uniformisation des noms d'attributs
+        self.AGI = agi
+        self.INT = int_
+        self.DEX = dex
+        self.VIT = vit
+        self.gold = gold
+        self.stat_points = stat_points
+        self.skills = skills or []
 
     @classmethod
     async def from_db(cls, db, user_id: int) -> Optional["Character"]:
@@ -56,12 +59,13 @@ class Character:
             hp_max=float(row["hp_max"]),
             mp=float(row["mp"]),
             mp_max=float(row["mp_max"]),
-            STR=float(row["STR"]),
-            AGI=float(row["AGI"]),
-            INT=float(row["INT"]),
-            DEX=float(row["DEX"]),
-            VIT=float(row["VIT"]),
+            str_=float(row["STR"]),
+            agi=float(row["AGI"]),
+            int_=float(row["INT"]),
+            dex=float(row["DEX"]),
+            vit=float(row["VIT"]),
             gold=row["gold"],
+            stat_points=row.get("stat_points", 0),
             skills=skills,
         )
 
@@ -70,8 +74,8 @@ class Character:
         await db.execute(
             """
             INSERT OR REPLACE INTO characters
-            (user_id, name, level, xp, xp_next, hp, hp_max, mp, mp_max, STR, AGI, INT, DEX, VIT, gold)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (user_id, name, level, xp, xp_next, hp, hp_max, mp, mp_max, STR, AGI, INT, DEX, VIT, gold, stat_points)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 int(self.user_id),
@@ -89,6 +93,7 @@ class Character:
                 float(self.DEX),
                 float(self.VIT),
                 int(self.gold),
+                int(self.stat_points),
             )
         )
         await db.commit()
@@ -106,13 +111,14 @@ async def create_character(db, user_id: int, name: str) -> Character:
         hp_max=100.0,
         mp=50.0,
         mp_max=50.0,
-        STR=10.0,
-        AGI=10.0,
-        INT=10.0,
-        DEX=10.0,
-        VIT=10.0,
+        str_=10.0,
+        agi=10.0,
+        int_=10.0,
+        dex=10.0,
+        vit=10.0,
         gold=0,
-    )
+        stat_points=0,
+            )
     await character.save_to_db(db)
     return character
 
@@ -121,12 +127,14 @@ async def get_character(db, user_id: int) -> Optional[Character]:
     """Retrieve a character from the database."""
     return await Character.from_db(db, user_id)
 
+
 async def get_or_create_character(db, user_id: int, name: str) -> Character:
     """Récupère un personnage ou en crée un nouveau s'il n'existe pas."""
     character = await get_character(db, user_id)
     if character is None:
         character = await create_character(db, user_id, name)
     return character
+
 
 async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int]:
     """
@@ -158,6 +166,8 @@ async def add_xp(db, user_id: int, xp_amount: int) -> Tuple[Character, bool, int
         # Increase base stats with level
         character.hp_max += 10.0
 
+        # Add stat points when leveling up
+        character.stat_points += 5
     await character.save_to_db(db)
     return character, leveled_up, levels_gained
 
@@ -180,14 +190,14 @@ class InventoryItem:
             quantity=row["quantity"],
             equipped=bool(row["equipped"]),
             properties=json.loads(row["properties"]) if row["properties"] else {},
-            )
+        )
 
 
 async def get_inventory(db, user_id: int) -> List[InventoryItem]:
     rows = await db.execute_fetchall(
         "SELECT * FROM inventories WHERE character_id = ? ORDER BY id",
         (int(user_id),)
-        )
+    )
     return [InventoryItem.from_db_row(r) for r in rows]
 
 
@@ -198,12 +208,12 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
     existing_item = await db.execute_fetchone(
         "SELECT id, quantity FROM inventories WHERE character_id = ? AND item_id = ?",
         (int(user_id), str(item_id))
-        )
+    )
 
     if existing_item:
         await db.execute(
-            "UPDATE inventories SET quantity = quantity + ? WHERE id = ?",
-            (int(quantity), int(existing_item["id"]))
+                "UPDATE inventories SET quantity = quantity + ? WHERE id = ?",
+                (int(quantity), int(existing_item["id"]))
         )
     else:
         await db.execute(
@@ -212,8 +222,7 @@ async def add_item_to_inventory(db, user_id: int, item_id: str, quantity: int = 
             VALUES (?, ?, ?, 0, ?)
             """,
             (int(user_id), str(item_id), int(quantity), json.dumps(properties))
-        )
-
+    )
     await db.commit()
 
 

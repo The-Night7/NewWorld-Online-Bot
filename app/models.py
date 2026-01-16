@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -18,3 +19,9 @@ class RuntimeEntity:
     INT: float
     DEX: float
     VIT: float
+    
+    # Attribut pour la gestion de la provocation/aggro
+    provoked_by: Optional['RuntimeEntity'] = None
+    
+    # Attribut pour identifier si l'entité est un mob ou un joueur
+    is_mob: bool = False

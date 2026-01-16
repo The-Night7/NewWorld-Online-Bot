@@ -25,8 +25,18 @@ class CombatSession:
         self.current_turn_index = 0
         self.user_id_to_entity: Dict[int, RuntimeEntity] = {}
         self.mob_name_to_entity: Dict[str, RuntimeEntity] = {}
-        self.entity_to_user_id: Dict[RuntimeEntity, int] = {}
-        self.entity_to_mob_name: Dict[RuntimeEntity, str] = {}
+        # Utiliser des identifiants uniques comme clés au lieu des objets RuntimeEntity
+        self._entity_id_counter = 0
+        self.entity_ids: Dict[RuntimeEntity, int] = {}
+        self.id_to_user_id: Dict[int, int] = {}
+        self.id_to_mob_name: Dict[int, str] = {}
+    
+    def _get_entity_id(self, entity: RuntimeEntity) -> int:
+        """Attribue un ID unique à une entité si elle n'en a pas déjà un"""
+        if entity not in self.entity_ids:
+            self._entity_id_counter += 1
+            self.entity_ids[entity] = self._entity_id_counter
+        return self.entity_ids[entity]
     
     @property
     def current_actor(self) -> Optional[RuntimeEntity]:
@@ -48,7 +58,10 @@ class CombatSession:
                 entity.is_mob = False
                 self.participants.append(entity)
                 self.user_id_to_entity[int(user_id)] = entity
-                self.entity_to_user_id[entity] = int(user_id)
+                
+                # Stocker l'ID utilisateur avec l'ID d'entité
+                entity_id = self._get_entity_id(entity)
+                self.id_to_user_id[entity_id] = int(user_id)
             except Exception as e:
                 logger.error(f"Erreur lors du chargement du joueur {user_id}: {e}")
         
@@ -61,7 +74,10 @@ class CombatSession:
                 entity.is_mob = True
                 self.participants.append(entity)
                 self.mob_name_to_entity[mob_name] = entity
-                self.entity_to_mob_name[entity] = mob_name
+                
+                # Stocker le nom du mob avec l'ID d'entité
+                entity_id = self._get_entity_id(entity)
+                self.id_to_mob_name[entity_id] = mob_name
             except Exception as e:
                 logger.error(f"Erreur lors du chargement du mob {mob_row['mob_name']}: {e}")
         
@@ -121,7 +137,9 @@ class CombatSession:
         
         # Sauvegarder les HP de la cible si c'est un joueur
         if not target.is_mob:
-            user_id = self.entity_to_user_id.get(target)
+            # Utiliser l'ID d'entité pour récupérer l'ID utilisateur
+            entity_id = self._get_entity_id(target)
+            user_id = self.id_to_user_id.get(entity_id)
             if user_id:
                 await save_player_hp(self.db, user_id, target.hp)
         
@@ -146,6 +164,16 @@ class CombatSession:
         )
         
         await channel.send(embed=embed)
+
+    def get_user_id_for_entity(self, entity: RuntimeEntity) -> Optional[int]:
+        """Récupère l'ID utilisateur associé à une entité"""
+        entity_id = self._get_entity_id(entity)
+        return self.id_to_user_id.get(entity_id)
+    
+    def get_mob_name_for_entity(self, entity: RuntimeEntity) -> Optional[str]:
+        """Récupère le nom du mob associé à une entité"""
+        entity_id = self._get_entity_id(entity)
+        return self.id_to_mob_name.get(entity_id)
 
 async def get_or_create_session(db, thread_id: int) -> CombatSession:
     """Récupère ou crée une session de combat pour un thread donné"""

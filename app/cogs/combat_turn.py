@@ -73,7 +73,7 @@ class CombatTurnCog(commands.Cog):
             await session.execute_mob_turn(current_actor, thread)
             
             # Sauvegarder les changements si le mob a été modifié
-            mob_name = session.entity_to_mob_name.get(current_actor)
+            mob_name = session.get_mob_name_for_entity(current_actor)
             if mob_name:
                 await save_mob_hp(self.bot.db, thread_id, mob_name, current_actor.hp)
             
@@ -96,7 +96,7 @@ class CombatTurnCog(commands.Cog):
             await asyncio.sleep(1)
         
         # Une fois que c'est à un joueur de jouer, on notifie
-        user_id = session.entity_to_user_id.get(current_actor)
+        user_id = session.get_user_id_for_entity(current_actor)
         if user_id:
             user_mention = f"<@{user_id}>"
             await interaction.followup.send(f"👉 C'est au tour de {user_mention} ({current_actor.name}) !")
@@ -167,7 +167,7 @@ class CombatTurnCog(commands.Cog):
         if current_actor.is_mob:
             await interaction.response.send_message(f"🎲 C'est au tour de **{current_actor.name}** (mob).")
         else:
-            user_id = session.entity_to_user_id.get(current_actor)
+            user_id = session.get_user_id_for_entity(current_actor)
             if user_id:
                 user_mention = f"<@{user_id}>"
                 await interaction.response.send_message(f"👉 C'est au tour de {user_mention} ({current_actor.name}).")

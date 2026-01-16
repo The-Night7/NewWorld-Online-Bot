@@ -3,10 +3,14 @@ from discord import app_commands
 from discord.ext import commands
 import random
 import math
+import logging
+from typing import Dict, List, Optional, Tuple, Any
 from ..character import get_character, add_item_to_inventory
 from ..dice import d100
 import json
 import os
+
+logger = logging.getLogger('bofuri.professions')
 
 # Mapping des salons vers les types de ressources
 ZONE_PROFESSIONS = {
@@ -24,12 +28,57 @@ ZONE_PROFESSIONS = {
     1398193027893432361: "mining.grotte",       # donjon palier grotte
 }
 
+# Tables de butin pour chaque type de récolte
+LOOT_TABLES = {
+    "harvesting": {
+        "foret": [
+            {"range": (1, 50), "item_id": "plante_medicinale", "name": "Plante médicinale de soin", "emoji": "🌿"},
+            {"range": (51, 80), "item_id": "plante_antipoison", "name": "Plante anti-poison", "emoji": "🌿"},
+            {"range": (81, 97), "item_id": "plante_antiparalysie", "name": "Plante anti-paralysie", "emoji": "🌿"},
+            {"range": (98, 100), "item_id": "plante_vie", "name": "Plante de la vie", "emoji": "🌿"}
+        ],
+        "plaines": [
+            {"range": (1, 40), "item_id": "herbe_commune", "name": "Herbe commune", "emoji": "🌾"},
+            {"range": (41, 70), "item_id": "fleur_sauvage", "name": "Fleur sauvage", "emoji": "🌼"},
+            {"range": (71, 90), "item_id": "champignon", "name": "Champignon", "emoji": "🍄"},
+            {"range": (91, 100), "item_id": "baies_rouges", "name": "Baies rouges", "emoji": "🍒"}
+        ],
+        "hante": [
+            {"range": (1, 40), "item_id": "herbe_spectrale", "name": "Herbe spectrale", "emoji": "👻"},
+            {"range": (41, 70), "item_id": "champignon_toxique", "name": "Champignon toxique", "emoji": "☠️"},
+            {"range": (71, 90), "item_id": "fleur_nocturne", "name": "Fleur nocturne", "emoji": "🌙"},
+            {"range": (91, 99), "item_id": "racine_maudite", "name": "Racine maudite", "emoji": "🌑"},
+            {"range": (100, 100), "item_id": "coeur_fantome", "name": "Cœur de fantôme", "emoji": "💔"}
+        ]
+    },
+    "mining": {
+        "grotte": [
+            {"range": (1, 30), "item_id": "minerai_roche", "name": "Minerai de roche", "emoji": "🪨"},
+            {"range": (31, 50), "item_id": "minerai_cuivre", "name": "Minerai de cuivre", "emoji": "🧱"},
+            {"range": (51, 80), "item_id": "pierre_mana", "name": "Pierre de mana", "emoji": "💎"},
+            {"range": (81, 95), "item_id": "minerai_fer", "name": "Minerai de fer", "emoji": "⚙️"},
+            {"range": (96, 100), "item_id": "minerai_or", "name": "Minerai d'or", "emoji": "✨"}
+        ]
+    },
+    "fishing": {
+        "lac": [
+            {"range": (1, 30), "item_id": "poisson_commun", "name": "Poisson commun", "emoji": "🐟"},
+            {"range": (31, 50), "item_id": "vieille_botte", "name": "Vieille botte", "emoji": "👢"},
+            {"range": (51, 80), "item_id": "saumon_dore", "name": "Saumon doré", "emoji": "🐠"},
+            {"range": (81, 95), "item_id": "coffre_tresor", "name": "Coffre au trésor", "emoji": "🧰"},
+            {"range": (96, 99), "item_id": "poisson_rare", "name": "Poisson rare", "emoji": "🐡"},
+            {"range": (100, 100), "item_id": "monstre_marin", "name": "Monstre marin", "emoji": "🐙", "special": "combat"}
+        ]
+    }
+}
+
 class ProfessionsCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.resources_data = self._load_resources()
 
-    def _load_resources(self):
+    def _load_resources(self) -> Dict:
+        """Charge les données des ressources depuis le fichier JSON"""
         path = os.path.join("app", "professions_items.json")
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
@@ -37,13 +86,27 @@ class ProfessionsCog(commands.Cog):
         return {}
 
     def get_quality(self, roll: int) -> str:
+        """Détermine la qualité d'un craft en fonction du jet de dé"""
         if roll >= 100: return "✨ Qualité supérieure"
         if roll > 95: return "💎 Haute qualité"
         if roll > 85: return "🌟 Bonne qualité"
         if roll >= 25: return "📦 Qualité standard"
         return "❌ Échec"
 
-    @app_commands.command(name="recolte", description="Récolter des ressources automatiquement selon le lieu")
+    def get_loot_from_table(self, category: str, subcategory: str, roll: int) -> Optional[Dict[str, Any]]:
+        """Récupère un item de butin depuis les tables prédéfinies en fonction du jet de dé"""
+        if category not in LOOT_TABLES or subcategory not in LOOT_TABLES[category]:
+            return None
+            
+        table = LOOT_TABLES[category][subcategory]
+        for item in table:
+            min_val, max_val = item["range"]
+            if min_val <= roll <= max_val:
+                return item
+                
+        return None
+
+    @app_commands.command(name="recolte", description="Récolter des ressources selon le lieu (Herboristerie, Minage, Pêche)")
     async def recolte(self, interaction: discord.Interaction):
         """Détecte le lieu et lance la récolte appropriée"""
         await interaction.response.defer()
@@ -52,9 +115,9 @@ class ProfessionsCog(commands.Cog):
         zone_key = ZONE_PROFESSIONS.get(channel_id)
         
         if not zone_key or "." not in zone_key:
-            return await interaction.followup.send("Il n'y a rien à récolter ici ou la zone est mal configurée (si t'es pas con c'est @nightofkarma qui est conne, si tu l'es et que tu la ping c'est warn).", ephemeral=True)
+            return await interaction.followup.send("Il n'y a rien à récolter ici.", ephemeral=True)
 
-        category, subcat = zone_key.split(".", 1)
+        category, subcategory = zone_key.split(".", 1)
         
         char = await get_character(self.bot.db, interaction.user.id)
         if not char:
@@ -64,32 +127,23 @@ class ProfessionsCog(commands.Cog):
         if channel_id == 1398617871588003870:  # Lac de Crystal
             return await self.handle_crystal_lake(interaction, char)
 
-        # Logique générique pour les autres zones (Herboristerie, Minage, etc.)
-        available_items = self.resources_data.get(category, {}).get(subcat, [])
-        if not available_items:
-            return await interaction.followup.send("Erreur: Table de loot vide pour cette zone.")
-
-        char = await get_character(self.bot.db, interaction.user.id)
-        if not char:
-            return await interaction.followup.send("Personnage introuvable. Utilisez /profile.")
-
         # Calcul du jet (DEX pour tout, ou INT pour les zones hantées)
-        stat_val = char.INT if subcat == "hante" else char.DEX
+        stat_val = char.INT if subcategory == "hante" else char.DEX
         bonus = math.floor(stat_val / 10)
-        roll = d100()
-        total = roll + bonus
+        base_roll = d100()
+        total = base_roll + bonus
 
-        embed = discord.Embed(color=discord.Color.green())
+        # Récupération de l'item depuis la table de butin
+        loot_item = self.get_loot_from_table(category, subcategory, base_roll)
         
-        if roll <= 10: # Échec critique sur le dé pur
-            await interaction.followup.send("❌ Vous n'avez rien trouvé d'intéressant.")
-        else:
+        if not loot_item:
+            # Fallback sur les anciennes tables si la nouvelle table n'est pas disponible
+            available_items = self.resources_data.get(category, {}).get(subcategory, [])
+            if not available_items:
+                return await interaction.followup.send("❌ Vous ne trouvez rien d'intéressant cette fois-ci...", ephemeral=True)
+                
             # Sélection de l'item basé sur les chances dans le JSON
             item_pool = sorted(available_items, key=lambda x: x.get('chance', 0))
-            
-            if not item_pool:
-                return await interaction.followup.send("❌ Aucun objet n'est disponible dans cette zone actuellement.")
-
             rand_chance = random.randint(1, 100)
             current_sum = 0
             selected_item = None
@@ -102,18 +156,47 @@ class ProfessionsCog(commands.Cog):
                 
             # Fallback if sum logic fails or rand_chance is high
             if not selected_item:
-                selected_item = item_pool[-1]
-            
-            # Safety check for required keys
-            if 'id' not in selected_item or 'name' not in selected_item:
-                return await interaction.followup.send("❌ Erreur : L'objet trouvé est corrompu.")
-
+                selected_item = item_pool[-1] if item_pool else None
+                
+            if not selected_item or 'id' not in selected_item or 'name' not in selected_item:
+                return await interaction.followup.send("❌ Vous ne trouvez rien d'intéressant cette fois-ci...", ephemeral=True)
+                
             # Ajout à l'inventaire
-            from ..character import add_item_to_inventory
             await add_item_to_inventory(self.bot.db, char.user_id, selected_item['id'], 1)
             
             action_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Récolte"
-            await interaction.followup.send(f"✨ **{action_name}** : Vous avez obtenu **{selected_item['name']}** !")
+            return await interaction.followup.send(f"✨ **{action_name}** : Vous avez obtenu **{selected_item['name']}** !")
+        
+        # Traitement des cas spéciaux
+        if loot_item.get("special") == "combat":
+            # Déclencher un combat contre un monstre marin
+            await interaction.followup.send(
+                f"{loot_item['emoji']} **{base_roll}/100** ! Oh non ! Vous avez pêché un **{loot_item['name']}** !\n"
+                "Préparez-vous au combat !"
+            )
+            # Ici on pourrait déclencher un combat automatiquement
+            return
+            
+        # Ajout de l'item à l'inventaire
+        await add_item_to_inventory(self.bot.db, char.user_id, loot_item["item_id"], 1)
+        
+        # Création de l'embed de réponse
+        color = discord.Color.green()
+        if base_roll > 80:
+            color = discord.Color.blue()
+        if base_roll > 95:
+            color = discord.Color.gold()
+            
+        embed = discord.Embed(title=f"{loot_item['emoji']} Récolte réussie !", color=color)
+        embed.add_field(name="Jet de dé", value=f"🎲 **{base_roll}**/100 (+{bonus} bonus)", inline=True)
+        embed.add_field(name="Total", value=str(total), inline=True)
+        embed.add_field(name="Butin", value=f"**{loot_item['name']}**", inline=False)
+        
+        profession_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Herboristerie"
+        stat_name = "INT" if subcategory == "hante" else "DEX"
+        embed.set_footer(text=f"{profession_name} | {stat_name}: {stat_val}")
+        
+        await interaction.followup.send(embed=embed)
 
     async def handle_crystal_lake(self, interaction: discord.Interaction, char):
         """Gestion spécifique du Lac de Crystal : Coquillages, Pêche et Pendentif"""
@@ -186,5 +269,78 @@ class ProfessionsCog(commands.Cog):
         
         await interaction.followup.send(embed=embed)
 
+    @app_commands.command(name="peche", description="Pêcher dans un point d'eau")
+    async def peche(self, interaction: discord.Interaction):
+        """Commande dédiée à la pêche"""
+        await interaction.response.defer()
+        
+        channel_id = interaction.channel_id
+        zone_key = ZONE_PROFESSIONS.get(channel_id)
+        
+        if not zone_key or not zone_key.startswith("fishing"):
+            return await interaction.followup.send("Il n'y a pas d'eau où pêcher ici.", ephemeral=True)
+        
+        char = await get_character(self.bot.db, interaction.user.id)
+        if not char:
+            return await interaction.followup.send("Personnage introuvable. Utilisez /profile.")
+        
+        # Cas spécial du Lac de Crystal
+        if channel_id == 1398617871588003870:  # Lac de Crystal
+            roll_activity = d100()
+            
+            # Tentative de Drop très rare (Pendentif de la sirène)
+            success_threshold = 98 if char.DEX >= 30 else 100
+            if roll_activity >= success_threshold:
+                await add_item_to_inventory(self.bot.db, char.user_id, "pendentif_sirene", 1)
+                return await interaction.followup.send("💖 **INCROYABLE !** Vous avez pêché le **Pendentif de la sirène amoureuse** !")
+            
+            # Pêche normale
+            if roll_activity <= 30:
+                await add_item_to_inventory(self.bot.db, char.user_id, "poisson_chat", 1)
+                return await interaction.followup.send("🐟 **Pêche** : Un **Poisson-chat** a mordu à l'hameçon !")
+            else:
+                return await interaction.followup.send("🎣 Rien ne mord... Le lac est calme.")
+        
+        # Pêche standard dans les autres zones
+        _, subcategory = zone_key.split(".", 1)
+        
+        # Bonus de DEX
+        bonus = math.floor(char.DEX / 10)
+        base_roll = d100()
+        total = base_roll + bonus
+        
+        loot_item = self.get_loot_from_table("fishing", subcategory, base_roll)
+        
+        if not loot_item:
+            return await interaction.followup.send("🎣 Vous n'avez rien attrapé cette fois-ci...", ephemeral=True)
+        
+        # Cas spécial du monstre marin
+        if loot_item.get("special") == "combat":
+            await interaction.followup.send(
+                f"{loot_item['emoji']} **{base_roll}/100** ! Oh non ! Vous avez pêché un **{loot_item['name']}** !\n"
+                "Préparez-vous au combat !"
+            )
+            # Ici on pourrait déclencher un combat automatiquement
+            return
+        
+        # Ajout de l'item à l'inventaire
+        await add_item_to_inventory(self.bot.db, char.user_id, loot_item["item_id"], 1)
+        
+        # Création de l'embed de réponse
+        color = discord.Color.green()
+        if base_roll > 80:
+            color = discord.Color.blue()
+        if base_roll > 95:
+            color = discord.Color.gold()
+            
+        embed = discord.Embed(title=f"{loot_item['emoji']} Pêche réussie !", color=color)
+        embed.add_field(name="Jet de dé", value=f"🎲 **{base_roll}**/100 (+{bonus} bonus)", inline=True)
+        embed.add_field(name="Total", value=str(total), inline=True)
+        embed.add_field(name="Butin", value=f"**{loot_item['name']}**", inline=False)
+        embed.set_footer(text=f"Pêche | DEX: {char.DEX}")
+        
+        await interaction.followup.send(embed=embed)
+
 async def setup(bot):
     await bot.add_cog(ProfessionsCog(bot))
+    logger.info("ProfessionsCog chargé")

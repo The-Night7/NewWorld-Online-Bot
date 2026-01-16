@@ -25,18 +25,21 @@ class CombatSession:
         self.current_turn_index = 0
         self.user_id_to_entity: Dict[int, RuntimeEntity] = {}
         self.mob_name_to_entity: Dict[str, RuntimeEntity] = {}
-        # Utiliser des identifiants uniques comme clés au lieu des objets RuntimeEntity
+        
+        # Utiliser des noms (strings) comme clés au lieu des objets RuntimeEntity
         self._entity_id_counter = 0
-        self.entity_ids: Dict[RuntimeEntity, int] = {}
-        self.id_to_user_id: Dict[int, int] = {}
-        self.id_to_mob_name: Dict[int, str] = {}
+        self.entity_name_to_id: Dict[str, int] = {}  # Nom d'entité -> ID unique
+        self.id_to_user_id: Dict[int, int] = {}      # ID unique -> ID utilisateur
+        self.id_to_mob_name: Dict[int, str] = {}     # ID unique -> Nom du mob
     
     def _get_entity_id(self, entity: RuntimeEntity) -> int:
         """Attribue un ID unique à une entité si elle n'en a pas déjà un"""
-        if entity not in self.entity_ids:
+        # Utiliser le nom de l'entité comme clé (string hashable)
+        name = entity.name
+        if name not in self.entity_name_to_id:
             self._entity_id_counter += 1
-            self.entity_ids[entity] = self._entity_id_counter
-        return self.entity_ids[entity]
+            self.entity_name_to_id[name] = self._entity_id_counter
+        return self.entity_name_to_id[name]
     
     @property
     def current_actor(self) -> Optional[RuntimeEntity]:

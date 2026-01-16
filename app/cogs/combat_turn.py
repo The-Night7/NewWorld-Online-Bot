@@ -9,7 +9,7 @@ from typing import Dict, Optional
 
 from ..combat_session_manager import CombatSession, get_or_create_session
 from ..combat_session import combat_is_active, log_add
-from ..combat_mobs import save_mob_hp
+from ..combat_mobs import save_mob_hp, cleanup_dead_mobs
 from ..cogs.combat import save_player_hp
 
 logger = logging.getLogger('bofuri.combat_turn')
@@ -53,8 +53,15 @@ class CombatTurnCog(commands.Cog):
         # Récupérer la session de combat
         session = await self._get_or_create_session(thread_id)
         
+        # Nettoyer les mobs morts avant de commencer
+        await cleanup_dead_mobs(self.bot.db, thread_id)
+        
         # Passer au tour suivant
-        session.advance_turn()
+        found_next_actor = session.advance_turn()
+        if not found_next_actor:
+            await interaction.followup.send("⚠️ Impossible de trouver un participant en vie pour le prochain tour.")
+            return
+            
         current_actor = session.current_actor
         
         if not current_actor:
@@ -62,7 +69,7 @@ class CombatTurnCog(commands.Cog):
             return
         
         # Boucle pour gérer les tours des mobs automatiquement
-        while current_actor.is_mob:
+        while current_actor.is_mob and current_actor.hp > 0:
             # Ajouter un message pour indiquer que c'est au tour du mob
             await thread.send(f"🎲 C'est au tour de **{current_actor.name}**...")
             
@@ -77,6 +84,9 @@ class CombatTurnCog(commands.Cog):
             if mob_name:
                 await save_mob_hp(self.bot.db, thread_id, mob_name, current_actor.hp)
             
+            # Nettoyer les mobs morts
+            await cleanup_dead_mobs(self.bot.db, thread_id)
+            
             # Vérifier si le combat est terminé (tous les joueurs sont KO)
             alive_players = [p for p in session.participants if not p.is_mob and p.hp > 0]
             if not alive_players:
@@ -89,13 +99,22 @@ class CombatTurnCog(commands.Cog):
                 return
             
             # Passer au tour suivant
-            session.advance_turn()
+            found_next_actor = session.advance_turn()
+            if not found_next_actor:
+                await thread.send("⚠️ Plus aucun participant en vie pour continuer le combat.")
+                return
+                
             current_actor = session.current_actor
             
             # Pause entre les tours de mobs pour éviter le spam
             await asyncio.sleep(1)
         
         # Une fois que c'est à un joueur de jouer, on notifie
+        # Vérifier que le joueur est en vie (par sécurité)
+        if not current_actor or current_actor.hp <= 0:
+            await interaction.followup.send("⚠️ Le joueur suivant n'est plus en vie. Utilisez `/next_turn` à nouveau.")
+            return
+            
         user_id = session.get_user_id_for_entity(current_actor)
         if user_id:
             user_mention = f"<@{user_id}>"
@@ -127,11 +146,21 @@ class CombatTurnCog(commands.Cog):
         if not mob_entity:
             await interaction.response.send_message(f"Mob introuvable: **{mob_name}**. Utilisez `/mob_list`.", ephemeral=True)
             return
+            
+        # Vérifier que le mob est en vie
+        if mob_entity.hp <= 0:
+            await interaction.response.send_message(f"**{mob_name}** est déjà mort et ne peut pas être provoqué.", ephemeral=True)
+            return
         
         # Récupérer l'entité du joueur
         player_entity = session.user_id_to_entity.get(interaction.user.id)
         if not player_entity:
             await interaction.response.send_message("Vous n'êtes pas un participant de ce combat.", ephemeral=True)
+            return
+            
+        # Vérifier que le joueur est en vie
+        if player_entity.hp <= 0:
+            await interaction.response.send_message("Vous ne pouvez pas provoquer un mob lorsque vous êtes KO.", ephemeral=True)
             return
         
         # Provoquer le mob
@@ -161,6 +190,11 @@ class CombatTurnCog(commands.Cog):
         current_actor = session.current_actor
         if not current_actor:
             await interaction.response.send_message("Aucun participant dans ce combat.")
+            return
+            
+        # Vérifier que l'acteur actuel est en vie
+        if current_actor.hp <= 0:
+            await interaction.response.send_message("⚠️ Le tour actuel est attribué à un participant KO. Utilisez `/next_turn` pour passer au suivant.")
             return
         
         # Afficher de qui c'est le tour

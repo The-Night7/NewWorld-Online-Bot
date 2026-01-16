@@ -14,6 +14,10 @@ from .cogs.combat import save_player_hp, fetch_player_entity
 
 logger = logging.getLogger('bofuri.combat_session')
 
+class CombatError(Exception):
+    """Exception spécifique aux erreurs de combat"""
+    pass
+
 class CombatSession:
     """
     Classe qui gère l'état d'un combat et la logique du tour des mobs
@@ -87,12 +91,32 @@ class CombatSession:
         # Trier les participants par AGI (décroissant)
         self.participants.sort(key=lambda x: x.AGI, reverse=True)
     
-    def advance_turn(self) -> None:
-        """Passe au participant suivant"""
+    def advance_turn(self) -> bool:
+        """
+        Passe au participant suivant qui est encore en vie.
+        Retourne True si un participant vivant a été trouvé, False sinon.
+        """
         if not self.participants:
-            return
+            return False
+        
+        # On boucle pour trouver le prochain VIVANT
+        # On ajoute une sécurité (max_loops) pour éviter une boucle infinie si tout le monde est mort
+        max_loops = len(self.participants) + 1
+        loops = 0
+        
+        while loops < max_loops:
+            # Passage à l'index suivant
+            self.current_turn_index = (self.current_turn_index + 1) % len(self.participants)
+            candidate = self.participants[self.current_turn_index]
             
-        self.current_turn_index = (self.current_turn_index + 1) % len(self.participants)
+            # Si le candidat est en vie, c'est bon, on arrête de chercher
+            if candidate.hp > 0:
+                return True
+                
+            loops += 1
+        
+        # Si on arrive ici, c'est que tout le monde est mort ou bug
+        return False
     
     def get_mob_target(self, mob_entity: RuntimeEntity) -> Optional[RuntimeEntity]:
         """
@@ -118,6 +142,11 @@ class CombatSession:
     
     async def execute_mob_turn(self, mob_entity: RuntimeEntity, channel: discord.TextChannel) -> None:
         """Exécute le tour d'un mob"""
+        # Sécurité: vérifier que le mob est en vie
+        if mob_entity.hp <= 0:
+            logger.warning(f"Tentative d'exécuter le tour d'un mob mort: {mob_entity.name}")
+            return
+            
         target = self.get_mob_target(mob_entity)
         
         if not target:

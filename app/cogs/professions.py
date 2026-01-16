@@ -106,7 +106,7 @@ class ProfessionsCog(commands.Cog):
                 
         return None
 
-    @app_commands.command(name="recolte", description="Récolter des ressources selon le lieu (Herboristerie, Minage, Pêche)")
+    @app_commands.command(name="recolte", description="Récolter des ressources selon le lieu (Quantité basée sur la DEX)")
     async def recolte(self, interaction: discord.Interaction):
         """Détecte le lieu et lance la récolte appropriée"""
         await interaction.response.defer()
@@ -132,6 +132,12 @@ class ProfessionsCog(commands.Cog):
         bonus = math.floor(stat_val / 10)
         base_roll = d100()
         total = base_roll + bonus
+
+        # Calcul de la quantité selon la DEX (1 + bonus)
+        # Pour la pêche, on garde 1 par défaut (sauf cas spéciaux)
+        quantity = 1
+        if category != "fishing":  # Pas de bonus de quantité pour la pêche standard
+            quantity = 1 + bonus
 
         # Récupération de l'item depuis la table de butin
         loot_item = self.get_loot_from_table(category, subcategory, base_roll)
@@ -161,11 +167,17 @@ class ProfessionsCog(commands.Cog):
             if not selected_item or 'id' not in selected_item or 'name' not in selected_item:
                 return await interaction.followup.send("❌ Vous ne trouvez rien d'intéressant cette fois-ci...", ephemeral=True)
                 
-            # Ajout à l'inventaire
-            await add_item_to_inventory(self.bot.db, char.user_id, selected_item['id'], 1)
+            # Ajout à l'inventaire (avec quantité basée sur DEX)
+            await add_item_to_inventory(self.bot.db, char.user_id, selected_item['id'], quantity)
             
             action_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Récolte"
-            return await interaction.followup.send(f"✨ **{action_name}** : Vous avez obtenu **{selected_item['name']}** !")
+            
+            # Message avec info sur la quantité
+            qty_text = f"**{quantity}x {selected_item['name']}**"
+            if quantity > 1:
+                qty_text += f" *(Base: 1 + Bonus {stat_name}: {bonus})*"
+                
+            return await interaction.followup.send(f"✨ **{action_name}** : Vous avez obtenu {qty_text} !")
         
         # Traitement des cas spéciaux
         if loot_item.get("special") == "combat":
@@ -177,8 +189,8 @@ class ProfessionsCog(commands.Cog):
             # Ici on pourrait déclencher un combat automatiquement
             return
             
-        # Ajout de l'item à l'inventaire
-        await add_item_to_inventory(self.bot.db, char.user_id, loot_item["item_id"], 1)
+        # Ajout de l'item à l'inventaire (avec quantité basée sur DEX)
+        await add_item_to_inventory(self.bot.db, char.user_id, loot_item["item_id"], quantity)
         
         # Création de l'embed de réponse
         color = discord.Color.green()
@@ -190,10 +202,18 @@ class ProfessionsCog(commands.Cog):
         embed = discord.Embed(title=f"{loot_item['emoji']} Récolte réussie !", color=color)
         embed.add_field(name="Jet de dé", value=f"🎲 **{base_roll}**/100 (+{bonus} bonus)", inline=True)
         embed.add_field(name="Total", value=str(total), inline=True)
-        embed.add_field(name="Butin", value=f"**{loot_item['name']}**", inline=False)
+        
+        # Affichage détaillé du butin avec quantité
+        qty_text = f"**{quantity}x {loot_item['name']}**"
+        stat_name = "INT" if subcategory == "hante" else "DEX"
+        
+        # Explication du calcul de quantité si > 1
+        if quantity > 1:
+            qty_text += f"\n*(Base: 1 + Bonus {stat_name}: {bonus})*"
+            
+        embed.add_field(name="Butin", value=qty_text, inline=False)
         
         profession_name = "Pêche" if category == "fishing" else "Minage" if category == "mining" else "Herboristerie"
-        stat_name = "INT" if subcategory == "hante" else "DEX"
         embed.set_footer(text=f"{profession_name} | {stat_name}: {stat_val}")
         
         await interaction.followup.send(embed=embed)
@@ -218,14 +238,27 @@ class ProfessionsCog(commands.Cog):
             
             step_b = d100()
             if step_b <= 20: # Rare (1-20)
-                qty = random.randint(1, 20)
+                # Pour les coquillages rares, on applique le bonus de DEX
+                base_qty = random.randint(1, 5)
+                bonus = math.floor(char.DEX / 10)
+                qty = base_qty + bonus
                 item_id, item_name = "coquillage_rare", "Coquillage Rare"
+                
+                # Message avec explication du bonus
+                qty_text = f"**{qty}x {item_name}**"
+                if bonus > 0:
+                    qty_text += f" *(Base: {base_qty} + Bonus DEX: {bonus})*"
+                
+                await add_item_to_inventory(self.bot.db, char.user_id, item_id, qty)
+                return await interaction.followup.send(f"🐚 **Ramassage** : Vous avez ramassé {qty_text} !")
             else: # Commun (21-100)
-                qty = min(200, random.randint(80, 100))
+                # Pour les coquillages communs, on garde la logique existante
+                base_qty = random.randint(80, 100)
+                qty = min(200, base_qty + (char.DEX // 5))  # Bonus plus important pour les communs
                 item_id, item_name = "coquillage_commun", "Coquillage"
-            
-            await add_item_to_inventory(self.bot.db, char.user_id, item_id, qty)
-            return await interaction.followup.send(f"🐚 **Ramassage** : Vous avez ramassé **{qty}x {item_name}** !")
+                
+                await add_item_to_inventory(self.bot.db, char.user_id, item_id, qty)
+                return await interaction.followup.send(f"🐚 **Ramassage** : Vous avez ramassé **{qty}x {item_name}** !")
         
         else:
             # --- PÊCHE ---
@@ -323,8 +356,14 @@ class ProfessionsCog(commands.Cog):
             # Ici on pourrait déclencher un combat automatiquement
             return
         
+        # Pour la pêche, on garde généralement 1 par défaut
+        # Sauf pour les coffres au trésor où on peut appliquer un bonus
+        quantity = 1
+        if loot_item["item_id"] == "coffre_tresor":
+            quantity = 1 + bonus
+        
         # Ajout de l'item à l'inventaire
-        await add_item_to_inventory(self.bot.db, char.user_id, loot_item["item_id"], 1)
+        await add_item_to_inventory(self.bot.db, char.user_id, loot_item["item_id"], quantity)
         
         # Création de l'embed de réponse
         color = discord.Color.green()
@@ -336,7 +375,13 @@ class ProfessionsCog(commands.Cog):
         embed = discord.Embed(title=f"{loot_item['emoji']} Pêche réussie !", color=color)
         embed.add_field(name="Jet de dé", value=f"🎲 **{base_roll}**/100 (+{bonus} bonus)", inline=True)
         embed.add_field(name="Total", value=str(total), inline=True)
-        embed.add_field(name="Butin", value=f"**{loot_item['name']}**", inline=False)
+        
+        # Affichage du butin avec quantité
+        qty_text = f"**{quantity}x {loot_item['name']}**"
+        if quantity > 1:
+            qty_text += f" *(Base: 1 + Bonus DEX: {bonus})*"
+            
+        embed.add_field(name="Butin", value=qty_text, inline=False)
         embed.set_footer(text=f"Pêche | DEX: {char.DEX}")
         
         await interaction.followup.send(embed=embed)

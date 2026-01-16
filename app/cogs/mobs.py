@@ -223,7 +223,9 @@ class MobsCog(commands.Cog):
         PASSIVE_SKILLS = {"perce_defense", "defense_absolue", "tueur_de_giant"}
         if skill_id in PASSIVE_SKILLS:
             return await interaction.response.send_message(f"`{skill_id}` est passif, il s'applique automatiquement.", ephemeral=True)
-        attacker = await fetch_player_entity(self.bot, interaction.user)
+            
+        # CORRECTION 1: Passer self.bot.db au lieu de self.bot
+        attacker = await fetch_player_entity(self.bot.db, interaction.user.id)
         defender = await fetch_mob_entity(self.bot.db, thread_id, mob_name)
 
         SKILL_DATA = {
@@ -254,8 +256,10 @@ class MobsCog(commands.Cog):
         riposte_result = None
         if defender.hp > 0:
             riposte_result = resolve_attack(defender, attacker, d20(), d20(), attack_type="phys")
-
-            await save_player_hp(self.bot, interaction.user.id, attacker.hp)
+            
+            # CORRECTION 2: Passer self.bot.db au lieu de self.bot
+            await save_player_hp(self.bot.db, interaction.user.id, attacker.hp)
+            
         await save_mob_hp(self.bot.db, thread_id, mob_name, defender.hp)
         await cleanup_dead_mobs(self.bot.db, thread_id)
 
@@ -269,7 +273,9 @@ class MobsCog(commands.Cog):
         if defender.hp <= 0:
             await add_xp(self.bot.db, interaction.user.id, 30)
             embed.add_field(name="Victoire", value="✨ Monstre vaincu ! +30 XP")
-            await interaction.response.send_message(embed=embed)
+            
+        # CORRECTION: Ajout du await manquant et changement de response.send_message à response.send_message
+        await interaction.response.send_message(embed=embed)
 
     @app_commands.command(name="atk_player", description="Attaque un joueur (commande conservée)")
     async def atk_player(
@@ -284,8 +290,9 @@ class MobsCog(commands.Cog):
             return
 
         try:
-            attacker = await fetch_player_entity(self.bot, interaction.user)
-            defender = await fetch_player_entity(self.bot, target)
+            # CORRECTION: Passer self.bot.db au lieu de self.bot
+            attacker = await fetch_player_entity(self.bot.db, interaction.user.id)
+            defender = await fetch_player_entity(self.bot.db, target.id)
         except ValueError as e:
             await interaction.response.send_message(str(e), ephemeral=True)
             return
@@ -294,8 +301,9 @@ class MobsCog(commands.Cog):
         rb = d20()
         result = resolve_attack(attacker, defender, ra, rb, attack_type=attack_type, perce_armure=perce_armure)
 
-        await save_player_hp(self.bot, interaction.user.id, attacker.hp)
-        await save_player_hp(self.bot, target.id, defender.hp)
+        # CORRECTION: Passer self.bot.db au lieu de self.bot
+        await save_player_hp(self.bot.db, interaction.user.id, attacker.hp)
+        await save_player_hp(self.bot.db, target.id, defender.hp)
 
         color = discord.Color.red() if result["hit"] else discord.Color.dark_gray()
         embed = discord.Embed(title="⚔️ Attaque sur joueur", color=color)

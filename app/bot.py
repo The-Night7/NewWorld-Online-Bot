@@ -3,6 +3,7 @@ import logging
 from discord.ext import commands
 from discord import app_commands
 
+from app.cogs.combat_turn import CombatTurnCog
 from app.config import load_config
 from app.db import Database
 from app.cogs.core import CoreCog
@@ -65,6 +66,7 @@ class BofuriBot(commands.Bot):
         await self.add_cog(CombatCog(self))
         await self.add_cog(MobsCog(self))
         await self.add_cog(CombatSessionCog(self))
+        await self.add_cog(CombatTurnCog(self))
         
         # Ajouter le Cog des métiers
         from app.cogs.professions import ProfessionsCog

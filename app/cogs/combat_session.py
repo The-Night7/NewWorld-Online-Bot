@@ -137,6 +137,51 @@ class CombatSessionCog(commands.Cog):
                     pass
 
         return threads
+        
+    async def send_combat_tutorial(self, thread: discord.Thread) -> None:
+        """Envoie un embed explicatif des commandes de combat."""
+        embed = discord.Embed(
+            title="⚔️ Guide du Combat",
+            description="Voici les commandes principales pour gérer le combat :",
+            color=discord.Color.blue()
+        )
+        
+        # Commandes d'attaque
+        embed.add_field(
+            name="🗡️ **Attaquer un monstre**",
+            value="`/atk_mob [nom_du_mob]` : Attaque physique standard\n"
+                  "`/skill_mob [nom_du_mob] [compétence]` : Utilise une compétence sur un mob",
+            inline=False
+        )
+        
+        # Commandes de gestion des tours
+        embed.add_field(
+            name="🔄 **Gestion des tours**",
+            value="`/next_turn` : Termine votre tour et passe au combattant suivant\n"
+                  "`/show_turn` : Affiche de qui c'est le tour actuellement\n"
+                  "`/initiative` : Affiche l'ordre des tours basé sur l'agilité",
+            inline=False
+        )
+        
+        # Commandes d'interaction avec les mobs
+        embed.add_field(
+            name="🎯 **Interaction avec les mobs**",
+            value="`/mob_list` : Liste tous les mobs présents dans le combat\n"
+                  "`/provoke [nom_du_mob]` : Provoque un mob pour qu'il vous attaque en priorité",
+            inline=False
+        )
+        
+        # Commandes d'information
+        embed.add_field(
+            name="ℹ️ **Information**",
+            value="`/profile` : Affiche votre profil et statistiques\n"
+                  "`/inventory` : Affiche votre inventaire",
+            inline=False
+        )
+        
+        embed.set_footer(text="Utilisez /next_turn après chaque action pour passer au combattant suivant !")
+        
+        await thread.send(embed=embed)
 
     @app_commands.command(
         name="combat_start",
@@ -236,6 +281,9 @@ class CombatSessionCog(commands.Cog):
             if members_added:
                 welcome_message += f" Participants: {', '.join(members_added)}"
             await thread.send(welcome_message)
+            
+            # Envoyer le tutoriel de combat
+            await self.send_combat_tutorial(thread)
 
             # --- AUTO SPAWN LOGIC ---
             if channel.id in ZONE_MONSTERS:
@@ -286,6 +334,9 @@ class CombatSessionCog(commands.Cog):
                         lvl_info += f" (cap max {defn.level_max})"
 
                     await thread.send(f"⚠️ Un sauvage **{m_name}** ({lvl_info}) apparaît !")
+                    
+                # Après le spawn des mobs, rappeler d'utiliser /next_turn pour commencer
+                await thread.send("🎲 **Le combat commence !** Utilisez `/next_turn` pour déterminer qui joue en premier.")
             # ------------------------
 
             # Ajout du log
@@ -530,3 +581,14 @@ class CombatSessionCog(commands.Cog):
 
         embed.description = "\n".join(lines)
         await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="combat_tutorial", description="Affiche le tutoriel des commandes de combat")
+    async def combat_tutorial(self, interaction: discord.Interaction):
+        """Commande pour afficher le tutoriel de combat à la demande"""
+        if not isinstance(interaction.channel, discord.Thread):
+            await interaction.response.send_message("Cette commande doit être utilisée dans un fil de combat.", ephemeral=True)
+            return
+            
+        await interaction.response.defer()
+        await self.send_combat_tutorial(interaction.channel)
+        await interaction.followup.send("Tutoriel de combat envoyé !", ephemeral=True)
